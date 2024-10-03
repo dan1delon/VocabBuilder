@@ -1,0 +1,13 @@
+:root {
+  --primary-white-color: #fcfcfc;
+  --secondary-white-color: #fda3a3;
+  --primary-black-color: #121417;
+  --primary-green-color: #85aa9f;
+  --primary-light-green-color: #a5c0b8;
+  --primary-success-color: #3cbf61;
+  --primary-error-color: #d80027;
+  --primary-font-family: 'MacPaw Fixel Display', sans-serif;
+  --secondary-font-family: 'SF Pro Display', sans-serif;
+  --transition-duration: 0.2s;
+  --transition-timing-function: ease-in-out;
+}

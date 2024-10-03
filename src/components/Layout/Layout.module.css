@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+}
+
+.greyBackground {
+  background-color: var(--primary-background-color);
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.defaultBackground {
+  background-color: var(--primary-white-color);
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1440px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
