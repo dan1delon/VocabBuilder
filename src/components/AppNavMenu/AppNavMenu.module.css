@@ -1,0 +1,17 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.link {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.active {
+  border-radius: 15px;
+  padding: 12px 20px;
+  background-color: var(--primary-green-color);
+  color: var(--primary-white-color);
+}

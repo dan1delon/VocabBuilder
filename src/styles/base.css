@@ -1,5 +1,4 @@
 :root {
-  font-family: var(--primary-font-family), var(secondary-font-family);
+  font-family: var(--primary-font-family);
   color: var(--primary-black-color);
-  font-weight: 400;
 }

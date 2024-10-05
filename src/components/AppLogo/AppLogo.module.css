@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.LogoText {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 145%;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+}

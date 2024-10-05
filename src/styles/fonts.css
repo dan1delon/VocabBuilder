@@ -1,6 +1,9 @@
 @font-face {
   font-family: 'MacPaw Fixel Display';
-  src: url(../../src/assets/fonts/MacPawFixelDisplay-Regular.otf);
+  src: url(../../src/assets/fonts/MacPawFixelDisplay-Regular.woff2)
+      format('woff2'),
+    url(../../src/assets/fonts/MacPawFixelDisplay-Regular.otf)
+      format('opentype');
   font-display: swap;
   font-weight: 400;
   font-style: normal;
@@ -8,7 +11,9 @@
 
 @font-face {
   font-family: 'MacPaw Fixel Display';
-  src: url(../../src/assets/fonts/MacPawFixelDisplay-Medium.otf);
+  src: url(../../src/assets/fonts/MacPawFixelDisplay-Medium.woff2)
+      format('woff2'),
+    url(../../src/assets/fonts/MacPawFixelDisplay-Medium.otf) format('opentype');
   font-display: swap;
   font-weight: 500;
   font-style: normal;
@@ -16,7 +21,10 @@
 
 @font-face {
   font-family: 'MacPaw Fixel Display';
-  src: url(../../src/assets/fonts/MacPawFixelDisplay-SemiBold.otf);
+  src: url(../../src/assets/fonts/MacPawFixelDisplay-SemiBold.woff2)
+      format('woff2'),
+    url(../../src/assets/fonts/MacPawFixelDisplay-SemiBold.otf)
+      format('opentype');
   font-display: swap;
   font-weight: 600;
   font-style: normal;
@@ -24,7 +32,8 @@
 
 @font-face {
   font-family: 'MacPaw Fixel Display';
-  src: url(../../src/assets/fonts/MacPawFixelDisplay-Bold.otf);
+  src: url(../../src/assets/fonts/MacPawFixelDisplay-Bold.woff2) format('woff2'),
+    url(../../src/assets/fonts/MacPawFixelDisplay-Bold.otf) format('opentype');
   font-display: swap;
   font-weight: 700;
   font-style: normal;
