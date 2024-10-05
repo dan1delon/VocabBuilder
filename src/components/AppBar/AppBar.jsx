@@ -1,6 +1,7 @@
 import AppLogo from '../AppLogo/AppLogo';
 import AppNavMenu from '../AppNavMenu/AppNavMenu';
 import AppUserMenu from '../AppUserMenu/AppUserMenu';
+import MobileMenu from '../MobileMenu/MobileMenu';
 import css from './AppBar.module.css';
 
 const AppBar = () => {
@@ -11,6 +12,7 @@ const AppBar = () => {
         <AppNavMenu />
         <AppUserMenu />
       </div>
+      <MobileMenu />
     </header>
   );
 };

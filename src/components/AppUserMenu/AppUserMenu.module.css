@@ -7,20 +7,34 @@
 .userWrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+
+  @media screen and (min-width: 768px) {
+    gap: 10px;
+  }
 }
 
 .userName {
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
+  line-height: 150%;
+
+  @media screen and (min-width: 768px) {
+    font-size: 20px;
+  }
 }
 
 .iconWrapper {
+  width: 36px;
+  height: 36px;
   border-radius: 30px;
-  width: 48px;
-  height: 48px;
   position: relative;
   background-color: var(--primary-green-color);
+
+  @media screen and (min-width: 768px) {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .iconUser {
@@ -28,18 +42,28 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
+  width: 13px;
+  height: 13px;
+  fill: var(--primary-white-color);
+
+  @media screen and (min-width: 768px) {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 150%;
-  background: transparent;
+  display: none;
+
+  @media screen and (min-width: 1440px) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    background: transparent;
+  }
 }
 
 .iconArrow {

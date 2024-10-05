@@ -1,17 +1,32 @@
 .wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 28px;
+
+  @media screen and (min-width: 1440px) {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .link {
+  color: var(--primary-white-color);
   font-weight: 500;
   font-size: 14px;
+
+  @media screen and (min-width: 1440px) {
+    color: var(--primary-black-color);
+  }
 }
 
 .active {
   border-radius: 15px;
   padding: 12px 20px;
-  background-color: var(--primary-green-color);
-  color: var(--primary-white-color);
+  background-color: var(--primary-white-color);
+  color: var(--primary-black-color);
+
+  @media screen and (min-width: 1440px) {
+    background-color: var(--primary-green-color);
+    color: var(--primary-white-color);
+  }
 }

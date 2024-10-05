@@ -1,0 +1,134 @@
+.wrapper {
+  height: 36px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    height: 48px;
+    padding: 20px 32px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    display: none;
+  }
+}
+
+.menuWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  @media screen and (min-width: 768px) {
+    gap: 28px;
+  }
+}
+
+.burgerBtn {
+  width: 32px;
+  height: 22px;
+  background: transparent;
+
+  @media screen and (min-width: 768px) {
+    width: 40px;
+    height: 28px;
+  }
+}
+
+.icon {
+  width: 32px;
+  height: 22px;
+
+  @media screen and (min-width: 768px) {
+    width: 40px;
+    height: 28px;
+  }
+}
+
+.mobileMenu {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  padding: 16px;
+  background-color: var(--primary-green-color);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-image: image-set(
+    url('/public/img/Couple@1x.webp') 1x,
+    url('/public/img/Couple@1x.png') 1x,
+    url('/public/img/Couple@2x.webp') 2x,
+    url('/public/img/Couple@2x.png') 2x
+  );
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+.iconClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  outline: none;
+  align-items: center;
+}
+
+.buttonLogout {
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+  gap: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+  background: transparent;
+  color: var(--primary-white-color);
+}
+
+.iconArrow {
+  width: 16px;
+  height: 16px;
+  stroke: var(--primary-white-color);
+}
+
+.userWrapper {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userName {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--primary-white-color);
+}
+
+.iconWrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 30px;
+  position: relative;
+  background-color: var(--primary-white-color);
+}
+
+.iconUser {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  fill: var(--primary-green-color);
+}

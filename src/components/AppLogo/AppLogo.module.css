@@ -2,17 +2,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   cursor: pointer;
+
+  @media screen and (min-width: 768px) {
+    gap: 16px;
+  }
 }
 
 .LogoText {
   font-weight: 600;
-  font-size: 22px;
-  line-height: 145%;
+  font-size: 18px;
+  line-height: 133%;
+
+  @media screen and (min-width: 768px) {
+    font-size: 22px;
+    line-height: 145%;
+  }
 }
 
 .icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+
+  @media screen and (min-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
 }
