@@ -1,5 +1,5 @@
 import css from './AppUserMenu.module.css';
-import Icon from '../../shared/Icon/Icon';
+import Icon from '../../../shared/Icon/Icon';
 
 const AppUserMenu = () => {
   const handleLogout = () => {

@@ -51,7 +51,7 @@
   height: 100%;
   width: 100%;
   top: 0px;
-  left: 0px;
+  right: 0px;
   padding: 16px;
   background-color: var(--primary-green-color);
   box-sizing: border-box;
@@ -67,6 +67,10 @@
   );
   background-repeat: no-repeat;
   background-position: bottom center;
+
+  @media screen and (min-width: 768px) {
+    padding: 20px 32px;
+  }
 }
 
 .iconClose {
@@ -79,6 +83,13 @@
   border: none;
   outline: none;
   align-items: center;
+
+  @media screen and (min-width: 768px) {
+    top: 20px;
+    right: 32px;
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .buttonLogout {
@@ -106,6 +117,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media screen and (min-width: 768px) {
+    top: 20px;
+    left: 32px;
+    gap: 16px;
+  }
 }
 
 .userName {
@@ -113,6 +130,10 @@
   font-size: 16px;
   line-height: 150%;
   color: var(--primary-white-color);
+
+  @media screen and (min-width: 768px) {
+    font-size: 20px;
+  }
 }
 
 .iconWrapper {
@@ -121,6 +142,11 @@
   border-radius: 30px;
   position: relative;
   background-color: var(--primary-white-color);
+
+  @media screen and (min-width: 768px) {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .iconUser {
@@ -131,4 +157,9 @@
   width: 13px;
   height: 13px;
   fill: var(--primary-green-color);
+
+  @media screen and (min-width: 768px) {
+    width: 24px;
+    height: 24px;
+  }
 }

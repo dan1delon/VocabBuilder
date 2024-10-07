@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AppLogo from '../AppLogo/AppLogo';
 import css from './MobileMenu.module.css';
-import Icon from '../../shared/Icon/Icon';
+import Icon from '../../../shared/Icon/Icon';
 import AppUserMenu from '../AppUserMenu/AppUserMenu';
 import AppNavMenu from '../AppNavMenu/AppNavMenu';
 

@@ -2,6 +2,10 @@
   margin: 0 auto;
   box-sizing: border-box;
   max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .content {
@@ -13,5 +17,25 @@
 
   @media screen and (min-width: 1440px) {
     padding: 0 100px;
+  }
+}
+
+.greyBackground {
+  background-color: var(--secondary-white-color);
+  min-width: 100vw;
+  min-height: calc(100vh - 68px);
+
+  @media screen and (min-width: 768px) {
+    min-height: calc(100vh - 88px);
+  }
+}
+
+.whiteBackground {
+  background-color: var(--white-color);
+  min-width: 100vw;
+  min-height: calc(100vh - 68px);
+
+  @media screen and (min-width: 768px) {
+    min-height: calc(100vh - 88px);
   }
 }

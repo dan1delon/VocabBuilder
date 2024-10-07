@@ -1,5 +1,5 @@
 import css from './AppLogo.module.css';
-import Icon from '../../shared/Icon/Icon';
+import Icon from '../../../shared/Icon/Icon';
 import { NavLink } from 'react-router-dom';
 
 const AppLogo = () => {
