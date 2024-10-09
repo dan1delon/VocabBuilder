@@ -5,18 +5,20 @@
   gap: 16px;
 }
 
-.img {
+.imgMobile {
   width: 247px;
-  height: 191px;
 
   @media screen and (min-width: 768px) {
     display: none;
   }
+}
+
+.imgDesktop {
+  display: none;
 
   @media screen and (min-width: 1440px) {
     display: block;
     width: 498px;
-    height: auto;
   }
 }
 
