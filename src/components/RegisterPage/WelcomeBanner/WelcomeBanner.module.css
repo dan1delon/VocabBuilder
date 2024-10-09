@@ -8,6 +8,16 @@
 .img {
   width: 247px;
   height: 191px;
+
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+
+  @media screen and (min-width: 1440px) {
+    display: block;
+    width: 498px;
+    height: auto;
+  }
 }
 
 .textList {
@@ -23,6 +33,11 @@
   text-align: center;
   color: rgba(18, 20, 23, 0.8);
   padding: 0 7px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+    line-height: 150%;
+  }
 }
 
 .text::after {
