@@ -26,14 +26,13 @@
 <path fill="none" stroke="#85aa9f" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.4" d="M16 6.667v18.667"></path>
 <path fill="none" stroke="#85aa9f" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.4" d="M6.667 16h18.667"></path>
 </svg>
-<svg id="icon-eye" viewBox="0 0 32 32" >
-<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="3.2" stroke="#000" d="M1.333 16c0 0 5.333-10.667 14.667-10.667s14.667 10.667 14.667 10.667-5.333 10.667-14.667 10.667c-9.333 0-14.667-10.667-14.667-10.667z"></path>
-<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="3.2" stroke="#000" d="M16 20c2.209 0 4-1.791 4-4s-1.791-4-4-4c-2.209 0-4 1.791-4 4s1.791 4 4 4z"></path>
-</svg>
-<svg id="icon-eye-off" viewBox="0 0 32 32" >
-<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.2857" stroke="#000" d="M21.657 17.086c-1.628 1.241-3.61 1.928-5.657 1.962-6.667 0-10.476-7.619-10.476-7.619 1.185-2.208 2.828-4.137 4.819-5.657M14 4.038c0.656-0.153 1.327-0.23 2-0.229 6.667 0 10.476 7.619 10.476 7.619-0.578 1.082-1.268 2.1-2.057 3.038M18.019 13.448c-0.262 0.281-0.577 0.506-0.927 0.662s-0.729 0.24-1.112 0.247c-0.384 0.007-0.765-0.064-1.12-0.208s-0.679-0.358-0.95-0.629c-0.271-0.271-0.485-0.594-0.629-0.95s-0.214-0.737-0.207-1.12c0.007-0.384 0.091-0.762 0.247-1.113s0.381-0.666 0.662-0.927"></path>
-<path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.2857" stroke="#000" d="M5.524 0.952l20.952 20.952"></path>
-</svg>
+<symbol id="icon-eye" viewBox="0 0 32 32">
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.88" d="M1.333 16s5.333-10.667 14.667-10.667c9.333 0 14.666 10.667 14.666 10.667s-5.333 10.667-14.666 10.667c-9.334 0-14.667-10.667-14.667-10.667z"></path>
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.88" d="M16 20c2.209 0 4-1.791 4-4s-1.791-4-4-4v0c-2.209 0-4 1.791-4 4s1.791 4 4 4v0z"></path>
+</symbol>
+<symbol id="icon-eye-off" viewBox="0 0 32 32">
+<path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.88" d="M23.92 23.92c-2.175 1.672-4.923 2.697-7.908 2.747l-0.012 0c-9.334 0-14.667-10.667-14.667-10.667 1.713-3.152 3.978-5.791 6.689-7.877l0.058-0.043M13.2 5.653c0.833-0.203 1.788-0.32 2.771-0.32 0.010 0 0.020 0 0.030 0h-0.002c9.333 0 14.666 10.667 14.666 10.667-0.871 1.615-1.827 3.008-2.91 4.289l0.030-0.036M18.826 18.827c-0.732 0.782-1.77 1.269-2.922 1.269-2.209 0-4-1.791-4-4 0-1.152 0.487-2.191 1.267-2.921l0.002-0.002M1.333 1.333l29.333 29.334"></path>
+</symbol>
 <svg id="icon-trash" viewBox="0 0 32 32" >
 <path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.88" stroke="#000" d="M12 4h8M13.333 14v6.667M18.667 14v6.667"></path>
 <path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.88" stroke="#000" d="M4 8h24M25.333 8l-0.935 14.026c-0.14 2.104-0.21 3.156-0.665 3.954-0.4 0.702-1.004 1.267-1.731 1.62-0.826 0.4-1.881 0.4-3.99 0.4h-4.025c-2.109 0-3.163 0-3.99-0.4-0.727-0.352-1.331-0.917-1.731-1.62-0.455-0.798-0.525-1.85-0.665-3.954l-0.935-14.026"></path>
@@ -69,5 +68,11 @@
 <line x1="7.58691" y1="4.43945" x2="38.5" y2="4.43945" stroke="#121417" stroke-width="3" stroke-linecap="round"/>
 <line x1="7.58691" y1="21.4091" x2="38.5" y2="21.4091" stroke="#121417" stroke-width="3" stroke-linecap="round"/>
 <line x1="17.1523" y1="12.9242" x2="38.5002" y2="12.9242" stroke="#121417" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<svg id="icon-error" width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M7.99992 14.6667C4.31792 14.6667 1.33325 11.682 1.33325 8C1.33325 4.318 4.31792 1.33333 7.99992 1.33333C11.6819 1.33333 14.6666 4.318 14.6666 8C14.6666 11.682 11.6819 14.6667 7.99992 14.6667ZM7.33325 10V11.3333H8.66659V10H7.33325ZM7.33325 4.66667V8.66667H8.66659V4.66667H7.33325Z" fill="#D80027" />
+</svg>
+<svg id="icon-success" width="16" height="16" viewBox="0 0 16 16" fill="none" >
+<path d="M7.99992 14.6667C4.31792 14.6667 1.33325 11.682 1.33325 8C1.33325 4.318 4.31792 1.33333 7.99992 1.33333C11.6819 1.33333 14.6666 4.318 14.6666 8C14.6666 11.682 11.6819 14.6667 7.99992 14.6667ZM7.22925 10.99L11.9426 6.276L10.9999 5.33333L7.22925 9.10467L5.34325 7.21867L4.40058 8.16133L7.22925 10.99Z" fill="#3CBF61" />
 </svg>
 </svg>
