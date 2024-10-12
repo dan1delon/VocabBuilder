@@ -6,10 +6,14 @@ import { useState } from 'react';
 import Icon from '../../../shared/Icon/Icon';
 import { NavLink } from 'react-router-dom';
 import css from './LoginForm.module.css';
+import { useDispatch } from 'react-redux';
+import { loginAPI } from '../../../redux/auth/operations';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+
+  const dispatch = useDispatch();
 
   const FormSchema = Yup.object({
     email: Yup.string()
@@ -40,7 +44,7 @@ const LoginForm = () => {
   });
 
   const onSubmit = data => {
-    console.log(data);
+    dispatch(loginAPI(data));
     reset();
   };
 

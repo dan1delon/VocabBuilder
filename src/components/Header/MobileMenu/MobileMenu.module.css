@@ -49,7 +49,7 @@
 .mobileMenu {
   position: fixed;
   height: 100%;
-  width: 100%;
+  width: 185px;
   top: 0px;
   right: 0px;
   padding: 16px;
@@ -67,10 +67,15 @@
   );
   background-repeat: no-repeat;
   background-position: bottom center;
+  background-position-x: 40%;
+  background-size: 363px 318px;
   z-index: 10;
+  transition: all 0.3s ease-in-out;
 
   @media screen and (min-width: 768px) {
+    width: 300px;
     padding: 20px 32px;
+    background-size: 498px 435px;
   }
 }
 

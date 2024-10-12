@@ -4,26 +4,36 @@ import css from './MobileMenu.module.css';
 import Icon from '../../../shared/Icon/Icon';
 import AppUserMenu from '../AppUserMenu/AppUserMenu';
 import AppNavMenu from '../AppNavMenu/AppNavMenu';
+import { selectIsLoggedIn } from '../../../redux/auth/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAPI } from '../../../redux/auth/operations';
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
   const handleLogout = () => {
-    console.log('User logged out');
+    dispatch(logoutAPI());
+    setIsOpen(false);
   };
 
   const toggleMenu = () => {
     setIsOpen(prevState => !prevState);
   };
+
   return (
     <div className={css.wrapper}>
       <AppLogo />
-      <div className={css.menuWrapper}>
-        <AppUserMenu />
-        <button className={css.burgerBtn} onClick={toggleMenu}>
-          <Icon iconId="icon-burger" className={css.icon} />
-        </button>
-      </div>
+      {isLoggedIn && (
+        <div className={css.menuWrapper}>
+          <AppUserMenu />
+          <button className={css.burgerBtn} onClick={toggleMenu}>
+            <Icon iconId="icon-burger" className={css.icon} />
+          </button>
+        </div>
+      )}
       {isOpen && (
         <div className={css.mobileMenu}>
           <div className={css.userWrapper}>

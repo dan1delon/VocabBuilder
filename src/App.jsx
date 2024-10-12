@@ -1,9 +1,13 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loader from './components/Loader/Loader.jsx';
 import Layout from './components/Layout/Layout.jsx';
+import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute.jsx';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshUserAPI } from './redux/auth/operations.js';
+import { selectIsRefreshing } from './redux/auth/selectors.js';
 
-const HomePage = lazy(() => import('./pages/HomePage/HomePage.jsx'));
 const RegisterPage = lazy(() =>
   import('./pages/RegisterPage/RegisterPage.jsx')
 );
@@ -22,20 +26,64 @@ const NotFoundPage = lazy(() =>
 );
 
 function App() {
+  const dispatch = useDispatch();
+
+  const isRefreshing = useSelector(selectIsRefreshing);
+
+  useEffect(() => {
+    dispatch(refreshUserAPI());
+  }, [dispatch]);
+
   return (
-    <Layout>
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dictionary" element={<DictionaryPage />} />
-          <Route path="/recommend" element={<RecommendPage />} />
-          <Route path="/training" element={<TrainingPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
-    </Layout>
+    !isRefreshing && (
+      <Layout>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute>
+                  <RegisterPage />
+                </RestrictedRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute>
+                  <LoginPage />
+                </RestrictedRoute>
+              }
+            />
+            <Route
+              path="/dictionary"
+              element={
+                <PrivateRoute>
+                  <DictionaryPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/recommend"
+              element={
+                <PrivateRoute>
+                  <RecommendPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/training"
+              element={
+                <PrivateRoute>
+                  <TrainingPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </Layout>
+    )
   );
 }
 

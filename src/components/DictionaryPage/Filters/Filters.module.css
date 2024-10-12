@@ -1,0 +1,67 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid rgba(18, 20, 23, 0.1);
+  border-radius: 15px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+  color: var(--primary-black-color);
+}
+
+.label {
+  position: relative;
+  width: 100%;
+}
+
+.button {
+  position: absolute;
+  top: 14px;
+  right: 24px;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.select {
+  width: 100%;
+  border: 1px solid rgba(18, 20, 23, 0.1);
+  border-radius: 15px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.option {
+}
+
+.verbType {
+}
+
+.labelWrap {
+}
+
+.radio {
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}

@@ -6,10 +6,14 @@ import { useState } from 'react';
 import Icon from '../../../shared/Icon/Icon';
 import css from './RegistrationForm.module.css';
 import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { registerAPI } from '../../../redux/auth/operations';
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+
+  const dispatch = useDispatch();
 
   const FormSchema = Yup.object({
     name: Yup.string().required('Enter your name'),
@@ -20,7 +24,7 @@ const RegistrationForm = () => {
 
     password: Yup.string()
       .matches(
-        /^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7,}$/,
+        /^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/,
         'Password must be 7+ chars, 6 letters, and 1 number'
       )
       .required('Password is required'),
@@ -43,6 +47,7 @@ const RegistrationForm = () => {
   });
 
   const onSubmit = data => {
+    dispatch(registerAPI(data));
     console.log(data);
     reset();
   };
