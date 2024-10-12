@@ -6,12 +6,22 @@ import css from './Filters.module.css';
 import { fetchCategories } from '../../../redux/categories/operations';
 import { selectCategories } from '../../../redux/categories/selectors';
 import Icon from '../../../shared/Icon/Icon';
+import { usePopover } from '../../../hooks/usePopover';
+import clsx from 'clsx';
 
 const Filters = () => {
   const [keyword, setKeyword] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
+
+  const {
+    isOpen,
+    isVisible,
+    handleTogglePopover,
+    handleClosePopover,
+    popoverRef,
+  } = usePopover();
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -21,9 +31,10 @@ const Filters = () => {
     setKeyword(e.target.value.trim());
   };
 
-  const handleCategoryChange = e => {
-    setSelectedCategory(e.target.value);
-    dispatch(fetchWords({ category: e.target.value }));
+  const handleCategoryChange = category => {
+    setSelectedCategory(category);
+    dispatch(fetchWords({ category }));
+    handleClosePopover();
   };
 
   const debouncedSearch = debounce(searchKeyword => {
@@ -44,6 +55,10 @@ const Filters = () => {
     };
   }, [keyword, selectedCategory, dispatch]);
 
+  const capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div className={css.wrapper}>
       <label className={css.label}>
@@ -54,31 +69,56 @@ const Filters = () => {
           placeholder="Find the word"
           className={css.input}
         />
-        <button type="button" className={css.button}>
+        <button
+          type="button"
+          className={css.button}
+          onClick={handleSearchChange}
+        >
           <Icon iconId="icon-search" className={css.icon} />
         </button>
       </label>
 
-      <label className={css.label}>
-        <select
-          onChange={handleCategoryChange}
-          value={selectedCategory}
-          className={css.select}
+      <div className={css.label} ref={popoverRef}>
+        <button
+          type="button"
+          className={css.buttonCategories}
+          onClick={handleTogglePopover}
         >
-          <option value="" className={css.option}>
-            All categories
-          </option>
-          {Array.isArray(categories) &&
-            categories.map(category => (
-              <option key={category} value={category} className={css.option}>
-                {category}
-              </option>
-            ))}
-        </select>
-        <button type="button" className={css.button}>
-          <Icon iconId="icon-down" className={css.icon} />
+          {capitalizeFirstLetter(selectedCategory) || 'All categories'}
+          <Icon
+            iconId="icon-down"
+            className={clsx(css.iconDown, { [css.iconRotate]: isOpen })}
+          />
         </button>
-      </label>
+
+        {isOpen && (
+          <div
+            className={clsx(css.popover, { [css.visible]: isVisible })}
+            ref={popoverRef}
+          >
+            <ul className={css.popoverList}>
+              <li
+                className={css.popoverItem}
+                onClick={() => handleCategoryChange('All categories')}
+              >
+                All categories
+              </li>
+              {Array.isArray(categories) &&
+                categories.map(category => (
+                  <li
+                    key={category}
+                    className={clsx(css.popoverItem, {
+                      [css.selected]: category === selectedCategory,
+                    })}
+                    onClick={() => handleCategoryChange(category)}
+                  >
+                    {capitalizeFirstLetter(category)}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+      </div>
 
       {selectedCategory === 'verb' && (
         <div className={css.verbType}>
@@ -89,6 +129,7 @@ const Filters = () => {
               value="regular"
               className={css.radio}
             />
+            <span className={css.radioCustom}></span>
             Regular
           </label>
           <label className={css.labelWrap}>
@@ -98,6 +139,7 @@ const Filters = () => {
               value="irregular"
               className={css.radio}
             />
+            <span className={css.radioCustom}></span>
             Irregular
           </label>
         </div>

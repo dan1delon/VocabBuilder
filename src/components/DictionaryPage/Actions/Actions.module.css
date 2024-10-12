@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  gap: 16px;
+}
+
+.Actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--primary-font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  background: transparent;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--primary-green-color);
+}
