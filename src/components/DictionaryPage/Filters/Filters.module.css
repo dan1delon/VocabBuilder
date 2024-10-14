@@ -3,6 +3,15 @@
   flex-direction: column;
   gap: 8px;
   position: relative;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: auto;
+  }
 }
 
 .input {
@@ -15,6 +24,10 @@
   font-weight: 500;
   line-height: 150%;
   box-sizing: border-box;
+
+  @media screen and (min-width: 768px) {
+    width: 274px;
+  }
 }
 
 .input::placeholder {
@@ -26,7 +39,10 @@
 
 .label {
   position: relative;
-  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    min-width: 174px;
+  }
 }
 
 .buttonCategories {
@@ -42,6 +58,10 @@
   line-height: 150%;
   box-sizing: border-box;
   background: transparent;
+
+  @media screen and (min-width: 768px) {
+    min-width: calc(100% + 24px);
+  }
 }
 
 .popover {
@@ -60,6 +80,10 @@
   pointer-events: none;
   overflow: auto;
   transition: all var(--transition-timing-function) var(--transition-duration);
+
+  @media screen and (min-width: 768px) {
+    min-width: calc(100% + 24px);
+  }
 }
 
 .visible {
@@ -83,6 +107,7 @@
   font-weight: 500;
   line-height: 150%;
   color: rgba(18, 20, 23, 0.5);
+  cursor: pointer;
 }
 
 .selected {
@@ -106,6 +131,11 @@
   position: absolute;
   bottom: -28px;
   left: 0px;
+
+  @media screen and (min-width: 768px) {
+    position: static;
+    margin-left: 26px;
+  }
 }
 
 .labelWrap {

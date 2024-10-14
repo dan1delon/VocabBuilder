@@ -84,7 +84,7 @@ const Filters = () => {
           className={css.buttonCategories}
           onClick={handleTogglePopover}
         >
-          {capitalizeFirstLetter(selectedCategory) || 'All categories'}
+          {capitalizeFirstLetter(selectedCategory) || 'Categories'}
           <Icon
             iconId="icon-down"
             className={clsx(css.iconDown, { [css.iconRotate]: isOpen })}
@@ -99,9 +99,9 @@ const Filters = () => {
             <ul className={css.popoverList}>
               <li
                 className={css.popoverItem}
-                onClick={() => handleCategoryChange('All categories')}
+                onClick={() => handleCategoryChange('Categories')}
               >
-                All categories
+                Categories
               </li>
               {Array.isArray(categories) &&
                 categories.map(category => (
