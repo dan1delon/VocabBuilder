@@ -14,7 +14,7 @@ const Modal = ({ children }) => {
           aria-label="close-modal-window-button"
         >
           <Icon
-            iconId="icon-close-btn"
+            iconId="icon-close"
             className={css.iconClose}
             onClick={closeModal}
           />

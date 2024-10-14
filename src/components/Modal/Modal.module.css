@@ -9,25 +9,20 @@
 .modalContainer {
   position: relative;
   max-height: 75vh;
-  max-width: 75vw;
-  background-color: var(--primary-white-color);
+  max-width: 92vw;
+  background-color: var(--primary-green-color);
   box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
-  padding: 64px 32px;
   margin: 0 auto;
   overflow: auto;
-
-  @media screen and (min-width: 768px) {
-    padding: 64px;
-  }
 }
 
 .modalButtonClose {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
+  top: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
   background: none;
   border: none;
   cursor: pointer;
@@ -35,6 +30,13 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+
+  @media screen and (min-width: 768px) {
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .iconClose {

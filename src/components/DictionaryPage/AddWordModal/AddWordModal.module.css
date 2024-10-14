@@ -1,0 +1,28 @@
+.wrapper {
+  padding: 48px 16px;
+  max-width: 343px;
+  box-sizing: border-box;
+
+  @media screen and (min-width: 768px) {
+    padding: 48px 64px;
+  }
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 117%;
+  letter-spacing: -0.02em;
+  color: var(--primary-white-color);
+}
+
+.paragraph {
+  line-height: 150%;
+  color: var(--primary-white-color);
+}
