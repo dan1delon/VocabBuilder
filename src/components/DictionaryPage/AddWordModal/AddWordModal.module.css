@@ -1,10 +1,15 @@
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   padding: 48px 16px;
   max-width: 343px;
   box-sizing: border-box;
 
   @media screen and (min-width: 768px) {
     padding: 48px 64px;
+    max-width: 628px;
+    gap: 32px;
   }
 }
 
@@ -12,6 +17,10 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media screen and (min-width: 768px) {
+    gap: 20px;
+  }
 }
 
 .title {
@@ -20,9 +29,19 @@
   line-height: 117%;
   letter-spacing: -0.02em;
   color: var(--primary-white-color);
+
+  @media screen and (min-width: 768px) {
+    font-size: 40px;
+    line-height: 120%;
+  }
 }
 
 .paragraph {
   line-height: 150%;
   color: var(--primary-white-color);
+
+  @media screen and (min-width: 768px) {
+    font-size: 20px;
+    color: rgba(252, 252, 252, 0.8);
+  }
 }
