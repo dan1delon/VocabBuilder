@@ -16,19 +16,31 @@ export const fetchWords = createAsyncThunk(
   }
 );
 
+export const fetchUsersWords = createAsyncThunk(
+  'words/fetchUsersWords',
+  async (filters, thunkApi) => {
+    try {
+      const { keyword, category, isIrregular, page, limit } = filters;
+      const response = await instance.get('/words/own', {
+        params: { keyword, category, isIrregular, page, limit },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const createWord = createAsyncThunk(
   'words/createWord',
   async (wordData, thunkApi) => {
     try {
-      console.log(wordData);
-
       const response = await instance.post('/words/create', wordData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

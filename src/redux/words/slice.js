@@ -5,10 +5,12 @@ import {
   editWord,
   deleteWord,
   fetchStatistics,
+  fetchUsersWords,
 } from './operations';
 
 const INITIAL_STATE = {
   words: [],
+  usersWords: [],
   totalPages: 1,
   page: 1,
   loading: false,
@@ -39,6 +41,12 @@ const wordsSlice = createSlice({
         state.totalPages = action.payload.totalPages;
         state.page = action.payload.page;
       })
+      .addCase(fetchUsersWords.fulfilled, (state, action) => {
+        state.loading = false;
+        state.usersWords = action.payload.results;
+        state.totalPages = action.payload.totalPages;
+        state.page = action.payload.page;
+      })
       .addCase(createWord.fulfilled, (state, action) => {
         state.words.push(action.payload);
       })
@@ -64,7 +72,8 @@ const wordsSlice = createSlice({
           createWord.pending,
           editWord.pending,
           deleteWord.pending,
-          fetchStatistics.pending
+          fetchStatistics.pending,
+          fetchUsersWords.pending
         ),
         handlePending
       )
@@ -74,7 +83,8 @@ const wordsSlice = createSlice({
           createWord.rejected,
           editWord.rejected,
           deleteWord.rejected,
-          fetchStatistics.rejected
+          fetchStatistics.rejected,
+          fetchUsersWords.rejected
         ),
         handleRejected
       );
