@@ -10,6 +10,12 @@ body {
   overflow-x: hidden;
 }
 
+.MuiTableContainer-root {
+  @media screen and (min-width: 768px) {
+    width: auto !important;
+  }
+}
+
 .MuiTable-root {
   font-family: var(--primary-font-family) !important;
   color: var(--primary-black-color) !important;

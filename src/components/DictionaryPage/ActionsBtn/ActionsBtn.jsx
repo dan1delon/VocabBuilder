@@ -21,8 +21,12 @@ const ActionsBtn = ({ word }) => {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <>
-      <IconButton aria-describedby={id} onClick={handleClick}>
+    <div className={css.wrapper}>
+      <IconButton
+        aria-describedby={id}
+        onClick={handleClick}
+        className={css.btnDots}
+      >
         <MoreHorizIcon />
       </IconButton>
       <Popover
@@ -56,7 +60,7 @@ const ActionsBtn = ({ word }) => {
           </Button>
         </div>
       </Popover>
-    </>
+    </div>
   );
 };
 

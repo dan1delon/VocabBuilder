@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import { useMediaQuery } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,32 +12,65 @@ import ActionsBtn from '../ActionsBtn/ActionsBtn';
 import css from './WordsTable.module.css';
 import { useSelector } from 'react-redux';
 import { selectUsersWords } from '../../../redux/words/selectors';
+import Icon from '../../../shared/Icon/Icon';
 
 const WordsTable = () => {
   const words = useSelector(selectUsersWords);
 
+  const isMobile = useMediaQuery('(max-width:767px)');
+
+  const capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Word',
-        accessor: 'en',
-      },
-      {
-        Header: 'Translation',
-        accessor: 'ua',
-      },
-      {
-        Header: 'Progress',
-        accessor: 'progress',
-        Cell: ({ value }) => <ProgressBar progress={value} />,
-      },
-      {
-        Header: '',
-        accessor: 'actions',
-        Cell: ({ row }) => <ActionsBtn word={row.original} />,
-      },
-    ],
-    []
+    () =>
+      [
+        {
+          Header: () => (
+            <div className={css.headerCell}>
+              Word{' '}
+              {!isMobile && (
+                <Icon iconId="icon-united-kingdom" className={css.icon} />
+              )}
+            </div>
+          ),
+          accessor: 'en',
+          Cell: ({ value }) => capitalizeFirstLetter(value),
+        },
+        {
+          Header: () => (
+            <div className={css.headerCell}>
+              Translation{' '}
+              {!isMobile && <Icon iconId="icon-ukraine" className={css.icon} />}
+            </div>
+          ),
+          accessor: 'ua',
+          Cell: ({ value }) => capitalizeFirstLetter(value),
+        },
+        !isMobile && {
+          Header: 'Category',
+          accessor: 'category',
+          Cell: ({ value }) => (
+            <span className={css.categoryCell}>
+              {capitalizeFirstLetter(value)}
+            </span>
+          ),
+        },
+        {
+          Header: 'Progress',
+          accessor: 'progress',
+          Cell: ({ value }) => (
+            <ProgressBar progress={value} isMobile={isMobile} />
+          ),
+        },
+        {
+          Header: '',
+          accessor: 'actions',
+          Cell: ({ row }) => <ActionsBtn word={row.original} />,
+        },
+      ].filter(Boolean),
+    [isMobile]
   );
 
   const tableInstance = useTable({ columns, data: words });
@@ -69,7 +103,11 @@ const WordsTable = () => {
                       key={columnKey}
                       {...columnProps}
                       className={css.customHeaderCell}
-                      sx={{ fontSize: '16px' }}
+                      sx={{
+                        fontSize: '16px',
+                        '@media (min-width: 768px)': { fontSize: '18px' },
+                        '@media (min-width: 1440px)': { fontSize: '20px' },
+                      }}
                     >
                       {column.render('Header')}
                     </TableCell>
@@ -92,7 +130,11 @@ const WordsTable = () => {
                       key={cellKey}
                       {...cellProps}
                       className={css.customBodyCell}
-                      sx={{ fontWeight: '500' }}
+                      sx={{
+                        fontWeight: '500',
+                        '@media (min-width: 768px)': { fontSize: '18px' },
+                        '@media (min-width: 1440px)': { fontSize: '20px' },
+                      }}
                     >
                       {cell.render('Cell')}
                     </TableCell>

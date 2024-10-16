@@ -3,4 +3,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media screen and (min-width: 768px) {
+    justify-content: space-between;
+  }
+
+  @media screen and (min-width: 1440px) {
+    justify-content: start;
+    gap: 16px;
+  }
+}
+
+.circularProgressWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 24px;
+  height: 24px;
+
+  @media screen and (min-width: 768px) {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+.percentageLabel {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  @media screen and (min-width: 1440px) {
+    font-size: 22px;
+  }
 }
