@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Loader from './components/Loader/Loader.jsx';
 import Layout from './components/Layout/Layout.jsx';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute.jsx';
@@ -39,6 +39,7 @@ function App() {
       <Layout>
         <Suspense fallback={<Loader />}>
           <Routes>
+            <Route path="/" element={<Navigate to="/dictionary" replace />} />
             <Route
               path="/register"
               element={

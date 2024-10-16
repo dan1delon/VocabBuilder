@@ -9,3 +9,24 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
+
+.MuiTable-root {
+  font-family: var(--primary-font-family) !important;
+  color: var(--primary-black-color) !important;
+  font-weight: 500 !important;
+}
+
+.MuiTableHead-root {
+  font-size: 16px !important;
+}
+
+.MuiTableRow-root {
+  font-family: var(--primary-font-family) !important;
+  color: var(--primary-black-color) !important;
+}
+
+.MuiTableCell-root {
+  font-family: var(--primary-font-family) !important;
+  color: var(--primary-black-color) !important;
+  padding: 16px 14px !important;
+}

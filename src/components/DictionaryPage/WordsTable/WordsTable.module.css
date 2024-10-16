@@ -1,3 +1,55 @@
+.customTableContainer {
+  font-family: var(--primary-font-family);
+  background-color: var(--primary-white-color);
+  border: none;
+  border-radius: 8px;
+}
+
+.customTable {
+}
+
+.customHeader {
+}
+
+.customHeaderRow {
+  background: rgba(133, 170, 159, 0.1);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.customHeaderCell {
+  padding: 16px 14px;
+  font-weight: 500;
+  font-size: 16px;
+  border-bottom: 1px solid #dbdbdb;
+  border-right: 1px solid #dbdbdb;
+}
+
+.customHeaderCell:last-child {
+  border-right: none;
+}
+
+.customBody {
+}
+
+.customBodyRow {
+}
+
+.customBodyCell {
+  position: relative;
+  font-family: var(--primary-font-family);
+  color: var(--primary-black-color);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 16px 14px;
+  border-bottom: 1px solid #dbdbdb;
+  border-right: 1px solid #dbdbdb;
+}
+
+.customBodyCell:last-child {
+  border-right: none;
+}
+
 .icon {
   width: 28px;
   height: 28px;

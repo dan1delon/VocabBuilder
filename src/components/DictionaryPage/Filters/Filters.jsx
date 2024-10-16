@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { fetchWords } from '../../../redux/words/operations';
+import { fetchUsersWords } from '../../../redux/words/operations';
 import css from './Filters.module.css';
 import { fetchCategories } from '../../../redux/categories/operations';
 import { selectCategories } from '../../../redux/categories/selectors';
@@ -12,6 +12,7 @@ import clsx from 'clsx';
 const Filters = () => {
   const [keyword, setKeyword] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [verbType, setVerbType] = useState('');
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
 
@@ -33,13 +34,20 @@ const Filters = () => {
 
   const handleCategoryChange = category => {
     setSelectedCategory(category);
-    dispatch(fetchWords({ category }));
+    if (category !== 'verb') {
+      setVerbType('');
+    }
+    dispatch(fetchUsersWords({ category, isIrregular: verbType }));
     handleClosePopover();
   };
 
   const debouncedSearch = debounce(searchKeyword => {
     dispatch(
-      fetchWords({ keyword: searchKeyword, category: selectedCategory })
+      fetchUsersWords({
+        keyword: searchKeyword,
+        category: selectedCategory,
+        isIrregular: verbType,
+      })
     );
   }, 300);
 
@@ -47,13 +55,26 @@ const Filters = () => {
     if (keyword) {
       debouncedSearch(keyword);
     } else {
-      dispatch(fetchWords({ category: selectedCategory || 'all' }));
+      dispatch(
+        fetchUsersWords({ category: selectedCategory, isIrregular: verbType })
+      );
     }
 
     return () => {
       debouncedSearch.cancel();
     };
-  }, [keyword, selectedCategory, dispatch]);
+  }, [keyword, selectedCategory, verbType, dispatch]);
+
+  const handleVerbTypeChange = e => {
+    const { value } = e.target;
+    setVerbType(value);
+    dispatch(
+      fetchUsersWords({
+        category: selectedCategory,
+        isIrregular: value === 'true',
+      })
+    );
+  };
 
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -99,9 +120,9 @@ const Filters = () => {
             <ul className={css.popoverList}>
               <li
                 className={css.popoverItem}
-                onClick={() => handleCategoryChange('Categories')}
+                onClick={() => handleCategoryChange('')}
               >
-                Categories
+                All categories
               </li>
               {Array.isArray(categories) &&
                 categories.map(category => (
@@ -126,8 +147,10 @@ const Filters = () => {
             <input
               type="radio"
               name="verbType"
-              value="regular"
+              value="false"
               className={css.radio}
+              checked={verbType === 'false'}
+              onChange={handleVerbTypeChange}
             />
             <span className={css.radioCustom}></span>
             Regular
@@ -136,8 +159,10 @@ const Filters = () => {
             <input
               type="radio"
               name="verbType"
-              value="irregular"
+              value="true"
               className={css.radio}
+              checked={verbType === 'true'}
+              onChange={handleVerbTypeChange}
             />
             <span className={css.radioCustom}></span>
             Irregular

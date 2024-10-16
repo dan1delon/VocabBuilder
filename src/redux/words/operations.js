@@ -24,7 +24,6 @@ export const fetchUsersWords = createAsyncThunk(
       const response = await instance.get('/words/own', {
         params: { keyword, category, isIrregular, page, limit },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
