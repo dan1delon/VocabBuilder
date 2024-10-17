@@ -11,11 +11,14 @@ import {
   fetchStatistics,
   fetchUsersWords,
 } from '../../../redux/words/operations';
+import { useModal } from '../../../context';
+import EditWordModal from '../EditWordModal/EditWordModal';
 
 const ActionsBtn = ({ word }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const dispatch = useDispatch();
+  const { openModal } = useModal();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -26,6 +29,7 @@ const ActionsBtn = ({ word }) => {
   };
 
   const handleEditWord = () => {
+    openModal(<EditWordModal word={word} />);
     handleClose();
   };
 

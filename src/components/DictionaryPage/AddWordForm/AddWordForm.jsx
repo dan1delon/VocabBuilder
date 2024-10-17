@@ -93,8 +93,8 @@ const AddWordForm = () => {
           category: '',
           isIrregular: '',
         })
-      );
-      await dispatch(fetchStatistics());
+      ).unwrap();
+      await dispatch(fetchStatistics()).unwrap();
 
       closeModal(e);
       reset();
@@ -243,10 +243,6 @@ const AddWordForm = () => {
           </div>
         </label>
       </div>
-
-      {errors.backend && (
-        <p className={css.errorMessage}>{errors.backend.message}</p>
-      )}
 
       <div className={css.buttonWrapper}>
         <button type="submit" disabled={isSubmitting} className={css.buttonAdd}>

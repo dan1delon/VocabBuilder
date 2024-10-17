@@ -1,0 +1,158 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 48px 16px;
+  width: 90vw;
+  box-sizing: border-box;
+
+  @media screen and (min-width: 375px) {
+    width: 343px;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 64px;
+    width: 628px;
+    gap: 32px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.MainInputsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    gap: 18px;
+  }
+}
+
+.input {
+  width: 100%;
+  border: 1px solid rgba(252, 252, 252, 0.3);
+  color: var(--primary-white-color);
+  border-radius: 15px;
+  padding: 12px 24px;
+  font-family: var(--primary-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+  box-sizing: border-box;
+
+  @media screen and (min-width: 768px) {
+    width: 354px;
+  }
+}
+
+.input::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+  color: rgba(252, 252, 252, 0.8);
+}
+
+.labelInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+}
+
+.flagWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconFlag {
+  width: 28px;
+  height: 28px;
+}
+
+.labelText {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--primary-white-color);
+}
+
+.label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.messageWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.errorMessage {
+  color: var(--primary-error-color);
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0.01em;
+}
+
+.inputError {
+  border: 1px solid var(--primary-error-color);
+  transition: all 0.3s;
+}
+
+.iconMessage {
+  fill: none;
+  width: 16px;
+  height: 16px;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.buttonAdd {
+  flex: 1;
+  border-radius: 30px;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+.buttonAdd:hover {
+  color: var(--primary-green-color);
+}
+
+.buttonCancel {
+  flex: 1;
+  border-radius: 30px;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--primary-white-color);
+  border: 1px solid rgba(252, 252, 252, 0.4);
+  background-color: transparent;
+}
+
+.buttonCancel:hover {
+  background-color: var(--primary-white-color);
+  color: var(--primary-black-color);
+}
