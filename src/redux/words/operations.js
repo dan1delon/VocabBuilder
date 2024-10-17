@@ -82,3 +82,15 @@ export const fetchStatistics = createAsyncThunk(
     }
   }
 );
+
+export const addRecommendedWord = createAsyncThunk(
+  'words/addWordFromForeignUser',
+  async (wordId, thunkApi) => {
+    try {
+      const response = await instance.post(`/words/add/${wordId}`);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);

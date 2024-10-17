@@ -79,3 +79,40 @@
   width: 28px;
   height: 28px;
 }
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    flex-direction: row;
+    gap: 8px;
+  }
+}
+
+.iconArrow {
+  width: 20px;
+  height: 20px;
+  stroke: var(--primary-green-color);
+}
+
+.paragraph {
+  font-weight: 500;
+  font-size: 14px;
+  text-align: left;
+
+  @media screen and (min-width: 1440px) {
+    font-size: 16px;
+  }
+}

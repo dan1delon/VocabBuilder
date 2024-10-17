@@ -10,17 +10,25 @@ import TableRow from '@mui/material/TableRow';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import ActionsBtn from '../ActionsBtn/ActionsBtn';
 import css from './WordsTable.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectUsersWords } from '../../../redux/words/selectors';
 import Icon from '../../../shared/Icon/Icon';
+import { useLocation } from 'react-router-dom';
+import { addRecommendedWord } from '../../../redux/words/operations';
 
 const WordsTable = () => {
   const words = useSelector(selectUsersWords);
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   const isMobile = useMediaQuery('(max-width:767px)');
 
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const handleAddToDictionary = word => {
+    dispatch(addRecommendedWord(word._id));
   };
 
   const columns = React.useMemo(
@@ -67,10 +75,23 @@ const WordsTable = () => {
         {
           Header: '',
           accessor: 'actions',
-          Cell: ({ row }) => <ActionsBtn word={row.original} />,
+          Cell: ({ row }) =>
+            location.pathname === '/recommend' ? (
+              <button
+                className={css.addButton}
+                onClick={() => handleAddToDictionary(row.original)}
+              >
+                {!isMobile && (
+                  <p className={css.paragraph}>Add to dictionary</p>
+                )}
+                <Icon iconId="icon-arrow" className={css.iconArrow} />
+              </button>
+            ) : (
+              <ActionsBtn word={row.original} />
+            ),
         },
       ].filter(Boolean),
-    [isMobile]
+    [isMobile, location.pathname, dispatch]
   );
 
   const tableInstance = useTable({ columns, data: words });
