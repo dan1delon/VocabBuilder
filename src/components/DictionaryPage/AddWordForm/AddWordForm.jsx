@@ -14,11 +14,13 @@ import {
   fetchUsersWords,
 } from '../../../redux/words/operations';
 import clsx from 'clsx';
+import { selectPage } from '../../../redux/words/selectors';
 
 const AddWordForm = () => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const categories = useSelector(selectCategories);
+  const currentPage = useSelector(selectPage);
 
   const [selectedCategory, setSelectedCategory] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,6 +94,7 @@ const AddWordForm = () => {
         fetchUsersWords({
           category: '',
           isIrregular: '',
+          page: currentPage,
         })
       ).unwrap();
       await dispatch(fetchStatistics()).unwrap();

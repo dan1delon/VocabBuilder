@@ -33,6 +33,13 @@ const handleRejected = (state, action) => {
 const wordsSlice = createSlice({
   name: 'words',
   initialState: INITIAL_STATE,
+
+  reducers: {
+    changePage: (state, action) => {
+      state.page = action.payload;
+    },
+  },
+
   extraReducers: builder => {
     builder
       .addCase(fetchWords.fulfilled, (state, action) => {
@@ -91,4 +98,5 @@ const wordsSlice = createSlice({
   },
 });
 
+export const { changePage } = wordsSlice.actions;
 export const wordsReducer = wordsSlice.reducer;

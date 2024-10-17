@@ -8,6 +8,7 @@ import { selectCategories } from '../../../redux/categories/selectors';
 import Icon from '../../../shared/Icon/Icon';
 import { usePopover } from '../../../hooks/usePopover';
 import clsx from 'clsx';
+import { selectPage } from '../../../redux/words/selectors';
 
 const Filters = () => {
   const [keyword, setKeyword] = useState('');
@@ -15,6 +16,7 @@ const Filters = () => {
   const [verbType, setVerbType] = useState('');
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
+  const currentPage = useSelector(selectPage);
 
   const {
     isOpen,
@@ -37,7 +39,9 @@ const Filters = () => {
     if (category !== 'verb') {
       setVerbType('');
     }
-    dispatch(fetchUsersWords({ category, isIrregular: verbType }));
+    dispatch(
+      fetchUsersWords({ category, isIrregular: verbType, page: currentPage })
+    );
     handleClosePopover();
   };
 
@@ -56,7 +60,10 @@ const Filters = () => {
       debouncedSearch(keyword);
     } else {
       dispatch(
-        fetchUsersWords({ category: selectedCategory, isIrregular: verbType })
+        fetchUsersWords({
+          category: selectedCategory,
+          isIrregular: verbType,
+        })
       );
     }
 

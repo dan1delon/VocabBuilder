@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import AppLogo from '../AppLogo/AppLogo';
 import css from './MobileMenu.module.css';
 import Icon from '../../../shared/Icon/Icon';
@@ -10,6 +10,7 @@ import { logoutAPI } from '../../../redux/auth/operations';
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
 
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -23,6 +24,24 @@ const MobileMenu = () => {
     setIsOpen(prevState => !prevState);
   };
 
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <div className={css.wrapper}>
       <AppLogo />
@@ -35,7 +54,7 @@ const MobileMenu = () => {
         </div>
       )}
       {isOpen && (
-        <div className={css.mobileMenu}>
+        <div ref={menuRef} className={css.mobileMenu}>
           <div className={css.userWrapper}>
             <p className={css.userName}>User</p>
             <div className={css.iconWrapper}>

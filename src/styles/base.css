@@ -36,3 +36,18 @@ body {
   color: var(--primary-black-color) !important;
   padding: 16px 14px !important;
 }
+
+.Mui-selected {
+  background-color: var(--primary-green-color) !important;
+  color: white !important;
+}
+
+.MuiPaginationItem-firstLast {
+  color: var(--primary-green-color) !important;
+  background-color: transparent !important;
+}
+
+.MuiPaginationItem-firstLast:hover {
+  background-color: var(--primary-green-color) !important;
+  color: white !important;
+}

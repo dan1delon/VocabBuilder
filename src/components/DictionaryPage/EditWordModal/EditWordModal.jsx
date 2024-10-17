@@ -7,9 +7,12 @@ import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import Icon from '../../../shared/Icon/Icon';
 import { editWord, fetchUsersWords } from '../../../redux/words/operations';
+import { selectPage } from '../../../redux/words/selectors';
+import { useSelector } from 'react-redux';
 
 const EditWordModal = ({ word }) => {
   const { closeModal } = useModal();
+  const currentPage = useSelector(selectPage);
   const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
@@ -56,7 +59,7 @@ const EditWordModal = ({ word }) => {
 
       await dispatch(editWord({ id: word._id, wordData })).unwrap();
       await dispatch(
-        fetchUsersWords({ category: '', isIrregular: '' })
+        fetchUsersWords({ category: '', isIrregular: '', page: currentPage })
       ).unwrap();
     } catch (error) {
       console.log('Unexpected error:', error);
