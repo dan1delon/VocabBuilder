@@ -4,7 +4,7 @@
   border: none;
   border-radius: 8px;
 
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 374px) {
     width: 90vw !important;
   }
 

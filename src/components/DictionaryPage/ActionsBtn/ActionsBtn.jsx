@@ -5,9 +5,17 @@ import Popover from '@mui/material/Popover';
 import Button from '@mui/material/Button';
 import Icon from '../../../shared/Icon/Icon';
 import css from './ActionsBtn.module.css';
+import { useDispatch } from 'react-redux';
+import {
+  deleteWord,
+  fetchStatistics,
+  fetchUsersWords,
+} from '../../../redux/words/operations';
 
 const ActionsBtn = ({ word }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -15,6 +23,26 @@ const ActionsBtn = ({ word }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleEditWord = () => {
+    handleClose();
+  };
+
+  const handleDeleteWord = async () => {
+    try {
+      await dispatch(deleteWord(word._id)).unwrap();
+      await dispatch(
+        fetchUsersWords({
+          category: '',
+          isIrregular: '',
+        })
+      ).unwrap();
+      dispatch(fetchStatistics()).unwrap();
+      handleClose();
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -47,14 +75,11 @@ const ActionsBtn = ({ word }) => {
         }}
       >
         <div className={css.btnWrapper}>
-          <Button className={css.btn} onClick={() => console.log('Edit', word)}>
+          <Button className={css.btn} onClick={handleEditWord}>
             <Icon iconId="icon-edit" className={css.icon} />
             Edit
           </Button>
-          <Button
-            className={css.btn}
-            onClick={() => console.log('Delete', word)}
-          >
+          <Button className={css.btn} onClick={handleDeleteWord}>
             <Icon iconId="icon-trash" className={css.icon} />
             Delete
           </Button>

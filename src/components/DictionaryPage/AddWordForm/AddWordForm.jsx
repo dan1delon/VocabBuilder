@@ -8,7 +8,11 @@ import Icon from '../../../shared/Icon/Icon';
 import { useModal } from '../../../context';
 import { selectCategories } from '../../../redux/categories/selectors';
 import { usePopover } from '../../../hooks/usePopover';
-import { createWord, fetchStatistics } from '../../../redux/words/operations';
+import {
+  createWord,
+  fetchStatistics,
+  fetchUsersWords,
+} from '../../../redux/words/operations';
 import clsx from 'clsx';
 
 const AddWordForm = () => {
@@ -84,7 +88,13 @@ const AddWordForm = () => {
       }
 
       await dispatch(createWord(wordData)).unwrap();
-      dispatch(fetchStatistics());
+      await dispatch(
+        fetchUsersWords({
+          category: '',
+          isIrregular: '',
+        })
+      );
+      await dispatch(fetchStatistics());
 
       closeModal(e);
       reset();
