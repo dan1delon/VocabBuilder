@@ -1,8 +1,9 @@
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { changePage } from '../../../redux/words/slice';
-import { fetchUsersWords } from '../../../redux/words/operations';
+import { fetchUsersWords, fetchWords } from '../../../redux/words/operations';
 import { useEffect } from 'react';
 import { selectPage, selectTotalPages } from '../../../redux/words/selectors';
 import css from './WordsPagination.module.css';
@@ -11,6 +12,7 @@ const WordsPagination = () => {
   const dispatch = useDispatch();
   const currentPage = useSelector(selectPage) || 1;
   const pageCount = useSelector(selectTotalPages) || 1;
+  const location = useLocation();
 
   useEffect(() => {
     const filters = {
@@ -19,7 +21,14 @@ const WordsPagination = () => {
       isIrregular: '',
       page: currentPage,
     };
-    dispatch(fetchUsersWords(filters));
+
+    if (location.pathname === '/dictionary') {
+      dispatch(fetchUsersWords(filters));
+    }
+
+    if (location.pathname === '/recommend') {
+      dispatch(fetchWords(filters));
+    }
   }, [dispatch, currentPage]);
 
   const handleChange = (event, value) => {

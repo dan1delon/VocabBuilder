@@ -11,15 +11,22 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import ActionsBtn from '../ActionsBtn/ActionsBtn';
 import css from './WordsTable.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUsersWords } from '../../../redux/words/selectors';
+import { selectUsersWords, selectWords } from '../../../redux/words/selectors';
 import Icon from '../../../shared/Icon/Icon';
 import { useLocation } from 'react-router-dom';
 import { addRecommendedWord } from '../../../redux/words/operations';
 
 const WordsTable = () => {
-  const words = useSelector(selectUsersWords);
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const usersWords = useSelector(selectUsersWords);
+  const recommendWords = useSelector(selectWords);
+
+  console.log(usersWords, recommendWords);
+
+  const words =
+    location.pathname === '/dictionary' ? usersWords : recommendWords;
 
   const isMobile = useMediaQuery('(max-width:767px)');
 

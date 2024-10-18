@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
-import { fetchUsersWords } from '../../../redux/words/operations';
+import { fetchUsersWords, fetchWords } from '../../../redux/words/operations';
 import css from './Filters.module.css';
 import { fetchCategories } from '../../../redux/categories/operations';
 import { selectCategories } from '../../../redux/categories/selectors';
@@ -17,6 +18,7 @@ const Filters = () => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const currentPage = useSelector(selectPage);
+  const location = useLocation();
 
   const {
     isOpen,
@@ -39,32 +41,57 @@ const Filters = () => {
     if (category !== 'verb') {
       setVerbType('');
     }
-    dispatch(
-      fetchUsersWords({ category, isIrregular: verbType, page: currentPage })
-    );
+    location.pathname === '/dictionary' &&
+      dispatch(
+        fetchUsersWords({ category, isIrregular: verbType, page: currentPage })
+      );
+
+    location.pathname === '/recommend' &&
+      dispatch(
+        fetchWords({ category, isIrregular: verbType, page: currentPage })
+      );
     handleClosePopover();
   };
 
   const debouncedSearch = debounce(searchKeyword => {
-    dispatch(
-      fetchUsersWords({
-        keyword: searchKeyword,
-        category: selectedCategory,
-        isIrregular: verbType,
-      })
-    );
+    location.pathname === '/dictionary' &&
+      dispatch(
+        fetchUsersWords({
+          keyword: searchKeyword,
+          category: selectedCategory,
+          isIrregular: verbType,
+        })
+      );
+
+    location.pathname === '/recommend' &&
+      dispatch(
+        fetchWords({
+          keyword: searchKeyword,
+          category: selectedCategory,
+          isIrregular: verbType,
+        })
+      );
   }, 300);
 
   useEffect(() => {
     if (keyword) {
       debouncedSearch(keyword);
     } else {
-      dispatch(
-        fetchUsersWords({
-          category: selectedCategory,
-          isIrregular: verbType,
-        })
-      );
+      location.pathname === '/dictionary' &&
+        dispatch(
+          fetchUsersWords({
+            category: selectedCategory,
+            isIrregular: verbType,
+          })
+        );
+
+      location.pathname === '/recommend' &&
+        dispatch(
+          fetchWords({
+            category: selectedCategory,
+            isIrregular: verbType,
+          })
+        );
     }
 
     return () => {
@@ -75,12 +102,22 @@ const Filters = () => {
   const handleVerbTypeChange = e => {
     const { value } = e.target;
     setVerbType(value);
-    dispatch(
-      fetchUsersWords({
-        category: selectedCategory,
-        isIrregular: value === 'true',
-      })
-    );
+
+    location.pathname === '/dictionary' &&
+      dispatch(
+        fetchUsersWords({
+          category: selectedCategory,
+          isIrregular: value === 'true',
+        })
+      );
+
+    location.pathname === '/recommend' &&
+      dispatch(
+        fetchWords({
+          category: selectedCategory,
+          isIrregular: value === 'true',
+        })
+      );
   };
 
   const capitalizeFirstLetter = string => {
