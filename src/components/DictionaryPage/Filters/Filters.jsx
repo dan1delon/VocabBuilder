@@ -3,13 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { fetchUsersWords, fetchWords } from '../../../redux/words/operations';
+import { changePage, changeRecommendPage } from '../../../redux/words/slice';
 import css from './Filters.module.css';
 import { fetchCategories } from '../../../redux/categories/operations';
 import { selectCategories } from '../../../redux/categories/selectors';
 import Icon from '../../../shared/Icon/Icon';
 import { usePopover } from '../../../hooks/usePopover';
 import clsx from 'clsx';
-import { selectPage } from '../../../redux/words/selectors';
+import {
+  selectPage,
+  selectRecommendPage,
+  selectUsersWords,
+  selectWords,
+} from '../../../redux/words/selectors';
 
 const Filters = () => {
   const [keyword, setKeyword] = useState('');
@@ -18,6 +24,7 @@ const Filters = () => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const currentPage = useSelector(selectPage);
+  const currentRecommendPage = useSelector(selectRecommendPage);
   const location = useLocation();
 
   const {
@@ -32,66 +39,87 @@ const Filters = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  const resetPageIfNeeded = () => {
+    if (location.pathname === '/dictionary' && currentPage !== 1) {
+      dispatch(changePage(1));
+    } else if (
+      location.pathname !== '/dictionary' &&
+      currentRecommendPage !== 1
+    ) {
+      dispatch(changeRecommendPage(1));
+    }
+  };
+
+  const updateWords = () => {
+    if (!selectedCategory && !verbType && !keyword) return;
+
+    const fetchParams = {
+      category: selectedCategory,
+      isIrregular: verbType,
+      page: 1,
+    };
+
+    if (location.pathname === '/dictionary') {
+      dispatch(fetchUsersWords(fetchParams));
+    } else if (location.pathname === '/recommend') {
+      dispatch(fetchWords(fetchParams));
+    }
+  };
+
   const handleSearchChange = e => {
-    setKeyword(e.target.value.trim());
+    const newKeyword = e.target.value.trim();
+    setKeyword(newKeyword);
+
+    if (!newKeyword) {
+      resetPageIfNeeded();
+      updateWords();
+    }
   };
 
   const handleCategoryChange = category => {
     setSelectedCategory(category);
+
     if (category !== 'verb') {
       setVerbType('');
     }
-    location.pathname === '/dictionary' &&
-      dispatch(
-        fetchUsersWords({ category, isIrregular: verbType, page: currentPage })
-      );
 
-    location.pathname === '/recommend' &&
-      dispatch(
-        fetchWords({ category, isIrregular: verbType, page: currentPage })
-      );
+    resetPageIfNeeded();
+    updateWords();
     handleClosePopover();
   };
 
   const debouncedSearch = debounce(searchKeyword => {
-    location.pathname === '/dictionary' &&
+    resetPageIfNeeded();
+    if (location.pathname === '/dictionary') {
       dispatch(
         fetchUsersWords({
           keyword: searchKeyword,
           category: selectedCategory,
           isIrregular: verbType,
+          page: 1,
         })
       );
-
-    location.pathname === '/recommend' &&
+    } else if (location.pathname === '/recommend') {
       dispatch(
         fetchWords({
           keyword: searchKeyword,
           category: selectedCategory,
           isIrregular: verbType,
+          page: 1,
         })
       );
+    }
   }, 300);
 
   useEffect(() => {
+    if (!keyword && !selectedCategory && !verbType) {
+      return;
+    }
+
     if (keyword) {
       debouncedSearch(keyword);
     } else {
-      location.pathname === '/dictionary' &&
-        dispatch(
-          fetchUsersWords({
-            category: selectedCategory,
-            isIrregular: verbType,
-          })
-        );
-
-      location.pathname === '/recommend' &&
-        dispatch(
-          fetchWords({
-            category: selectedCategory,
-            isIrregular: verbType,
-          })
-        );
+      updateWords();
     }
 
     return () => {
@@ -103,21 +131,8 @@ const Filters = () => {
     const { value } = e.target;
     setVerbType(value);
 
-    location.pathname === '/dictionary' &&
-      dispatch(
-        fetchUsersWords({
-          category: selectedCategory,
-          isIrregular: value === 'true',
-        })
-      );
-
-    location.pathname === '/recommend' &&
-      dispatch(
-        fetchWords({
-          category: selectedCategory,
-          isIrregular: value === 'true',
-        })
-      );
+    resetPageIfNeeded();
+    updateWords();
   };
 
   const capitalizeFirstLetter = string => {
