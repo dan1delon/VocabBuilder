@@ -42,7 +42,7 @@ const ActionsBtn = ({ word }) => {
           isIrregular: '',
         })
       ).unwrap();
-      dispatch(fetchStatistics()).unwrap();
+      await dispatch(fetchStatistics()).unwrap();
       handleClose();
     } catch (error) {
       console.error('Unexpected error:', error);

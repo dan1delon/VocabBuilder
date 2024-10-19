@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import css from './Statistics.module.css';
-import { selectStatistics } from '../../../redux/words/selectors';
+import {
+  selectStatistics,
+  selectUsersWords,
+  selectWords,
+} from '../../../redux/words/selectors';
 import { useEffect } from 'react';
 import { fetchStatistics } from '../../../redux/words/operations';
 

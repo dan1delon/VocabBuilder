@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   usersWords: [],
   totalPages: 1,
   page: 1,
+  recommendPage: 1,
   loading: false,
   error: null,
   statistics: {
@@ -37,6 +38,9 @@ const wordsSlice = createSlice({
   reducers: {
     changePage: (state, action) => {
       state.page = action.payload;
+    },
+    changeRecommendPage: (state, action) => {
+      state.recommendPage = action.payload;
     },
   },
 
@@ -98,5 +102,5 @@ const wordsSlice = createSlice({
   },
 });
 
-export const { changePage } = wordsSlice.actions;
+export const { changePage, changeRecommendPage } = wordsSlice.actions;
 export const wordsReducer = wordsSlice.reducer;
