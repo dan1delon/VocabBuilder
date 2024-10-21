@@ -94,3 +94,27 @@ export const addRecommendedWord = createAsyncThunk(
     }
   }
 );
+
+export const fetchUsersTasks = createAsyncThunk(
+  'words/fetchUsersTasks',
+  async (_, thunkApi) => {
+    try {
+      const response = await instance.get('/words/tasks');
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const postAnswer = createAsyncThunk(
+  'words/postAnswer',
+  async (answerData, thunkApi) => {
+    try {
+      const response = await instance.post('/words/task', answerData);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);

@@ -1,0 +1,17 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 68px - 24px - 76px);
+  padding: 24px 0 76px;
+
+  @media screen and (min-width: 768px) {
+    padding-top: 62px 0 104px;
+    min-height: calc(100vh - 88px - 62px - 104px);
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding-top: 0;
+    align-items: center;
+    justify-content: center;
+  }
+}

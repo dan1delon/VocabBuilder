@@ -41,3 +41,44 @@
     font-size: 22px;
   }
 }
+
+.progressBarTraining {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  display: flex;
+
+  @media screen and (min-width: 768px) {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+.trainingCircularProgressWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 44px;
+  height: 44px;
+
+  @media screen and (min-width: 768px) {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+.tasksCount {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-weight: 500;
+  line-height: 150%;
+  text-align: center;
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+  }
+}

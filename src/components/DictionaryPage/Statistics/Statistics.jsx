@@ -3,18 +3,18 @@ import css from './Statistics.module.css';
 import {
   selectStatistics,
   selectUsersWords,
-  selectWords,
 } from '../../../redux/words/selectors';
 import { useEffect } from 'react';
 import { fetchStatistics } from '../../../redux/words/operations';
 
 const Statistics = () => {
   const totalCount = useSelector(selectStatistics);
+  const usersWords = useSelector(selectUsersWords);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchStatistics());
-  }, [dispatch]);
+  }, [dispatch, totalCount, usersWords]);
 
   return (
     <div className={css.wrapper}>

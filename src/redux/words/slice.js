@@ -6,6 +6,8 @@ import {
   deleteWord,
   fetchStatistics,
   fetchUsersWords,
+  fetchUsersTasks,
+  postAnswer,
 } from './operations';
 
 const INITIAL_STATE = {
@@ -14,11 +16,13 @@ const INITIAL_STATE = {
   totalPages: 1,
   page: 1,
   recommendPage: 1,
-  loading: false,
-  error: null,
+  tasks: [],
+  tasksResults: [],
   statistics: {
     totalCount: 0,
   },
+  loading: false,
+  error: null,
 };
 
 const handlePending = state => {
@@ -50,7 +54,7 @@ const wordsSlice = createSlice({
         state.loading = false;
         state.words = action.payload.results;
         state.totalPages = action.payload.totalPages;
-        state.page = action.payload.page;
+        state.recommendPage = action.payload.page;
       })
       .addCase(fetchUsersWords.fulfilled, (state, action) => {
         state.loading = false;
@@ -77,6 +81,12 @@ const wordsSlice = createSlice({
       .addCase(fetchStatistics.fulfilled, (state, action) => {
         state.statistics.totalCount = action.payload.totalCount;
       })
+      .addCase(fetchUsersTasks.fulfilled, (state, action) => {
+        state.tasks = action.payload.tasks;
+      })
+      .addCase(postAnswer.fulfilled, (state, action) => {
+        state.tasksResults = action.payload;
+      })
       .addMatcher(
         isAnyOf(
           fetchWords.pending,
@@ -84,7 +94,9 @@ const wordsSlice = createSlice({
           editWord.pending,
           deleteWord.pending,
           fetchStatistics.pending,
-          fetchUsersWords.pending
+          fetchUsersWords.pending,
+          fetchUsersTasks.pending,
+          postAnswer.pending
         ),
         handlePending
       )
@@ -95,7 +107,9 @@ const wordsSlice = createSlice({
           editWord.rejected,
           deleteWord.rejected,
           fetchStatistics.rejected,
-          fetchUsersWords.rejected
+          fetchUsersWords.rejected,
+          fetchUsersTasks.rejected,
+          postAnswer.rejected
         ),
         handleRejected
       );

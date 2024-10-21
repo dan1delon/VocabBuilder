@@ -14,7 +14,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectUsersWords, selectWords } from '../../../redux/words/selectors';
 import Icon from '../../../shared/Icon/Icon';
 import { useLocation } from 'react-router-dom';
-import { addRecommendedWord } from '../../../redux/words/operations';
+import {
+  addRecommendedWord,
+  fetchStatistics,
+} from '../../../redux/words/operations';
 
 const WordsTable = () => {
   const location = useLocation();
@@ -22,8 +25,6 @@ const WordsTable = () => {
 
   const usersWords = useSelector(selectUsersWords);
   const recommendWords = useSelector(selectWords);
-
-  console.log(usersWords, recommendWords);
 
   const words =
     location.pathname === '/dictionary' ? usersWords : recommendWords;
@@ -36,6 +37,7 @@ const WordsTable = () => {
 
   const handleAddToDictionary = word => {
     dispatch(addRecommendedWord(word._id));
+    dispatch(fetchStatistics());
   };
 
   const columns = React.useMemo(
