@@ -111,7 +111,7 @@ export const postAnswer = createAsyncThunk(
   'words/postAnswer',
   async (answerData, thunkApi) => {
     try {
-      const response = await instance.post('/words/task', answerData);
+      const response = await instance.post('/words/answers', answerData);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

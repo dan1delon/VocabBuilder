@@ -3,8 +3,10 @@ import Box from '@mui/material/Box';
 import css from './ProgressBar.module.css';
 import { useLocation } from 'react-router-dom';
 
-const ProgressBar = ({ progress = 0, isMobile }) => {
+const ProgressBar = ({ progress, isMobile, total }) => {
   const location = useLocation();
+
+  const progressPercentage = (progress / total) * 100;
 
   return (
     <>
@@ -50,7 +52,7 @@ const ProgressBar = ({ progress = 0, isMobile }) => {
             />
             <CircularProgress
               variant="determinate"
-              value={progress}
+              value={progressPercentage || 0}
               sx={{
                 color: '#85aa9f',
                 position: 'absolute',

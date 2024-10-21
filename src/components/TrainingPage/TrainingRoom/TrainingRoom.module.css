@@ -1,0 +1,94 @@
+.trainingRoom {
+}
+
+.translateBlock {
+}
+
+.input {
+}
+
+.nextBtn {
+}
+
+.iconArrow {
+  width: 20px;
+  height: 20px;
+  stroke: var(--primary-green-color);
+}
+
+.wordBlock {
+}
+
+.iconCheck {
+}
+
+.buttonsBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    width: 427px;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.saveButton {
+  flex: 1;
+  font-family: var(--primary-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--primary-white-color);
+  text-align: center;
+  background: var(--primary-green-color);
+  border-radius: 30px;
+  padding: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-duration) var(--transition-timing-function);
+
+  @media screen and (min-width: 768px) {
+    font-size: 18px;
+    line-height: 156%;
+  }
+}
+
+.saveButton:hover {
+  background: var(--primary-light-green-color);
+}
+
+.cancelButton {
+  flex: 1;
+  font-family: var(--primary-font-family);
+  font-weight: 700;
+  line-height: 150%;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-align: center;
+  color: rgba(18, 20, 23, 0.5);
+  cursor: pointer;
+  transition: all var(--transition-duration) var(--transition-timing-function);
+
+  @media screen and (min-width: 768px) {
+    font-size: 18px;
+    color: var(--primary-green-color);
+    border: 1px solid var(--primary-green-color);
+    border-radius: 30px;
+    padding: 14px;
+    text-decoration: none;
+  }
+}
+
+.cancelButton:hover {
+  color: var(--primary-black-color);
+
+  @media screen and (min-width: 768px) {
+    color: var(--primary-white-color);
+    background-color: var(--primary-green-color);
+  }
+}

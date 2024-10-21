@@ -1,30 +1,29 @@
 import { useState } from 'react';
 import css from './TrainingRoom.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { postAnswer } from '../../../redux/words/operations';
 import { useModal } from '../../../context';
 import { NavLink } from 'react-router-dom';
+import Icon from '../../../shared/Icon/Icon';
 
-const TrainingRoom = ({ tasks }) => {
+const TrainingRoom = ({ tasks, userAnswers, setUserAnswers }) => {
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
   const [userInput, setUserInput] = useState('');
-  const [error, setError] = useState(null);
 
   const currentTask = tasks[currentTaskIndex];
 
-  console.log(tasks);
-
-  console.log(currentTask);
-
   const handleNext = () => {
     if (userInput.trim()) {
-      setUserAnswers([
-        ...userAnswers,
-        { taskId: currentTask._id, answer: userInput },
-      ]);
+      const updatedAnswer = handleUserAnswer(userInput, currentTask.task, {
+        _id: currentTask._id,
+        en: currentTask.en,
+        ua: currentTask.ua,
+        task: currentTask.task,
+      });
+
+      setUserAnswers([...userAnswers, updatedAnswer]);
       setUserInput('');
     }
     if (currentTaskIndex < tasks.length - 1) {
@@ -34,39 +33,83 @@ const TrainingRoom = ({ tasks }) => {
 
   const handleSave = async () => {
     if (userInput.trim()) {
-      setUserAnswers([
-        ...userAnswers,
-        { taskId: currentTask._id, answer: userInput },
-      ]);
+      const updatedAnswer = handleUserAnswer(userInput, currentTask.task, {
+        _id: currentTask._id,
+        en: currentTask.en,
+        ua: currentTask.ua,
+        task: currentTask.task,
+      });
+
+      const updatedAnswers = [...userAnswers, updatedAnswer];
+      setUserAnswers(updatedAnswers);
+
+      try {
+        await dispatch(postAnswer(updatedAnswers)).unwrap();
+      } catch (err) {
+        console.log(err);
+      }
     }
-    try {
-      await dispatch(postAnswer(userAnswers)).unwrap();
-      // openModal(<WellDoneModal results={userAnswers} />);
-    } catch (err) {
-      setError('Failed to save progress. Redirecting to Dictionary.');
+  };
+
+  const handleUserAnswer = (userAnswer, taskType, wordObject) => {
+    if (taskType === 'en') {
+      wordObject.en = userAnswer;
+    } else if (taskType === 'ua') {
+      wordObject.ua = userAnswer;
     }
+    return wordObject;
   };
 
   return (
     <div className={css.trainingRoom}>
-      <div className={css.wordBlock}>
-        <p className={css.word}>{currentTask.en}</p>
+      <div className={css.blocksWrapper}>
+        <div className={css.wordBlock}>
+          <h3>English</h3>
+          {currentTask.task === 'ua' ? (
+            <p className={css.word}>{currentTask.en}</p>
+          ) : (
+            <div className={css.inputBlock}>
+              <input
+                type="text"
+                value={userInput}
+                onChange={e => setUserInput(e.target.value)}
+                placeholder="Enter translation to English"
+                className={css.input}
+              />
+              {currentTaskIndex < tasks.length - 1 && (
+                <button onClick={handleNext} className={css.nextButton}>
+                  Next <Icon iconId="icon-arrow" className={css.iconArrow} />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className={css.wordBlock}>
+          <h3>Ukrainian</h3>
+          {currentTask.task === 'en' ? (
+            <p className={css.word}>{currentTask.ua}</p>
+          ) : (
+            <div className={css.inputBlock}>
+              <input
+                type="text"
+                value={userInput}
+                onChange={e => setUserInput(e.target.value)}
+                placeholder="Введіть переклад"
+                className={css.input}
+              />
+              {currentTaskIndex < tasks.length - 1 && (
+                <button onClick={handleNext} className={css.nextButton}>
+                  Next <Icon iconId="icon-arrow" className={css.iconArrow} />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-      <div className={css.translateBlock}>
-        <input
-          type="text"
-          value={userInput}
-          onChange={e => setUserInput(e.target.value)}
-          placeholder="Enter your translation"
-        />
-        {currentTaskIndex < tasks.length - 1 && (
-          <button onClick={handleNext} className={css.nextButton}>
-            Next
-          </button>
-        )}
-      </div>
+
       <div className={css.buttonsBlock}>
-        <button onClick={handleNext} className={css.saveButton}>
+        <button onClick={handleSave} className={css.saveButton}>
           Save
         </button>
         <NavLink to="/dictionary" className={css.cancelButton}>
