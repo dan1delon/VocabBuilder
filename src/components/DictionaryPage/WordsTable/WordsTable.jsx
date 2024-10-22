@@ -36,10 +36,10 @@ const WordsTable = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const handleAddToDictionary = word => {
+  const handleAddToDictionary = async word => {
     try {
-      dispatch(addRecommendedWord(word._id));
-      dispatch(fetchStatistics());
+      await dispatch(addRecommendedWord(word._id)).unwrap();
+      await dispatch(fetchStatistics()).unwrap();
     } catch (error) {
       toast.error('Unexpected error: ' + error);
     }
