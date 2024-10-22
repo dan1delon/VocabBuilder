@@ -12,6 +12,7 @@ import { useMediaQuery } from '@mui/material';
 
 const TrainingPage = () => {
   const [userAnswers, setUserAnswers] = useState([]);
+  const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const tasks = useSelector(selectTasks);
@@ -20,7 +21,8 @@ const TrainingPage = () => {
 
   useEffect(() => {
     dispatch(fetchUsersTasks());
-  }, []);
+    setProgress(userAnswers.length);
+  }, [userAnswers, dispatch]);
 
   const handleAddWord = () => {
     openModal(<AddWordModal />);
@@ -32,13 +34,14 @@ const TrainingPage = () => {
         <>
           <ProgressBar
             isMobile={isMobile}
-            progress={userAnswers.length}
+            progress={progress}
             total={tasks.length}
           />
           <TrainingRoom
             tasks={tasks}
             userAnswers={userAnswers}
             setUserAnswers={setUserAnswers}
+            setProgress={setProgress}
           />
         </>
       ) : (

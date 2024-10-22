@@ -38,30 +38,32 @@ const ProgressBar = ({ progress, isMobile, total }) => {
       )}
 
       {location.pathname === '/training' && (
-        <Box className={css.progressBarTraining}>
-          <span className={css.tasksCount}>{progress}</span>
-          <div className={css.trainingCircularProgressWrapper}>
-            <CircularProgress
-              variant="determinate"
-              value={100}
-              sx={{
-                color: '#fcfcfc',
-                position: 'absolute',
-              }}
-              size={isMobile ? 44 : 58}
-            />
-            <CircularProgress
-              variant="determinate"
-              value={progressPercentage || 0}
-              sx={{
-                color: '#85aa9f',
-                position: 'absolute',
-                zIndex: 1,
-              }}
-              size={isMobile ? 44 : 58}
-            />
-          </div>
-        </Box>
+        <div className={css.progressBarTrainingWrapper}>
+          <Box className={css.progressBarTraining}>
+            <span className={css.tasksCount}>{progress}</span>
+            <div className={css.trainingCircularProgressWrapper}>
+              <CircularProgress
+                variant="determinate"
+                value={100}
+                sx={{
+                  color: '#fcfcfc',
+                  position: 'absolute',
+                }}
+                size={isMobile ? 44 : 58}
+              />
+              <CircularProgress
+                variant="determinate"
+                value={progressPercentage || 0}
+                sx={{
+                  color: '#85aa9f',
+                  position: 'absolute',
+                  zIndex: 1,
+                }}
+                size={isMobile ? 44 : 58}
+              />
+            </div>
+          </Box>
+        </div>
       )}
     </>
   );

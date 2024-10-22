@@ -5,8 +5,9 @@ import { postAnswer } from '../../../redux/words/operations';
 import { useModal } from '../../../context';
 import { NavLink } from 'react-router-dom';
 import Icon from '../../../shared/Icon/Icon';
+import ModalResults from '../ModalResults/ModalResults';
 
-const TrainingRoom = ({ tasks, userAnswers, setUserAnswers }) => {
+const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
@@ -44,9 +45,12 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers }) => {
       setUserAnswers(updatedAnswers);
 
       try {
-        await dispatch(postAnswer(updatedAnswers)).unwrap();
+        const response = await dispatch(postAnswer(updatedAnswers)).unwrap();
+        setUserInput('');
+        setProgress(0);
+        openModal(<ModalResults answers={response} />);
       } catch (err) {
-        console.log(err);
+        console.log('Error while saving answers:', err);
       }
     }
   };
@@ -63,48 +67,56 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers }) => {
   return (
     <div className={css.trainingRoom}>
       <div className={css.blocksWrapper}>
-        <div className={css.wordBlock}>
-          <h3>English</h3>
-          {currentTask.task === 'ua' ? (
-            <p className={css.word}>{currentTask.en}</p>
-          ) : (
-            <div className={css.inputBlock}>
-              <input
-                type="text"
-                value={userInput}
-                onChange={e => setUserInput(e.target.value)}
-                placeholder="Enter translation to English"
-                className={css.input}
-              />
-              {currentTaskIndex < tasks.length - 1 && (
-                <button onClick={handleNext} className={css.nextButton}>
-                  Next <Icon iconId="icon-arrow" className={css.iconArrow} />
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className={css.wordBlock}>
-          <h3>Ukrainian</h3>
+        <div className={css.wordBlockUa}>
           {currentTask.task === 'en' ? (
             <p className={css.word}>{currentTask.ua}</p>
           ) : (
-            <div className={css.inputBlock}>
-              <input
-                type="text"
-                value={userInput}
-                onChange={e => setUserInput(e.target.value)}
-                placeholder="Введіть переклад"
-                className={css.input}
-              />
-              {currentTaskIndex < tasks.length - 1 && (
+            <input
+              type="text"
+              value={userInput}
+              onChange={e => setUserInput(e.target.value)}
+              placeholder="Введіть переклад"
+              className={css.input}
+            />
+          )}
+          <div className={css.btnAndFlagWrapper}>
+            {currentTask.task === 'ua' &&
+              currentTaskIndex < tasks.length - 1 && (
                 <button onClick={handleNext} className={css.nextButton}>
                   Next <Icon iconId="icon-arrow" className={css.iconArrow} />
                 </button>
               )}
+            <div className={css.flagBlock}>
+              <Icon iconId="icon-ukraine" className={css.iconFlag} />
+              <p className={css.language}>Ukrainian</p>
             </div>
+          </div>
+        </div>
+
+        <div className={css.wordBlockEn}>
+          {currentTask.task === 'ua' ? (
+            <p className={css.word}>{currentTask.en}</p>
+          ) : (
+            <input
+              type="text"
+              value={userInput}
+              onChange={e => setUserInput(e.target.value)}
+              placeholder="Enter translation"
+              className={css.input}
+            />
           )}
+          <div className={css.btnAndFlagWrapper}>
+            {currentTask.task === 'en' &&
+              currentTaskIndex < tasks.length - 1 && (
+                <button onClick={handleNext} className={css.nextButton}>
+                  Next <Icon iconId="icon-arrow" className={css.iconArrow} />
+                </button>
+              )}
+            <div className={css.flagBlock}>
+              <Icon iconId="icon-united-kingdom" className={css.iconFlag} />
+              <p className={css.language}>English</p>
+            </div>
+          </div>
         </div>
       </div>
 

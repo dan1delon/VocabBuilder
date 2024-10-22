@@ -5,6 +5,6 @@ export const selectPage = state => state.words.page;
 export const selectRecommendPage = state => state.words.recommendPage;
 export const selectStatistics = state => state.words.statistics.totalCount;
 export const selectTasks = state => state.words.tasks;
-
+export const selectTasksResults = state => state.words.tasksResults;
 export const selectIsLoading = state => state.words.loading;
 export const selectError = state => state.words.error;
