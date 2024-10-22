@@ -18,6 +18,7 @@ import {
   addRecommendedWord,
   fetchStatistics,
 } from '../../../redux/words/operations';
+import toast from 'react-hot-toast';
 
 const WordsTable = () => {
   const location = useLocation();
@@ -36,8 +37,12 @@ const WordsTable = () => {
   };
 
   const handleAddToDictionary = word => {
-    dispatch(addRecommendedWord(word._id));
-    dispatch(fetchStatistics());
+    try {
+      dispatch(addRecommendedWord(word._id));
+      dispatch(fetchStatistics());
+    } catch (error) {
+      toast.error('Unexpected error: ' + error);
+    }
   };
 
   const columns = React.useMemo(
@@ -74,7 +79,7 @@ const WordsTable = () => {
             </span>
           ),
         },
-        {
+        location.pathname !== '/recommend' && {
           Header: 'Progress',
           accessor: 'progress',
           Cell: ({ value }) => (

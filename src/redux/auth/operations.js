@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const instance = axios.create({
   baseURL: 'https://vocab-builder-backend.p.goit.global/api',
@@ -21,6 +22,7 @@ export const registerAPI = createAsyncThunk(
       setToken(data.token);
       return data;
     } catch (e) {
+      toast.error(e.message);
       return thunkApi.rejectWithValue(e.message);
     }
   }
@@ -34,6 +36,7 @@ export const loginAPI = createAsyncThunk(
       setToken(data.token);
       return data;
     } catch (e) {
+      toast.error(e.message);
       return thunkApi.rejectWithValue(e.message);
     }
   }
@@ -52,6 +55,7 @@ export const refreshUserAPI = createAsyncThunk(
       const { data } = await instance.get('/users/current');
       return data;
     } catch (e) {
+      toast.error(e.message);
       return thunkApi.rejectWithValue(e.message);
     }
   }
@@ -65,6 +69,7 @@ export const logoutAPI = createAsyncThunk(
       clearToken();
       return;
     } catch (e) {
+      toast.error(e.message);
       return thunkApi.rejectWithValue(e.message);
     }
   }

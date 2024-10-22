@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../auth/operations';
+import toast from 'react-hot-toast';
 
 export const fetchWords = createAsyncThunk(
   'words/fetchWords',
@@ -11,6 +12,7 @@ export const fetchWords = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -26,6 +28,7 @@ export const fetchUsersWords = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -42,6 +45,7 @@ export const createWord = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -54,6 +58,7 @@ export const editWord = createAsyncThunk(
       const response = await instance.patch(`/words/edit/${id}`, wordData);
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -66,6 +71,7 @@ export const deleteWord = createAsyncThunk(
       const response = await instance.delete(`/words/delete/${id}`);
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -78,6 +84,7 @@ export const fetchStatistics = createAsyncThunk(
       const response = await instance.get('/words/statistics');
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -88,8 +95,10 @@ export const addRecommendedWord = createAsyncThunk(
   async (wordId, thunkApi) => {
     try {
       const response = await instance.post(`/words/add/${wordId}`);
+      toast.success('Word added successfully!');
       return response.data;
     } catch (error) {
+      toast.error('Word is already in your dictionary!');
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -102,6 +111,7 @@ export const fetchUsersTasks = createAsyncThunk(
       const response = await instance.get('/words/tasks');
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -114,6 +124,7 @@ export const postAnswer = createAsyncThunk(
       const response = await instance.post('/words/answers', answerData);
       return response.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }

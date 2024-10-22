@@ -9,6 +9,7 @@ import Icon from '../../../shared/Icon/Icon';
 import { editWord, fetchUsersWords } from '../../../redux/words/operations';
 import { selectPage } from '../../../redux/words/selectors';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const EditWordModal = ({ word }) => {
   const { closeModal } = useModal();
@@ -61,8 +62,9 @@ const EditWordModal = ({ word }) => {
       await dispatch(
         fetchUsersWords({ category: '', isIrregular: '', page: currentPage })
       ).unwrap();
+      toast.success('Word edited successfully!');
     } catch (error) {
-      console.log('Unexpected error:', error);
+      toast.error('Unexpected error:', error);
     } finally {
       closeModal(e);
       reset();

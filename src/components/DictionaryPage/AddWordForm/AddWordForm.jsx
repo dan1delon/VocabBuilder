@@ -15,6 +15,7 @@ import {
 } from '../../../redux/words/operations';
 import clsx from 'clsx';
 import { selectPage } from '../../../redux/words/selectors';
+import toast from 'react-hot-toast';
 
 const AddWordForm = () => {
   const dispatch = useDispatch();
@@ -80,8 +81,8 @@ const AddWordForm = () => {
       setIsSubmitting(true);
 
       const wordData = {
-        en: data.en.trim().toLowerCase(),
-        ua: data.ua.trim().toLowerCase(),
+        en: capitalizeFirstLetter(data.en.trim()),
+        ua: capitalizeFirstLetter(data.ua.trim()),
         category: selectedCategory,
       };
 
@@ -98,11 +99,11 @@ const AddWordForm = () => {
         })
       ).unwrap();
       await dispatch(fetchStatistics()).unwrap();
-
       closeModal(e);
       reset();
+      toast.success('Word added successfully!');
     } catch (error) {
-      console.error('Unexpected error:', error);
+      toast.error('Unexpected error:' + error);
     } finally {
       setIsSubmitting(false);
     }
@@ -120,7 +121,7 @@ const AddWordForm = () => {
   return (
     <form
       onSubmit={e => {
-        handleSubmit(onSubmit)(e);
+        handleSubmit(onSubmit(e));
       }}
       className={css.form}
     >

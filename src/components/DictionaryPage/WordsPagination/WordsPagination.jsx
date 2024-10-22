@@ -19,9 +19,9 @@ const WordsPagination = () => {
   const location = useLocation();
 
   if (location.pathname === '/dictionary') {
-    currentPage = useSelector(selectPage);
+    currentPage = useSelector(selectPage) || 1;
   } else if (location.pathname === '/recommend') {
-    currentPage = useSelector(selectRecommendPage);
+    currentPage = useSelector(selectRecommendPage) || 1;
   }
 
   useEffect(() => {

@@ -17,7 +17,7 @@ const ModalResults = () => {
           <ul className={css.correctList}>
             {correctAnswers.map((answer, index) => (
               <li className={css.correctItem} key={`${answer._id}-${index}`}>
-                {answer.en}
+                {answer.task === 'en' ? answer.en : answer.ua}
               </li>
             ))}
           </ul>
@@ -27,7 +27,7 @@ const ModalResults = () => {
           <ul className={css.mistakesList}>
             {incorrectAnswers.map((answer, index) => (
               <li className={css.mistakesItem} key={`${answer._id}-${index}`}>
-                {answer.en}
+                {answer.task === 'en' ? answer.en : answer.ua}
               </li>
             ))}
           </ul>

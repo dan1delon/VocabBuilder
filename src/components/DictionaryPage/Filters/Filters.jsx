@@ -13,8 +13,6 @@ import clsx from 'clsx';
 import {
   selectPage,
   selectRecommendPage,
-  selectUsersWords,
-  selectWords,
 } from '../../../redux/words/selectors';
 
 const Filters = () => {
@@ -177,12 +175,6 @@ const Filters = () => {
             ref={popoverRef}
           >
             <ul className={css.popoverList}>
-              <li
-                className={css.popoverItem}
-                onClick={() => handleCategoryChange('')}
-              >
-                All categories
-              </li>
               {Array.isArray(categories) &&
                 categories.map(category => (
                   <li

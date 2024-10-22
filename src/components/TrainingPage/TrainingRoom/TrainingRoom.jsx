@@ -6,6 +6,7 @@ import { useModal } from '../../../context';
 import { NavLink } from 'react-router-dom';
 import Icon from '../../../shared/Icon/Icon';
 import ModalResults from '../ModalResults/ModalResults';
+import toast from 'react-hot-toast';
 
 const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const dispatch = useDispatch();
@@ -13,10 +14,10 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
 
-  const currentTask = tasks[currentTaskIndex];
+  const currentTask = tasks[currentTaskIndex] || {};
 
   const handleNext = () => {
-    if (userInput.trim()) {
+    if (userInput.trim() && currentTask._id) {
       const updatedAnswer = handleUserAnswer(userInput, currentTask.task, {
         _id: currentTask._id,
         en: currentTask.en,
@@ -33,7 +34,7 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   };
 
   const handleSave = async () => {
-    if (userInput.trim()) {
+    if (userInput.trim() && currentTask._id) {
       const updatedAnswer = handleUserAnswer(userInput, currentTask.task, {
         _id: currentTask._id,
         en: currentTask.en,
@@ -50,7 +51,7 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
         setProgress(0);
         openModal(<ModalResults answers={response} />);
       } catch (err) {
-        console.log('Error while saving answers:', err);
+        toast.error('Error while saving answers: ' + err);
       }
     }
   };

@@ -13,6 +13,7 @@ import {
 } from '../../../redux/words/operations';
 import { useModal } from '../../../context';
 import EditWordModal from '../EditWordModal/EditWordModal';
+import toast from 'react-hot-toast';
 
 const ActionsBtn = ({ word }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,6 +22,7 @@ const ActionsBtn = ({ word }) => {
   const { openModal } = useModal();
 
   const handleClick = event => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
@@ -44,8 +46,9 @@ const ActionsBtn = ({ word }) => {
       ).unwrap();
       await dispatch(fetchStatistics()).unwrap();
       handleClose();
+      toast.success('Word deleted successfully!');
     } catch (error) {
-      console.error('Unexpected error:', error);
+      toast.error('Unexpected error:', error);
     }
   };
 
@@ -67,6 +70,7 @@ const ActionsBtn = ({ word }) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         className={css.popover}
+        disableScrollLock
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
