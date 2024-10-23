@@ -1,19 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import css from './TrainingRoom.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postAnswer } from '../../../redux/words/operations';
 import { useModal } from '../../../context';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../../../shared/Icon/Icon';
 import ModalResults from '../ModalResults/ModalResults';
 import toast from 'react-hot-toast';
+import { selectTasksResults } from '../../../redux/words/selectors';
 
 const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
-
+  const navigate = useNavigate();
+  const tasksResults = useSelector(selectTasksResults);
   const currentTask = tasks[currentTaskIndex] || {};
 
   const handleNext = () => {
@@ -47,11 +49,13 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
 
       try {
         const response = await dispatch(postAnswer(updatedAnswers)).unwrap();
+
         setUserInput('');
         setProgress(0);
         openModal(<ModalResults answers={response} />);
       } catch (err) {
         toast.error('Error while saving answers: ' + err);
+        navigate('/dictionary');
       }
     }
   };

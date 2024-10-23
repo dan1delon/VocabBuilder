@@ -48,7 +48,6 @@ const RegistrationForm = () => {
 
   const onSubmit = data => {
     dispatch(registerAPI(data));
-    console.log(data);
     reset();
   };
 
