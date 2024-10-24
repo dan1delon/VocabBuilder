@@ -4,7 +4,10 @@ import css from './MobileMenu.module.css';
 import Icon from '../../../shared/Icon/Icon';
 import AppUserMenu from '../AppUserMenu/AppUserMenu';
 import AppNavMenu from '../AppNavMenu/AppNavMenu';
-import { selectIsLoggedIn } from '../../../redux/auth/selectors';
+import {
+  selectIsLoggedIn,
+  selectUserName,
+} from '../../../redux/auth/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAPI } from '../../../redux/auth/operations';
 

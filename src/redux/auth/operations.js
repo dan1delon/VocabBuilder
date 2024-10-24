@@ -48,13 +48,16 @@ export const refreshUserAPI = createAsyncThunk(
     try {
       const state = thunkApi.getState();
       const token = state.auth.token;
-      if (!token) return thunkApi.rejectWithValue('Token is not valid');
 
+      if (!token) return thunkApi.rejectWithValue('Token is not valid');
       setToken(token);
 
       const { data } = await instance.get('/users/current');
       return data;
     } catch (e) {
+      if (e.response && e.response.status === 401) {
+        return thunkApi.rejectWithValue('Unauthorized');
+      }
       toast.error(e.message);
       return thunkApi.rejectWithValue(e.message);
     }
