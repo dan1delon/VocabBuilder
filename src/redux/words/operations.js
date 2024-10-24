@@ -98,7 +98,6 @@ export const addRecommendedWord = createAsyncThunk(
       toast.success('Word added successfully!');
       return response.data;
     } catch (error) {
-      toast.error('Word is already in your dictionary!');
       return thunkApi.rejectWithValue(error.message);
     }
   }

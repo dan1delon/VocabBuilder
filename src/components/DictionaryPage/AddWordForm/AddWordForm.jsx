@@ -81,8 +81,8 @@ const AddWordForm = () => {
       setIsSubmitting(true);
 
       const wordData = {
-        en: capitalizeFirstLetter(data.en.trim()),
-        ua: capitalizeFirstLetter(data.ua.trim()),
+        en: data.en.trim(),
+        ua: data.ua.trim(),
         category: selectedCategory,
       };
 
@@ -119,12 +119,7 @@ const AddWordForm = () => {
   };
 
   return (
-    <form
-      onSubmit={e => {
-        handleSubmit(onSubmit(e));
-      }}
-      className={css.form}
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className={css.form}>
       <div className={css.label} ref={popoverRef}>
         <div className={css.categoryWrapper}>
           <button

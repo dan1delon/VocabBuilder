@@ -36,15 +36,21 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   };
 
   const handleSave = async () => {
-    if (userInput.trim() && currentTask._id) {
-      const updatedAnswer = handleUserAnswer(userInput, currentTask.task, {
-        _id: currentTask._id,
-        en: currentTask.en,
-        ua: currentTask.ua,
-        task: currentTask.task,
-      });
+    const updatedAnswer =
+      userInput.trim() && currentTask._id
+        ? handleUserAnswer(userInput, currentTask.task, {
+            _id: currentTask._id,
+            en: currentTask.en,
+            ua: currentTask.ua,
+            task: currentTask.task,
+          })
+        : null;
 
-      const updatedAnswers = [...userAnswers, updatedAnswer];
+    const updatedAnswers = updatedAnswer
+      ? [...userAnswers, updatedAnswer]
+      : userAnswers;
+
+    if (updatedAnswers.length > 0) {
       setUserAnswers(updatedAnswers);
 
       try {
@@ -57,6 +63,8 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
         toast.error('Error while saving answers: ' + err);
         navigate('/dictionary');
       }
+    } else {
+      toast.error('You need to answer at least one task.');
     }
   };
 

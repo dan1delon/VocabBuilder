@@ -41,7 +41,7 @@ const WordsTable = () => {
       await dispatch(addRecommendedWord(word._id)).unwrap();
       await dispatch(fetchStatistics()).unwrap();
     } catch (error) {
-      toast.error('Unexpected error: ' + error);
+      toast.error('Word is already in the dictionary!');
     }
   };
 
