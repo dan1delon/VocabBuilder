@@ -2,10 +2,8 @@ import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { loginAPI, logoutAPI, refreshUserAPI, registerAPI } from './operations';
 
 const AUTH_INITIAL_STATE = {
-  user: {
-    name: null,
-    email: null,
-  },
+  name: null,
+  email: null,
   token: null,
   isLoggedIn: false,
   isRefreshing: false,
@@ -34,14 +32,16 @@ const authSlice = createSlice({
       .addCase(registerAPI.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.user = action.payload.user;
+        state.name = action.payload.name;
+        state.email = action.payload.email;
         state.token = action.payload.token;
       })
       //   Login
       .addCase(loginAPI.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.user = action.payload.user;
+        state.name = action.payload.name;
+        state.email = action.payload.email;
         state.token = action.payload.token;
       })
       //   Refresh
