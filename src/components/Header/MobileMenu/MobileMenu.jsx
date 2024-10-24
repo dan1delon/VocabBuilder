@@ -12,8 +12,20 @@ const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const userName = useSelector(selectUserName);
+  const dispatch = useDispatch();
+
+  const getInitials = name => {
+    const nameParts = name.trim().split(' ');
+    if (nameParts.length === 1) {
+      return nameParts[0];
+    } else {
+      return nameParts.map(part => part[0].toUpperCase()).join('');
+    }
+  };
+
+  const displayName = userName ? getInitials(userName) : 'User';
 
   const handleLogout = () => {
     dispatch(logoutAPI());
@@ -56,7 +68,7 @@ const MobileMenu = () => {
       {isOpen && (
         <div ref={menuRef} className={css.mobileMenu}>
           <div className={css.userWrapper}>
-            <p className={css.userName}>User</p>
+            <p className={css.userName}>{displayName}</p>
             <div className={css.iconWrapper}>
               <Icon iconId="icon-user" className={css.iconUser} />
             </div>
