@@ -16,6 +16,7 @@ export const useModal = () => useContext(modalContext);
 export const ModalProvider = ({ children }) => {
   const [modalContent, setModalContent] = useState(null);
   const backdropRef = useRef(null);
+
   const closeModal = useCallback(e => {
     if (
       (e && e.target === e.currentTarget) ||
@@ -25,6 +26,7 @@ export const ModalProvider = ({ children }) => {
       document.body.style.overflow = 'visible';
       if (backdropRef.current !== null) {
         backdropRef.current.style.opacity = 0;
+        backdropRef.current.style.visibility = 'hidden';
       }
       setTimeout(() => {
         setModalContent(null);
@@ -32,25 +34,32 @@ export const ModalProvider = ({ children }) => {
     }
   }, []);
 
+  const openModal = content => {
+    document.body.style.overflow = 'hidden';
+    setModalContent(content);
+    setTimeout(() => {
+      if (backdropRef.current) {
+        backdropRef.current.style.opacity = 1;
+        backdropRef.current.style.visibility = 'visible';
+      }
+    }, 0);
+  };
+
   useEffect(() => {
     window.addEventListener('keydown', closeModal);
+
     const timer = setTimeout(() => {
-      if (backdropRef.current === null) return;
-      backdropRef.current.style.opacity = 1;
+      if (backdropRef.current !== null) {
+        backdropRef.current.style.opacity = 1;
+        backdropRef.current.style.visibility = 'visible';
+      }
     }, 0);
+
     return () => {
       window.removeEventListener('keydown', closeModal);
       clearTimeout(timer);
     };
   }, [closeModal]);
-
-  const openModal = content => {
-    document.body.style.overflow = 'hidden';
-    setModalContent(content);
-    setTimeout(() => {
-      backdropRef.current.style.opacity = 1;
-    }, 0);
-  };
 
   return (
     <modalContext.Provider value={{ modalContent, openModal, closeModal }}>
