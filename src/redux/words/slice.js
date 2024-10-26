@@ -64,8 +64,10 @@ const wordsSlice = createSlice({
       })
       .addCase(createWord.fulfilled, (state, action) => {
         state.words.push(action.payload);
+        state.loading = false;
       })
       .addCase(editWord.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.words.findIndex(
           word => word._id === action.payload._id
         );
@@ -74,17 +76,21 @@ const wordsSlice = createSlice({
         }
       })
       .addCase(deleteWord.fulfilled, (state, action) => {
+        state.loading = false;
         state.words = state.words.filter(
           word => word._id !== action.payload.id
         );
       })
       .addCase(fetchStatistics.fulfilled, (state, action) => {
+        state.loading = false;
         state.statistics.totalCount = action.payload.totalCount;
       })
       .addCase(fetchUsersTasks.fulfilled, (state, action) => {
+        state.loading = false;
         state.tasks = action.payload.tasks;
       })
       .addCase(postAnswer.fulfilled, (state, action) => {
+        state.loading = false;
         state.tasksResults = action.payload;
       })
       .addMatcher(

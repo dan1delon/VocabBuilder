@@ -9,6 +9,8 @@ import EmptyTrainingLayout from '../../components/TrainingPage/EmptyTrainingLayo
 import AddWordModal from '../../components/DictionaryPage/AddWordModal/AddWordModal';
 import { useModal } from '../../context';
 import { useMediaQuery } from '@mui/material';
+import { selectIsLoading } from '../../redux/categories/selectors';
+import Loader from '../../components/Loader/Loader';
 
 const TrainingPage = () => {
   const [userAnswers, setUserAnswers] = useState([]);
@@ -16,6 +18,7 @@ const TrainingPage = () => {
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const tasks = useSelector(selectTasks);
+  const loading = useSelector(selectIsLoading);
 
   const isMobile = useMediaQuery('(max-width:767px)');
 
@@ -30,6 +33,7 @@ const TrainingPage = () => {
 
   return (
     <div className={css.wrapper}>
+      {loading && <Loader />}
       {tasks.length > 0 ? (
         <>
           <ProgressBar
