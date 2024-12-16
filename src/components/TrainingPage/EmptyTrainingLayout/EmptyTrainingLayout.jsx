@@ -6,10 +6,13 @@ import {
   report_2x_png,
   report_2x_webp,
 } from '../../../../public/img/index';
+import clsx from 'clsx';
 
-const EmptyTrainingLayout = ({ handleAddWord }) => {
+const EmptyTrainingLayout = ({ handleAddWord, isDictionaryPage = false }) => {
   return (
-    <div className={css.wrapper}>
+    <div
+      className={clsx(css.wrapper, { [css.dictionaryPage]: isDictionaryPage })}
+    >
       <img
         className={css.img}
         loading="lazy"
@@ -25,12 +28,12 @@ const EmptyTrainingLayout = ({ handleAddWord }) => {
       <div className={css.textAndBtnWrapper}>
         <div className={css.textWrapper}>
           <h4 className={css.title}>
-            You don't have a single word to learn right now.
+            Your dictionary is empty – let’s fix that!
           </h4>
           <p className={css.paragraph}>
-            Please create or add a word to start the workout. We want to improve
-            your vocabulary and develop your knowledge, so please share the
-            words you are interested in adding to your study.
+            Add a new word to get started on your learning journey. The more
+            words you add, the better your vocabulary grows. Think of a word you
+            want to master, and let's make it part of your study list today!
           </p>
         </div>
         <div className={css.btnWrapper}>
@@ -41,9 +44,11 @@ const EmptyTrainingLayout = ({ handleAddWord }) => {
           >
             Add
           </NavLink>
-          <NavLink to="/dictionary" className={css.cancelLink}>
-            Cancel
-          </NavLink>
+          {!isDictionaryPage && (
+            <NavLink to="/dictionary" className={css.cancelLink}>
+              Cancel
+            </NavLink>
+          )}
         </div>
       </div>
     </div>
