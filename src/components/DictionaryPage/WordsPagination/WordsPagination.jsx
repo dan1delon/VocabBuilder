@@ -9,6 +9,7 @@ import {
   selectPage,
   selectRecommendPage,
   selectTotalPages,
+  selectUsersWords,
 } from '../../../redux/words/selectors';
 import css from './WordsPagination.module.css';
 
@@ -17,6 +18,7 @@ const WordsPagination = () => {
   let currentPage = 1;
   const pageCount = useSelector(selectTotalPages) || 1;
   const location = useLocation();
+  const words = useSelector(selectUsersWords);
 
   if (location.pathname === '/dictionary') {
     currentPage = useSelector(selectPage) || 1;
@@ -48,6 +50,14 @@ const WordsPagination = () => {
       dispatch(changeRecommendPage(value));
     }
   };
+
+  if (
+    words.length <= 7 &&
+    location.pathname === '/dictionary' &&
+    currentPage === 1
+  ) {
+    return null;
+  }
 
   return (
     <div className={css.wrapper}>
