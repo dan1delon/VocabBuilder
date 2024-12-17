@@ -21,7 +21,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 9999;
   width: 100vw;
   height: 100vh;
   background-color: rgba(17, 18, 19, 0.4);
@@ -30,7 +30,7 @@
   visibility: hidden;
   will-change: opacity, visibility;
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  -webkit-overflow-scrolling: touch;
+  /* -webkit-overflow-scrolling: touch; */
 }
 
 .modalBackdrop::-webkit-scrollbar {
