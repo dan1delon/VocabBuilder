@@ -10,7 +10,7 @@
   opacity: 0;
   visibility: hidden;
   will-change: opacity, visibility;
-  transition: opacity 0.3 ease, visibility 0.3s ease;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .modalBackdrop::-webkit-scrollbar {
