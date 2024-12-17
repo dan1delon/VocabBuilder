@@ -9,6 +9,7 @@ const Modal = ({ children }) => {
   const location = useLocation();
 
   const handleCloseModal = e => {
+    e.preventDefault();
     closeModal(e);
     if (location.pathname === '/training') {
       navigate('/dictionary');

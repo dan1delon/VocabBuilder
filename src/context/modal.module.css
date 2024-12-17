@@ -1,3 +1,22 @@
+/* .modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 18, 19, 0.4);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, visibility;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.modalBackdrop::-webkit-scrollbar {
+  display: none;
+} */
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -10,7 +29,8 @@
   opacity: 0;
   visibility: hidden;
   will-change: opacity, visibility;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modalBackdrop::-webkit-scrollbar {

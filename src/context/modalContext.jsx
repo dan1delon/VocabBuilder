@@ -18,47 +18,45 @@ export const ModalProvider = ({ children }) => {
   const backdropRef = useRef(null);
 
   const closeModal = useCallback(e => {
+    e?.preventDefault();
+
     if (
       (e && e.target === e.currentTarget) ||
       (e && e.code === 'Escape') ||
       (e && e.type === 'submit')
     ) {
       document.body.style.overflow = 'visible';
-      if (backdropRef.current !== null) {
+
+      if (backdropRef.current) {
         backdropRef.current.style.opacity = 0;
         backdropRef.current.style.visibility = 'hidden';
       }
+
       setTimeout(() => {
         setModalContent(null);
-      }, 700);
+      }, 300);
     }
   }, []);
 
   const openModal = content => {
     document.body.style.overflow = 'hidden';
     setModalContent(content);
-    requestAnimationFrame(() => {
+
+    setTimeout(() => {
       if (backdropRef.current) {
         backdropRef.current.style.opacity = 1;
         backdropRef.current.style.visibility = 'visible';
       }
-    });
+    }, 10);
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', closeModal);
-
-    const timer = setTimeout(() => {
-      if (backdropRef.current !== null) {
-        backdropRef.current.style.opacity = 1;
-        backdropRef.current.style.visibility = 'visible';
-      }
-    }, 0);
-
-    return () => {
-      window.removeEventListener('keydown', closeModal);
-      clearTimeout(timer);
+    const handleKeyDown = e => {
+      if (e.code === 'Escape') closeModal(e);
     };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [closeModal]);
 
   return (
@@ -66,7 +64,11 @@ export const ModalProvider = ({ children }) => {
       {children}
       {modalContent &&
         createPortal(
-          <div className={css.modalBackdrop} ref={backdropRef}>
+          <div
+            className={css.modalBackdrop}
+            ref={backdropRef}
+            onClick={closeModal}
+          >
             <Modal>{modalContent}</Modal>
           </div>,
           document.querySelector('#modal-root')
