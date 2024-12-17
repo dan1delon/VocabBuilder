@@ -3,9 +3,11 @@ import css from './AppNavMenu.module.css';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { changePage, changeRecommendPage } from '../../../redux/words/slice';
+import { useMediaQuery } from '@mui/material';
 
-const AppNavMenu = () => {
+const AppNavMenu = ({ toggleMenu }) => {
   const dispatch = useDispatch();
+  const desktop = useMediaQuery('(min-width:1440px)');
 
   const handleActiveLink = ({ isActive }) => {
     return clsx(css.link, { [css.active]: isActive });
@@ -13,10 +15,22 @@ const AppNavMenu = () => {
 
   const onDictionaryClick = () => {
     dispatch(changePage(1));
+    if (!desktop) {
+      toggleMenu();
+    }
   };
 
   const onRecommendClick = () => {
     dispatch(changeRecommendPage(1));
+    if (!desktop) {
+      toggleMenu();
+    }
+  };
+
+  const onTrainingClick = () => {
+    if (!desktop) {
+      toggleMenu();
+    }
   };
 
   return (
@@ -35,7 +49,11 @@ const AppNavMenu = () => {
       >
         Recommend
       </NavLink>
-      <NavLink to="/training" className={handleActiveLink}>
+      <NavLink
+        to="/training"
+        className={handleActiveLink}
+        onClick={onTrainingClick}
+      >
         Training
       </NavLink>
     </nav>

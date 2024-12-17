@@ -79,7 +79,7 @@ const MobileMenu = () => {
           <button className={css.closeBtn} onClick={toggleMenu}>
             <Icon iconId="icon-close" className={css.iconClose} />
           </button>
-          <AppNavMenu />
+          <AppNavMenu toggleMenu={toggleMenu} />
           <button
             type="button"
             className={css.buttonLogout}
