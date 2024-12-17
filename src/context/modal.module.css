@@ -25,7 +25,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(17, 18, 19, 0.4);
-  overflow-y: auto;
+  overflow-y: hidden;
   opacity: 0;
   visibility: hidden;
   will-change: opacity, visibility;
