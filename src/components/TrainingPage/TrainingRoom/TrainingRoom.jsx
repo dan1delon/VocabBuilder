@@ -16,6 +16,10 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const navigate = useNavigate();
   const currentTask = tasks[currentTaskIndex] || {};
 
+  const capitalizeFirstLetter = text => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   const handleNext = () => {
     if (userInput.trim() && currentTask._id) {
       const updatedAnswer = handleUserAnswer(userInput, currentTask.task, {
@@ -67,11 +71,21 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   };
 
   const handleUserAnswer = (userAnswer, taskType, wordObject) => {
+    const trimmedAnswer = userAnswer.trim();
+
+    const referenceWord = taskType === 'en' ? wordObject.ua : wordObject.en;
+
+    const formattedAnswer =
+      referenceWord[0] === referenceWord[0].toLowerCase()
+        ? trimmedAnswer.charAt(0).toLowerCase() + trimmedAnswer.slice(1)
+        : trimmedAnswer.charAt(0).toUpperCase() + trimmedAnswer.slice(1);
+
     if (taskType === 'en') {
-      wordObject.en = userAnswer;
+      wordObject.en = formattedAnswer;
     } else if (taskType === 'ua') {
-      wordObject.ua = userAnswer;
+      wordObject.ua = formattedAnswer;
     }
+
     return wordObject;
   };
 
@@ -80,7 +94,7 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
       <div className={css.blocksWrapper}>
         <div className={css.wordBlockUa}>
           {currentTask.task === 'en' ? (
-            <p className={css.word}>{currentTask.ua}</p>
+            <p className={css.word}>{capitalizeFirstLetter(currentTask.ua)}</p>
           ) : (
             <input
               type="text"
@@ -106,7 +120,7 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
 
         <div className={css.wordBlockEn}>
           {currentTask.task === 'ua' ? (
-            <p className={css.word}>{currentTask.en}</p>
+            <p className={css.word}>{capitalizeFirstLetter(currentTask.en)}</p>
           ) : (
             <input
               type="text"
