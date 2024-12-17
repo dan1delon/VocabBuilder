@@ -37,12 +37,12 @@ export const ModalProvider = ({ children }) => {
   const openModal = content => {
     document.body.style.overflow = 'hidden';
     setModalContent(content);
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       if (backdropRef.current) {
         backdropRef.current.style.opacity = 1;
         backdropRef.current.style.visibility = 'visible';
       }
-    }, 0);
+    });
   };
 
   useEffect(() => {

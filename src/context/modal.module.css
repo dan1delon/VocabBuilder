@@ -9,9 +9,8 @@
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-duration)
-      var(--transition-timing-function),
-    visibility var(--transition-duration) var(--transition-timing-function);
+  will-change: opacity, visibility;
+  transition: opacity 0.3 ease, visibility 0.3s ease;
 }
 
 .modalBackdrop::-webkit-scrollbar {
