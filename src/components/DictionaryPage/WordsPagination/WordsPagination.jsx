@@ -51,6 +51,13 @@ const WordsPagination = () => {
     }
   };
 
+  if (
+    words.length <= 7 &&
+    pageCount === 1 &&
+    location.pathname === '/dictionary'
+  )
+    return null;
+
   return (
     <div className={css.wrapper}>
       <Stack spacing={2} className={css.pagination}>
