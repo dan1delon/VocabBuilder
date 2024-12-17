@@ -1,7 +1,7 @@
-import { useNavigate, useLocation } from 'react-router-dom';
 import css from './Modal.module.css';
 import { useModal } from '../../context';
 import Icon from '../../shared/Icon/Icon';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Modal = ({ children }) => {
   const { closeModal } = useModal();
@@ -9,9 +9,7 @@ const Modal = ({ children }) => {
   const location = useLocation();
 
   const handleCloseModal = e => {
-    e.preventDefault();
     closeModal(e);
-
     if (location.pathname === '/training') {
       navigate('/dictionary');
     }

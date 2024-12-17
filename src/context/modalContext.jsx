@@ -19,8 +19,6 @@ export const ModalProvider = ({ children }) => {
   const backdropRef = useRef(null);
 
   const closeModal = useCallback(e => {
-    e?.preventDefault();
-
     if (
       (e && e.target === e.currentTarget) ||
       (e && e.code === 'Escape') ||
