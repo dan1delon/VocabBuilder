@@ -66,6 +66,7 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   z-index: 200;
+  pointer-events: all;
 }
 
 .modalButtonClose {
