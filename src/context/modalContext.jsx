@@ -9,6 +9,7 @@ import {
 import { createPortal } from 'react-dom';
 import css from './modal.module.css';
 import Modal from '../../src/components/Modal/Modal';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 const modalContext = createContext();
 export const useModal = () => useContext(modalContext);
@@ -26,6 +27,7 @@ export const ModalProvider = ({ children }) => {
       (e && e.type === 'submit')
     ) {
       document.body.style.overflow = 'visible';
+      enableBodyScroll(backdropRef.current);
 
       if (backdropRef.current) {
         backdropRef.current.style.opacity = 0;
@@ -44,6 +46,7 @@ export const ModalProvider = ({ children }) => {
 
     setTimeout(() => {
       if (backdropRef.current) {
+        disableBodyScroll(backdropRef.current);
         backdropRef.current.style.opacity = 1;
         backdropRef.current.style.visibility = 'visible';
       }

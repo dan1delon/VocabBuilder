@@ -1,27 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { useNavigate, useLocation } from 'react-router-dom';
 import css from './Modal.module.css';
 import { useModal } from '../../context';
 import Icon from '../../shared/Icon/Icon';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 const Modal = ({ children }) => {
   const { closeModal } = useModal();
   const navigate = useNavigate();
   const location = useLocation();
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    if (modalRef.current) {
-      disableBodyScroll(modalRef.current);
-    }
-
-    return () => {
-      if (modalRef.current) {
-        enableBodyScroll(modalRef.current);
-      }
-    };
-  }, []);
 
   const handleCloseModal = e => {
     e.preventDefault();
@@ -33,7 +18,7 @@ const Modal = ({ children }) => {
   };
 
   return (
-    <div ref={modalRef} className={css.modalWrapper}>
+    <div className={css.modalWrapper}>
       <div className={css.modalContainer}>
         <button
           className={css.modalButtonClose}
