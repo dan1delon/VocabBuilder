@@ -5,6 +5,10 @@ import { selectTasksResults } from '../../../redux/words/selectors';
 const ModalResults = () => {
   const answers = useSelector(selectTasksResults);
 
+  const capitalizeFirstLetter = text => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   const correctAnswers = answers.filter(answer => answer.isDone);
   const incorrectAnswers = answers.filter(answer => !answer.isDone);
 
@@ -17,7 +21,9 @@ const ModalResults = () => {
           <ul className={css.correctList}>
             {correctAnswers.map((answer, index) => (
               <li className={css.correctItem} key={`${answer._id}-${index}`}>
-                {answer.task === 'en' ? answer.en : answer.ua}
+                {capitalizeFirstLetter(
+                  answer.task === 'en' ? answer.en : answer.ua
+                )}
               </li>
             ))}
           </ul>
@@ -27,7 +33,9 @@ const ModalResults = () => {
           <ul className={css.mistakesList}>
             {incorrectAnswers.map((answer, index) => (
               <li className={css.mistakesItem} key={`${answer._id}-${index}`}>
-                {answer.task === 'en' ? answer.en : answer.ua}
+                {capitalizeFirstLetter(
+                  answer.task === 'en' ? answer.en : answer.ua
+                )}
               </li>
             ))}
           </ul>
