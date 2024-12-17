@@ -54,7 +54,7 @@ const Filters = () => {
     if (!selectedCategory && !verbType && !keyword) return;
 
     const fetchParams = {
-      category: selectedCategory,
+      category: selectedCategory === 'All' ? '' : selectedCategory, // For "All", don't apply category filter
       isIrregular: verbType,
       page: 1,
     };
@@ -94,7 +94,7 @@ const Filters = () => {
       dispatch(
         fetchUsersWords({
           keyword: searchKeyword,
-          category: selectedCategory,
+          category: selectedCategory === 'All' ? '' : selectedCategory, // For "All", don't apply category filter
           isIrregular: verbType,
           page: 1,
         })
@@ -103,7 +103,7 @@ const Filters = () => {
       dispatch(
         fetchWords({
           keyword: searchKeyword,
-          category: selectedCategory,
+          category: selectedCategory === 'All' ? '' : selectedCategory, // For "All", don't apply category filter
           isIrregular: verbType,
           page: 1,
         })
@@ -164,7 +164,9 @@ const Filters = () => {
           className={css.buttonCategories}
           onClick={handleTogglePopover}
         >
-          {capitalizeFirstLetter(selectedCategory) || 'Categories'}
+          {selectedCategory === 'All' || !selectedCategory
+            ? 'Categories'
+            : capitalizeFirstLetter(selectedCategory)}
           <Icon
             iconId="icon-down"
             className={clsx(css.iconDown, { [css.iconRotate]: isOpen })}
@@ -177,6 +179,14 @@ const Filters = () => {
             ref={popoverRef}
           >
             <ul className={css.popoverList}>
+              <li
+                className={clsx(css.popoverItem, {
+                  [css.selected]: selectedCategory === 'All',
+                })}
+                onClick={() => handleCategoryChange('All')}
+              >
+                All
+              </li>
               {Array.isArray(categories) &&
                 categories.map(category => (
                   <li
