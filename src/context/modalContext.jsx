@@ -28,8 +28,10 @@ export const ModalProvider = ({ children }) => {
         enableBodyScroll(backdropRef.current);
       }
 
-      backdropRef.current.style.opacity = 0;
-      backdropRef.current.style.visibility = 'hidden';
+      if (backdropRef.current) {
+        backdropRef.current.style.opacity = 0;
+        backdropRef.current.style.visibility = 'hidden';
+      }
 
       setTimeout(() => {
         setModalContent(null);
@@ -42,7 +44,7 @@ export const ModalProvider = ({ children }) => {
 
     setTimeout(() => {
       if (backdropRef.current) {
-        disableBodyScroll(document.body);
+        disableBodyScroll(backdropRef.current);
         backdropRef.current.style.opacity = 1;
         backdropRef.current.style.visibility = 'visible';
       }
