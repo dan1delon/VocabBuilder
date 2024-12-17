@@ -205,6 +205,8 @@
   shape-rendering: crispedges;
   width: 100%;
   height: 100%;
+  fill: none;
+  stroke: var(--primary-black-color);
   display: block;
 }
 
