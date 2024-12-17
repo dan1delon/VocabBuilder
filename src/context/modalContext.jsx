@@ -24,8 +24,9 @@ export const ModalProvider = ({ children }) => {
       (e && e.code === 'Escape') ||
       (e && e.type === 'submit')
     ) {
-      document.body.style.overflow = 'visible';
-      enableBodyScroll(backdropRef.current);
+      if (backdropRef.current) {
+        enableBodyScroll(backdropRef.current);
+      }
 
       if (backdropRef.current) {
         backdropRef.current.style.opacity = 0;
@@ -39,7 +40,6 @@ export const ModalProvider = ({ children }) => {
   }, []);
 
   const openModal = content => {
-    document.body.style.overflow = 'hidden';
     setModalContent(content);
 
     setTimeout(() => {
@@ -57,7 +57,13 @@ export const ModalProvider = ({ children }) => {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+
+      if (backdropRef.current) {
+        enableBodyScroll(backdropRef.current);
+      }
+    };
   }, [closeModal]);
 
   return (
