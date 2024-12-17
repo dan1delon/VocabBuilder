@@ -27,6 +27,7 @@
   background-color: rgba(17, 18, 19, 0.4);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   will-change: opacity, visibility;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   -webkit-overflow-scrolling: touch;
