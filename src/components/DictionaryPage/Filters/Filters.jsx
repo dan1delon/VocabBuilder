@@ -54,7 +54,7 @@ const Filters = () => {
     if (!selectedCategory && !verbType && !keyword) return;
 
     const fetchParams = {
-      category: selectedCategory === 'All' ? '' : selectedCategory, // For "All", don't apply category filter
+      category: selectedCategory === 'All' ? '' : selectedCategory,
       isIrregular: verbType,
       page: 1,
     };
@@ -94,7 +94,7 @@ const Filters = () => {
       dispatch(
         fetchUsersWords({
           keyword: searchKeyword,
-          category: selectedCategory === 'All' ? '' : selectedCategory, // For "All", don't apply category filter
+          category: selectedCategory === 'All' ? '' : selectedCategory,
           isIrregular: verbType,
           page: 1,
         })
@@ -103,7 +103,7 @@ const Filters = () => {
       dispatch(
         fetchWords({
           keyword: searchKeyword,
-          category: selectedCategory === 'All' ? '' : selectedCategory, // For "All", don't apply category filter
+          category: selectedCategory === 'All' ? '' : selectedCategory,
           isIrregular: verbType,
           page: 1,
         })

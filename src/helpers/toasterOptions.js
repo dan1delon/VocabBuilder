@@ -1,5 +1,5 @@
 export const toastOptions = {
-  duration: 4000,
+  duration: 3000,
   style: {
     position: 'top-right',
     borderRadius: '10px',
