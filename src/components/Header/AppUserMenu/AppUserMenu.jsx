@@ -10,6 +10,8 @@ import {
 const AppUserMenu = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const userName = useSelector(selectUserName);
+  console.log(userName);
+
   const dispatch = useDispatch();
 
   const getInitials = name => {

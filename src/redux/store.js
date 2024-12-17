@@ -17,7 +17,7 @@ import { wordsReducer } from './words/slice';
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token', 'name'],
 };
 
 export const store = configureStore({
