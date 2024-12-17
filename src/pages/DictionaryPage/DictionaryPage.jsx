@@ -19,10 +19,8 @@ const DictionaryPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!words.length) {
-      dispatch(fetchUsersWords({ category: '', isIrregular: '' }));
-    }
-  }, [dispatch, words.length]);
+    dispatch(fetchUsersWords({ category: '', isIrregular: '' }));
+  }, []);
 
   const handleAddWord = () => {
     openModal(<AddWordModal />);

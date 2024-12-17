@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import css from './TrainingRoom.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { postAnswer } from '../../../redux/words/operations';
 import { useModal } from '../../../context';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../../../shared/Icon/Icon';
 import ModalResults from '../ModalResults/ModalResults';
 import toast from 'react-hot-toast';
-import { selectTasksResults } from '../../../redux/words/selectors';
 
 const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
   const navigate = useNavigate();
-  const tasksResults = useSelector(selectTasksResults);
   const currentTask = tasks[currentTaskIndex] || {};
 
   const handleNext = () => {

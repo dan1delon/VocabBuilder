@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import {
   selectPage,
   selectRecommendPage,
+  selectUsersWords,
 } from '../../../redux/words/selectors';
 
 const Filters = () => {
@@ -23,6 +24,7 @@ const Filters = () => {
   const categories = useSelector(selectCategories);
   const currentPage = useSelector(selectPage);
   const currentRecommendPage = useSelector(selectRecommendPage);
+  const words = useSelector(selectUsersWords);
   const location = useLocation();
 
   const {
@@ -123,7 +125,7 @@ const Filters = () => {
     return () => {
       debouncedSearch.cancel();
     };
-  }, [keyword, selectedCategory, verbType, dispatch]);
+  }, [keyword, selectedCategory, verbType, dispatch, words.length]);
 
   const handleVerbTypeChange = e => {
     const { value } = e.target;

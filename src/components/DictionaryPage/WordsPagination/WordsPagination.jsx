@@ -41,7 +41,7 @@ const WordsPagination = () => {
     if (location.pathname === '/recommend') {
       dispatch(fetchWords(filters));
     }
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage, location.pathname]);
 
   const handleChange = (event, value) => {
     if (location.pathname === '/dictionary') {
@@ -50,14 +50,6 @@ const WordsPagination = () => {
       dispatch(changeRecommendPage(value));
     }
   };
-
-  if (
-    words.length <= 7 &&
-    location.pathname === '/dictionary' &&
-    currentPage === 1
-  ) {
-    return null;
-  }
 
   return (
     <div className={css.wrapper}>
