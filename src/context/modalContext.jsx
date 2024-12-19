@@ -24,9 +24,9 @@ export const ModalProvider = ({ children }) => {
       (e && e.code === 'Escape') ||
       (e && e.type === 'submit')
     ) {
-      if (backdropRef.current) {
-        enableBodyScroll(backdropRef.current);
-      }
+      // if (backdropRef.current) {
+      //   enableBodyScroll(backdropRef.current);
+      // }
 
       backdropRef.current.style.opacity = 0;
       backdropRef.current.style.visibility = 'hidden';
@@ -42,7 +42,7 @@ export const ModalProvider = ({ children }) => {
 
     setTimeout(() => {
       if (backdropRef.current) {
-        disableBodyScroll(document.body);
+        // disableBodyScroll(document.body);
         backdropRef.current.style.opacity = 1;
         backdropRef.current.style.visibility = 'visible';
       }
@@ -58,9 +58,9 @@ export const ModalProvider = ({ children }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
 
-      if (backdropRef.current) {
-        enableBodyScroll(backdropRef.current);
-      }
+      // if (backdropRef.current) {
+      //   enableBodyScroll(backdropRef.current);
+      // }
     };
   }, [closeModal]);
 
