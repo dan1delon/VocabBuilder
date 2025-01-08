@@ -16,18 +16,16 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const FormSchema = Yup.object({
-    name: Yup.string().required('Enter your name'),
+    name: Yup.string()
+      .min(3, 'Name must be at least 3 characters')
+      .max(30, 'Name must be less than 30 characters')
+      .required('Name is required'),
 
     email: Yup.string()
-      .matches(/^[\w-]+@[a-zA-Z_]+\.[a-zA-Z]{2,3}$/, 'Invalid email address')
+      .email('Invalid email address')
       .required('Email is required'),
 
-    password: Yup.string()
-      .matches(
-        /^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/,
-        'Password must be 7+ chars, 6 letters, and 1 number'
-      )
-      .required('Password is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   const {
