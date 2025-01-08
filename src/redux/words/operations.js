@@ -10,6 +10,7 @@ export const fetchWords = createAsyncThunk(
       const response = await instance.get('/words/all', {
         params: { keyword, category, isIrregular, page, limit },
       });
+      console.log('Fetched words', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
@@ -26,6 +27,7 @@ export const fetchUsersWords = createAsyncThunk(
       const response = await instance.get('/words/own', {
         params: { keyword, category, isIrregular, page, limit },
       });
+      console.log('Fetched Users words:', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
@@ -43,6 +45,7 @@ export const createWord = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       });
+      console.log('Created word:', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
@@ -56,6 +59,7 @@ export const editWord = createAsyncThunk(
   async ({ id, wordData }, thunkApi) => {
     try {
       const response = await instance.patch(`/words/edit/${id}`, wordData);
+      console.log('Edited word:', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
@@ -82,6 +86,7 @@ export const fetchStatistics = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await instance.get('/words/statistics');
+      console.log('Fetched statistics:', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
@@ -96,6 +101,7 @@ export const addRecommendedWord = createAsyncThunk(
     try {
       const response = await instance.post(`/words/add/${wordId}`);
       toast.success('Word added successfully!');
+      console.log('Added word:', response.data);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -108,6 +114,7 @@ export const fetchUsersTasks = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await instance.get('/words/tasks');
+      console.log('Fetched tasks:', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
@@ -121,6 +128,7 @@ export const postAnswer = createAsyncThunk(
   async (answerData, thunkApi) => {
     try {
       const response = await instance.post('/words/answers', answerData);
+      console.log('Posted answer:', response.data);
       return response.data;
     } catch (error) {
       toast.error(error.message);
