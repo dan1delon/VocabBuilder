@@ -40,6 +40,7 @@ export const createWord = createAsyncThunk(
   'words/createWord',
   async (wordData, thunkApi) => {
     try {
+      console.log(wordData);
       const response = await instance.post('/words/create', wordData, {
         headers: {
           'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export const instance = axios.create({
-  baseURL: 'https://vocab-builder-backend.p.goit.global/api',
+  baseURL: 'https://vocab-builder-backend.onrender.com',
 });
 
 export const setToken = token => {
@@ -18,6 +18,7 @@ export const registerAPI = createAsyncThunk(
   'auth/register',
   async (formData, thunkApi) => {
     try {
+      console.log(formData);
       const { data } = await instance.post('/users/signup', formData);
       setToken(data.token);
       return data;
@@ -32,7 +33,8 @@ export const loginAPI = createAsyncThunk(
   'auth/login',
   async (formData, thunkApi) => {
     try {
-      const { data } = await instance.post('/users/signin', formData);
+      const { data } = await instance.post('/users/login', formData);
+      console.log(data);
       setToken(data.token);
       return data;
     } catch (e) {
