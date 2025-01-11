@@ -49,6 +49,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.isLoggedIn = true;
         state.user = action.payload;
+        state.token = action.payload.token;
       })
       //   Logout
       .addCase(logoutAPI.fulfilled, () => {
