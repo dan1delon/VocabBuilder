@@ -128,6 +128,7 @@ export const postAnswer = createAsyncThunk(
   'words/postAnswer',
   async (answerData, thunkApi) => {
     try {
+      console.log(answerData);
       const response = await instance.post('/words/answers', answerData);
       console.log('Posted answer:', response.data);
       return response.data;

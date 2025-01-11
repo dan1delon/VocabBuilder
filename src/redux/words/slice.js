@@ -87,7 +87,7 @@ const wordsSlice = createSlice({
       })
       .addCase(fetchUsersTasks.fulfilled, (state, action) => {
         state.loading = false;
-        state.tasks = action.payload.tasks;
+        state.tasks = action.payload;
       })
       .addCase(postAnswer.fulfilled, (state, action) => {
         state.loading = false;
