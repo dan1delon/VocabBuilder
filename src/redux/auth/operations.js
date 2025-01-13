@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 export const instance = axios.create({
   baseURL: 'https://vocab-builder-backend.onrender.com',
+  withCredentials: true,
 });
 
 export const setToken = token => {
@@ -56,6 +57,7 @@ export const refreshUserAPI = createAsyncThunk(
 
       console.log('refresh', token);
       const { data } = await instance.get('/users/current');
+      console.log(data);
       return data;
     } catch (e) {
       if (e.response && e.response.status === 401) {
