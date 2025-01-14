@@ -53,18 +53,12 @@ export const refreshUserAPI = createAsyncThunk(
       const token = state.auth.token;
 
       if (!token) return thunkApi.rejectWithValue('Token is not valid');
-      setToken(token);
 
-      console.log('refresh', token);
+      setToken(token);
       const { data } = await instance.get('/users/current');
-      console.log(data);
       return data;
     } catch (e) {
-      if (e.response && e.response.status === 401) {
-        return thunkApi.rejectWithValue('Unauthorized');
-      }
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.message || 'Failed to refresh user');
     }
   }
 );
