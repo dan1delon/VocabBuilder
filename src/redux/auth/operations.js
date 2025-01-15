@@ -15,6 +15,28 @@ export const clearToken = () => {
   instance.defaults.headers.common.Authorization = '';
 };
 
+instance.interceptors.request.use(
+  config => {
+    console.log('Request Config:', config);
+    return config;
+  },
+  error => {
+    console.error('Request Error:', error);
+    return Promise.reject(error);
+  }
+);
+
+instance.interceptors.response.use(
+  response => {
+    console.log('Response Data:', response.data);
+    return response;
+  },
+  error => {
+    console.error('Response Error:', error.response || error);
+    return Promise.reject(error);
+  }
+);
+
 export const registerAPI = createAsyncThunk(
   'auth/register',
   async (formData, thunkApi) => {
@@ -51,14 +73,21 @@ export const refreshUserAPI = createAsyncThunk(
     try {
       const state = thunkApi.getState();
       const token = state.auth.token;
+      console.log('Token from State:', token);
 
-      if (!token) return thunkApi.rejectWithValue('Token is not valid');
+      if (!token) {
+        console.error('No Token Found');
+        return thunkApi.rejectWithValue('Token is not valid');
+      }
 
       setToken(token);
       const { data } = await instance.get('/users/current');
+      console.log('Refreshed User Data:', data);
+
       return data;
     } catch (e) {
-      return thunkApi.rejectWithValue(e.message || 'Failed to refresh user');
+      console.error('Error in Refresh User API:', e);
+      return thunkApi.rejectWithValue(e.message);
     }
   }
 );
