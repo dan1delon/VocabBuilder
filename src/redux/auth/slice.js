@@ -48,9 +48,7 @@ const authSlice = createSlice({
       .addCase(refreshUserAPI.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.name = action.payload.name;
-        state.email = action.payload.email;
-        state.token = action.payload.token;
+        state.token = action.payload.accessToken;
       })
       //   Logout
       .addCase(logoutAPI.fulfilled, () => {
