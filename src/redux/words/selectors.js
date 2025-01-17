@@ -7,4 +7,5 @@ export const selectStatistics = state => state.words.statistics.totalCount;
 export const selectTasks = state => state.words.tasks;
 export const selectTasksResults = state => state.words.tasksResults;
 export const selectIsLoading = state => state.words.loading;
+export const selectWordsLoading = state => state.words.wordsLoading;
 export const selectError = state => state.words.error;

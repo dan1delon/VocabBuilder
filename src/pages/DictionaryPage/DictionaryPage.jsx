@@ -3,7 +3,7 @@ import Dashboard from '../../components/DictionaryPage/Dashboard/Dashboard';
 import WordsPagination from '../../components/DictionaryPage/WordsPagination/WordsPagination';
 import WordsTable from '../../components/DictionaryPage/WordsTable/WordsTable';
 import Loader from '../../components/Loader/Loader';
-import { selectIsLoading } from '../../redux/categories/selectors';
+import { selectIsLoading } from '../../redux/words/selectors';
 import css from './DictionaryPage.module.css';
 import { selectUsersWords } from '../../redux/words/selectors';
 import EmptyTrainingLayout from '../../components/TrainingPage/EmptyTrainingLayout/EmptyTrainingLayout';

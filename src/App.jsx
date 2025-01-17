@@ -31,62 +31,62 @@ function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    if (!isRefreshing) {
-      dispatch(refreshUserAPI());
-    }
-  }, [dispatch, isRefreshing]);
+    dispatch(refreshUserAPI());
+  }, [dispatch]);
+
+  if (isRefreshing) {
+    return <Loader />;
+  }
 
   return (
-    !isRefreshing && (
-      <Layout>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dictionary" replace />} />
-            <Route
-              path="/register"
-              element={
-                <RestrictedRoute>
-                  <RegisterPage />
-                </RestrictedRoute>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <RestrictedRoute>
-                  <LoginPage />
-                </RestrictedRoute>
-              }
-            />
-            <Route
-              path="/dictionary"
-              element={
-                <PrivateRoute>
-                  <DictionaryPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/recommend"
-              element={
-                <PrivateRoute>
-                  <RecommendPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/training"
-              element={
-                <PrivateRoute>
-                  <TrainingPage />
-                </PrivateRoute>
-              }
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
-      </Layout>
-    )
+    <Layout>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dictionary" replace />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute>
+                <RegisterPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute>
+                <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/dictionary"
+            element={
+              <PrivateRoute>
+                <DictionaryPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/recommend"
+            element={
+              <PrivateRoute>
+                <RecommendPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/training"
+            element={
+              <PrivateRoute>
+                <TrainingPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </Layout>
   );
 }
 

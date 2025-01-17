@@ -1,5 +1,11 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { loginAPI, logoutAPI, refreshUserAPI, registerAPI } from './operations';
+import {
+  loginAPI,
+  logoutAPI,
+  refreshUserAPI,
+  registerAPI,
+  setToken,
+} from './operations';
 
 const AUTH_INITIAL_STATE = {
   name: null,
@@ -45,10 +51,21 @@ const authSlice = createSlice({
         state.token = action.payload.token;
       })
       //   Refresh
+      .addCase(refreshUserAPI.pending, state => {
+        state.isRefreshing = true;
+        state.error = false;
+      })
       .addCase(refreshUserAPI.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isRefreshing = false;
         state.isLoggedIn = true;
         state.token = action.payload.accessToken;
+        setToken(action.payload.accessToken);
+        localStorage.setItem('token', action.payload.accessToken);
+      })
+      .addCase(refreshUserAPI.rejected, state => {
+        state.isRefreshing = false;
+        state.isLoggedIn = false;
+        state.token = null;
       })
       //   Logout
       .addCase(logoutAPI.fulfilled, () => {
@@ -56,21 +73,11 @@ const authSlice = createSlice({
       })
       // Matchers
       .addMatcher(
-        isAnyOf(
-          registerAPI.pending,
-          loginAPI.pending,
-          refreshUserAPI.pending,
-          logoutAPI.pending
-        ),
+        isAnyOf(registerAPI.pending, loginAPI.pending, logoutAPI.pending),
         handlePending
       )
       .addMatcher(
-        isAnyOf(
-          registerAPI.rejected,
-          loginAPI.rejected,
-          refreshUserAPI.rejected,
-          logoutAPI.rejected
-        ),
+        isAnyOf(registerAPI.rejected, loginAPI.rejected, logoutAPI.rejected),
         handleRejected
       );
   },

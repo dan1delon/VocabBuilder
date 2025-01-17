@@ -8,53 +8,13 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let pendingRequests = [];
-
-instance.interceptors.response.use(
-  response => response,
-  async error => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (!isRefreshing) {
-        isRefreshing = true;
-        try {
-          const token = localStorage.getItem('refreshToken');
-          const refreshedData = await refreshToken(token);
-          setToken(refreshedData.token);
-          isRefreshing = false;
-
-          pendingRequests.forEach(p => p.resolve(refreshedData.token));
-          pendingRequests = [];
-        } catch (refreshError) {
-          isRefreshing = false;
-          pendingRequests.forEach(p => p.reject(refreshError));
-          pendingRequests = [];
-          clearToken();
-          return Promise.reject(refreshError);
-        }
-      }
-
-      return new Promise((resolve, reject) => {
-        pendingRequests.push({
-          resolve: token => {
-            originalRequest._retry = true;
-            originalRequest.headers['Authorization'] = `Bearer ${token}`;
-            resolve(axios(originalRequest));
-          },
-          reject: err => reject(err),
-        });
-      });
-    }
-
-    return Promise.reject(error);
-  }
-);
-
 export const setToken = token => {
-  console.log('Setting token:', token);
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  if (token) {
+    console.log('Setting token:', token);
+    instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    clearToken();
+  }
 };
 
 export const clearToken = () => {
@@ -88,43 +48,15 @@ export const loginAPI = createAsyncThunk(
   }
 );
 
-export const refreshToken = async token => {
-  if (isRefreshing) {
-    return new Promise((resolve, reject) => {
-      pendingRequests.push({ resolve, reject });
-    });
-  }
-
-  isRefreshing = true;
-  try {
-    setToken(token); // Встановлюємо старий токен, якщо він потрібен для рефреш-запиту
-    const { data } = await instance.post('/users/refresh');
-    pendingRequests.forEach(p => p.resolve(data.token)); // Передаємо новий токен у відкладені запити
-    pendingRequests = [];
-    return data; // Повертаємо весь об'єкт із токеном
-  } catch (error) {
-    pendingRequests.forEach(p => p.reject(error));
-    pendingRequests = [];
-    throw error;
-  } finally {
-    isRefreshing = false;
-  }
-};
-
 export const refreshUserAPI = createAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
-    const state = thunkApi.getState();
-    const token = selectToken(state);
-
-    if (!token) {
-      return thunkApi.rejectWithValue('Token is not valid');
-    }
     try {
-      setToken(token);
       const { data } = await instance.post('/users/refresh');
+      setToken(data.data.accessToken);
       return data.data;
     } catch (e) {
+      clearToken();
       return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }

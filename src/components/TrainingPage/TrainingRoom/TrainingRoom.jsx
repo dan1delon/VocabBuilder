@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import css from './TrainingRoom.module.css';
 import { useDispatch } from 'react-redux';
 import { postAnswer } from '../../../redux/words/operations';
@@ -13,6 +13,7 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const { openModal } = useModal();
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
+  const inputRef = useRef(null);
   const navigate = useNavigate();
   const currentTask = tasks[currentTaskIndex] || {};
 
@@ -89,6 +90,22 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
     return wordObject;
   };
 
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      if (currentTaskIndex < tasks.length - 1) {
+        handleNext();
+      } else {
+        handleSave();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [currentTaskIndex]);
+
   return (
     <div className={css.trainingRoom}>
       <div className={css.blocksWrapper}>
@@ -97,9 +114,11 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
             <p className={css.word}>{capitalizeFirstLetter(currentTask.ua)}</p>
           ) : (
             <input
+              ref={inputRef}
               type="text"
               value={userInput}
               onChange={e => setUserInput(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Введіть переклад"
               className={css.input}
             />
@@ -123,9 +142,11 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
             <p className={css.word}>{capitalizeFirstLetter(currentTask.en)}</p>
           ) : (
             <input
+              ref={inputRef}
               type="text"
               value={userInput}
               onChange={e => setUserInput(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Enter translation"
               className={css.input}
             />

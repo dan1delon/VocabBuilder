@@ -51,10 +51,14 @@ const Filters = () => {
   };
 
   const updateWords = () => {
-    if (!selectedCategory && !verbType && !keyword) return;
+    const currentCategory = selectedCategory;
+
+    if (words.length && currentCategory === '' && verbType === '' && !keyword) {
+      return;
+    }
 
     const fetchParams = {
-      category: selectedCategory === 'All' ? '' : selectedCategory,
+      category: currentCategory,
       isIrregular: verbType,
       page: 1,
     };
@@ -77,15 +81,15 @@ const Filters = () => {
   };
 
   const handleCategoryChange = category => {
-    setSelectedCategory(category);
+    if (category === selectedCategory) return;
 
-    if (category !== 'verb') {
-      setVerbType('');
-    }
+    setSelectedCategory(category);
+    setVerbType('');
 
     resetPageIfNeeded();
-    updateWords();
     handleClosePopover();
+
+    setTimeout(updateWords, 0);
   };
 
   const debouncedSearch = debounce(searchKeyword => {
@@ -112,9 +116,7 @@ const Filters = () => {
   }, 300);
 
   useEffect(() => {
-    if (!keyword && !selectedCategory && !verbType) {
-      return;
-    }
+    if (!keyword && !selectedCategory && !verbType) return;
 
     if (keyword) {
       debouncedSearch(keyword);
@@ -125,12 +127,13 @@ const Filters = () => {
     return () => {
       debouncedSearch.cancel();
     };
-  }, [keyword, selectedCategory, verbType, dispatch, words.length]);
+  }, [keyword, selectedCategory, verbType, dispatch]);
 
   const handleVerbTypeChange = e => {
     const { value } = e.target;
-    setVerbType(value);
+    if (verbType === value) return;
 
+    setVerbType(value);
     resetPageIfNeeded();
     updateWords();
   };

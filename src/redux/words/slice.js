@@ -22,6 +22,7 @@ const INITIAL_STATE = {
     totalCount: 0,
   },
   loading: false,
+  wordsLoading: false,
   error: null,
 };
 
@@ -32,6 +33,16 @@ const handlePending = state => {
 
 const handleRejected = (state, action) => {
   state.loading = false;
+  state.error = action.payload;
+};
+
+const handleWordsPending = state => {
+  state.wordsLoading = true;
+  state.error = null;
+};
+
+const handleWordsRejected = (state, action) => {
+  state.wordsLoading = false;
   state.error = action.payload;
 };
 
@@ -51,13 +62,13 @@ const wordsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchWords.fulfilled, (state, action) => {
-        state.loading = false;
+        state.wordsLoading = false;
         state.words = action.payload.results;
         state.totalPages = action.payload.totalPages;
         state.recommendPage = action.payload.page;
       })
       .addCase(fetchUsersWords.fulfilled, (state, action) => {
-        state.loading = false;
+        state.wordsLoading = false;
         state.usersWords = action.payload.results;
         state.totalPages = action.payload.totalPages;
         state.page = action.payload.page;
@@ -86,11 +97,11 @@ const wordsSlice = createSlice({
         state.statistics.totalCount = action.payload.totalCount;
       })
       .addCase(fetchUsersTasks.fulfilled, (state, action) => {
-        state.loading = false;
+        state.wordsLoading = false;
         state.tasks = action.payload;
       })
       .addCase(postAnswer.fulfilled, (state, action) => {
-        state.loading = false;
+        state.wordsLoading = false;
         state.tasksResults = action.payload;
       })
       .addMatcher(
@@ -100,9 +111,7 @@ const wordsSlice = createSlice({
           editWord.pending,
           deleteWord.pending,
           fetchStatistics.pending,
-          fetchUsersWords.pending,
-          fetchUsersTasks.pending,
-          postAnswer.pending
+          fetchUsersWords.pending
         ),
         handlePending
       )
@@ -113,11 +122,27 @@ const wordsSlice = createSlice({
           editWord.rejected,
           deleteWord.rejected,
           fetchStatistics.rejected,
+          fetchUsersWords.rejected
+        ),
+        handleRejected
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchWords.pending,
+          fetchUsersWords.pending,
+          fetchUsersTasks.pending,
+          postAnswer.pending
+        ),
+        handleWordsPending
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchWords.rejected,
           fetchUsersWords.rejected,
           fetchUsersTasks.rejected,
           postAnswer.rejected
         ),
-        handleRejected
+        handleWordsRejected
       );
   },
 });
