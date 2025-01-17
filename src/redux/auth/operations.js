@@ -1,11 +1,56 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { selectToken } from './selectors';
 
 export const instance = axios.create({
   baseURL: 'https://vocab-builder-backend.onrender.com',
   withCredentials: true,
 });
+
+let isRefreshing = false;
+let pendingRequests = [];
+
+instance.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const token = localStorage.getItem('refreshToken');
+          const refreshedData = await refreshToken(token);
+          setToken(refreshedData.token);
+          isRefreshing = false;
+
+          pendingRequests.forEach(p => p.resolve(refreshedData.token));
+          pendingRequests = [];
+        } catch (refreshError) {
+          isRefreshing = false;
+          pendingRequests.forEach(p => p.reject(refreshError));
+          pendingRequests = [];
+          clearToken();
+          return Promise.reject(refreshError);
+        }
+      }
+
+      return new Promise((resolve, reject) => {
+        pendingRequests.push({
+          resolve: token => {
+            originalRequest._retry = true;
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            resolve(axios(originalRequest));
+          },
+          reject: err => reject(err),
+        });
+      });
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export const setToken = token => {
   console.log('Setting token:', token);
@@ -14,46 +59,18 @@ export const setToken = token => {
 
 export const clearToken = () => {
   instance.defaults.headers.common.Authorization = '';
+  localStorage.removeItem('token');
 };
-
-instance.interceptors.response.use(
-  response => response, // Повертаємо успішну відповідь
-  async error => {
-    const originalRequest = error.config;
-
-    // Якщо помилка 401 і запит ще не був повторений
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        // Викликаємо refreshUserAPI
-        const { data } = await instance.post('/users/refresh');
-        setToken(data.data.accessToken); // Оновлюємо токен
-
-        // Повторюємо оригінальний запит з новим токеном
-        originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
-        return instance(originalRequest);
-      } catch (refreshError) {
-        console.error('Refresh Error:', refreshError);
-        return Promise.reject(refreshError);
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
 
 export const registerAPI = createAsyncThunk(
   'auth/register',
   async (formData, thunkApi) => {
     try {
-      console.log(formData);
       const { data } = await instance.post('/users/signup', formData);
       setToken(data.token);
       return data;
     } catch (e) {
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
@@ -63,31 +80,52 @@ export const loginAPI = createAsyncThunk(
   async (formData, thunkApi) => {
     try {
       const { data } = await instance.post('/users/login', formData);
-      console.log(data);
       setToken(data.token);
       return data;
     } catch (e) {
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
 
+export const refreshToken = async token => {
+  if (isRefreshing) {
+    return new Promise((resolve, reject) => {
+      pendingRequests.push({ resolve, reject });
+    });
+  }
+
+  isRefreshing = true;
+  try {
+    setToken(token); // Встановлюємо старий токен, якщо він потрібен для рефреш-запиту
+    const { data } = await instance.post('/users/refresh');
+    pendingRequests.forEach(p => p.resolve(data.token)); // Передаємо новий токен у відкладені запити
+    pendingRequests = [];
+    return data; // Повертаємо весь об'єкт із токеном
+  } catch (error) {
+    pendingRequests.forEach(p => p.reject(error));
+    pendingRequests = [];
+    throw error;
+  } finally {
+    isRefreshing = false;
+  }
+};
+
 export const refreshUserAPI = createAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
+    const state = thunkApi.getState();
+    const token = selectToken(state);
+
+    if (!token) {
+      return thunkApi.rejectWithValue('Token is not valid');
+    }
     try {
-      // Запит на оновлення сесії
+      setToken(token);
       const { data } = await instance.post('/users/refresh');
-      console.log('Refreshed User Data:', data.data);
-
-      // Встановити новий токен у заголовки запитів
-      setToken(data.data.accessToken);
-
-      return data.data; // Повертаємо accessToken
+      return data.data;
     } catch (e) {
-      console.error('Error in Refresh User API:', e);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
@@ -97,11 +135,9 @@ export const getUserAPI = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const { data } = await instance.get('/users/current');
-      console.log('Fetched User Data:', data);
       return data;
     } catch (e) {
-      console.error('Error in Get User API:', e);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
@@ -114,8 +150,7 @@ export const logoutAPI = createAsyncThunk(
       clearToken();
       return;
     } catch (e) {
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );

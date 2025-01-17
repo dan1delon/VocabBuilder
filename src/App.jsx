@@ -31,8 +31,10 @@ function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(refreshUserAPI());
-  }, [dispatch]);
+    if (!isRefreshing) {
+      dispatch(refreshUserAPI());
+    }
+  }, [dispatch, isRefreshing]);
 
   return (
     !isRefreshing && (
