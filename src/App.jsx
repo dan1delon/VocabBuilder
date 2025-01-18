@@ -5,8 +5,9 @@ import Layout from './components/Layout/Layout.jsx';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute.jsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshUserAPI } from './redux/auth/operations.js';
-import { selectIsRefreshing } from './redux/auth/selectors.js';
+import { refreshUserAPI, setToken } from './redux/auth/operations.js';
+import { selectIsRefreshing, selectToken } from './redux/auth/selectors.js';
+import GoogleOAuthRedirect from './components/LoginPage/GoogleOAuthRedirect/GoogleOAuthRedirect.jsx';
 
 const RegisterPage = lazy(() =>
   import('./pages/RegisterPage/RegisterPage.jsx')
@@ -27,11 +28,14 @@ const NotFoundPage = lazy(() =>
 
 function App() {
   const dispatch = useDispatch();
-
+  const token = useSelector(selectToken);
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(refreshUserAPI());
+    if (token) {
+      setToken(token);
+      dispatch(refreshUserAPI());
+    }
   }, [dispatch]);
 
   if (isRefreshing) {
@@ -56,6 +60,14 @@ function App() {
             element={
               <RestrictedRoute>
                 <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/confirm-google-auth"
+            element={
+              <RestrictedRoute>
+                <GoogleOAuthRedirect />
               </RestrictedRoute>
             }
           />

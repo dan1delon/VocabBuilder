@@ -5,6 +5,7 @@ import {
   refreshUserAPI,
   registerAPI,
   setToken,
+  googleOAuthAPI,
 } from './operations';
 
 const AUTH_INITIAL_STATE = {
@@ -50,6 +51,14 @@ const authSlice = createSlice({
         state.email = action.payload.email;
         state.token = action.payload.token;
       })
+      //   GoogleOAuth
+      .addCase(googleOAuthAPI.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isLoggedIn = true;
+        state.name = action.payload.name;
+        state.email = action.payload.email;
+        state.token = action.payload.accessToken;
+      })
       //   Refresh
       .addCase(refreshUserAPI.pending, state => {
         state.isRefreshing = true;
@@ -73,11 +82,21 @@ const authSlice = createSlice({
       })
       // Matchers
       .addMatcher(
-        isAnyOf(registerAPI.pending, loginAPI.pending, logoutAPI.pending),
+        isAnyOf(
+          registerAPI.pending,
+          loginAPI.pending,
+          logoutAPI.pending,
+          googleOAuthAPI.pending
+        ),
         handlePending
       )
       .addMatcher(
-        isAnyOf(registerAPI.rejected, loginAPI.rejected, logoutAPI.rejected),
+        isAnyOf(
+          registerAPI.rejected,
+          loginAPI.rejected,
+          logoutAPI.rejected,
+          googleOAuthAPI.rejected
+        ),
         handleRejected
       );
   },

@@ -10,7 +10,6 @@ export const instance = axios.create({
 
 export const setToken = token => {
   if (token) {
-    console.log('Setting token:', token);
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
     clearToken();
@@ -81,6 +80,20 @@ export const logoutAPI = createAsyncThunk(
       await instance.post('/users/signout');
       clearToken();
       return;
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
+    }
+  }
+);
+
+export const googleOAuthAPI = createAsyncThunk(
+  'auth/googleOAuth',
+  async (code, thunkApi) => {
+    try {
+      const { data } = await instance.post('/users/confirm-oauth', { code });
+      const accessToken = data.data.accessToken;
+      setToken(accessToken);
+      return data.data;
     } catch (e) {
       return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }

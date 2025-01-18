@@ -38,7 +38,7 @@ const AddWordForm = () => {
     ua: Yup.string()
       .required('Ukrainian word is required')
       .matches(
-        /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u,
+        /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ'’\s]+$/u,
         'Invalid Ukrainian word format'
       ),
     category: Yup.string().required('Category is required'),
