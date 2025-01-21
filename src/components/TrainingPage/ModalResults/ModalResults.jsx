@@ -33,9 +33,7 @@ const ModalResults = () => {
           <ul className={css.mistakesList}>
             {incorrectAnswers.map((answer, index) => (
               <li className={css.mistakesItem} key={`${answer._id}-${index}`}>
-                {capitalizeFirstLetter(
-                  answer.task === 'en' ? answer.en : answer.ua
-                )}
+                {capitalizeFirstLetter(answer.userAnswer)}
               </li>
             ))}
           </ul>

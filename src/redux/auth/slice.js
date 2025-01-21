@@ -69,7 +69,6 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.token = action.payload.accessToken;
         setToken(action.payload.accessToken);
-        localStorage.setItem('token', action.payload.accessToken);
       })
       .addCase(refreshUserAPI.rejected, state => {
         state.isRefreshing = false;

@@ -1,12 +1,61 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { selectToken } from './selectors';
 
 export const instance = axios.create({
   baseURL: 'https://vocab-builder-backend-production.up.railway.app',
   withCredentials: true,
 });
+
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+const onTokenRefreshed = newToken => {
+  refreshSubscribers.forEach(callback => callback(newToken));
+  refreshSubscribers = [];
+};
+
+const addRefreshSubscriber = callback => {
+  refreshSubscribers.push(callback);
+};
+
+instance.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshing
+    ) {
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const { data } = await instance.post('/users/refresh');
+        const newAccessToken = data.data.accessToken;
+
+        setToken(newAccessToken);
+
+        isRefreshing = false;
+        onTokenRefreshed(newAccessToken);
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return instance(originalRequest);
+      } catch (refreshError) {
+        isRefreshing = false;
+        clearToken();
+        return Promise.reject(refreshError);
+      }
+    } else if (error.response?.status === 401) {
+      clearToken();
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export const setToken = token => {
   if (token) {
@@ -53,6 +102,8 @@ export const refreshUserAPI = createAsyncThunk(
     try {
       const { data } = await instance.post('/users/refresh');
       setToken(data.data.accessToken);
+      console.log('refreshed token', data.data.accessToken);
+
       return data.data;
     } catch (e) {
       clearToken();

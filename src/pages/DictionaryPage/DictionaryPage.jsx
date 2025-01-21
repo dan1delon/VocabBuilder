@@ -19,10 +19,8 @@ const DictionaryPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (words.length === 0) {
-      dispatch(fetchUsersWords({ category: '', isIrregular: '' }));
-    }
-  }, [dispatch, words.length]);
+    dispatch(fetchUsersWords({ category: '', isIrregular: '' }));
+  }, [dispatch]);
 
   const handleAddWord = () => {
     openModal(<AddWordModal />);
@@ -30,7 +28,6 @@ const DictionaryPage = () => {
 
   return (
     <div className={css.wrapper}>
-      {/* {loading && <Loader />} */}
       <Dashboard />
       {words.length === 0 ? (
         <EmptyTrainingLayout handleAddWord={handleAddWord} isDictionaryPage />

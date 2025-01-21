@@ -87,7 +87,10 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
       wordObject.ua = formattedAnswer;
     }
 
-    return wordObject;
+    return {
+      ...wordObject,
+      userAnswer: formattedAnswer,
+    };
   };
 
   const handleKeyDown = e => {

@@ -24,6 +24,9 @@ const TrainingPage = () => {
 
   useEffect(() => {
     dispatch(fetchUsersTasks());
+  }, [dispatch]);
+
+  useEffect(() => {
     setProgress(userAnswers.length);
   }, [userAnswers, dispatch]);
 

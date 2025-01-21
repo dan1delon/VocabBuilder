@@ -32,16 +32,15 @@ const AddWordForm = () => {
     en: Yup.string()
       .required('English word is required')
       .matches(
-        /\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/,
-        'Invalid English word format'
+        /^\b([A-Za-z'-]+(?:\s+[A-Za-z'-]+)*)([,/]\s*[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*)*\b$/,
+        'Invalid English word format (words can be separated by commas or slashes)'
       ),
     ua: Yup.string()
       .required('Ukrainian word is required')
       .matches(
-        /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ'’\s]+$/u,
-        'Invalid Ukrainian word format'
+        /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ'’\s]+([,/]\s*[А-ЯІЄЇҐґа-яієїʼ'’\s]+)*$/u,
+        'Invalid Ukrainian word format (words can be separated by commas or slashes)'
       ),
-    category: Yup.string().required('Category is required'),
     isIrregular: Yup.boolean(),
   });
 

@@ -5,7 +5,11 @@ import Layout from './components/Layout/Layout.jsx';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute.jsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshUserAPI, setToken } from './redux/auth/operations.js';
+import {
+  clearToken,
+  refreshUserAPI,
+  setToken,
+} from './redux/auth/operations.js';
 import { selectIsRefreshing, selectToken } from './redux/auth/selectors.js';
 import GoogleOAuthRedirect from './components/LoginPage/GoogleOAuthRedirect/GoogleOAuthRedirect.jsx';
 
@@ -34,9 +38,33 @@ function App() {
   useEffect(() => {
     if (token) {
       setToken(token);
-      dispatch(refreshUserAPI());
+
+      dispatch(refreshUserAPI())
+        .unwrap()
+        .catch(() => {
+          clearToken();
+        });
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    let refreshInterval;
+
+    if (token) {
+      refreshInterval = setInterval(() => {
+        dispatch(refreshUserAPI())
+          .unwrap()
+          .catch(() => {
+            clearToken();
+            clearInterval(refreshInterval);
+          });
+      }, 14 * 60 * 1000);
+    }
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [dispatch, token]);
 
   if (isRefreshing) {
     return <Loader />;

@@ -154,8 +154,8 @@
 
 .radioCustom {
   box-sizing: border-box;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border: 2px solid rgba(18, 20, 23, 0.2);
   border-radius: 50%;
   margin-right: 8px;
