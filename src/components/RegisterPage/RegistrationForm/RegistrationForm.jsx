@@ -8,6 +8,7 @@ import css from './RegistrationForm.module.css';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerAPI } from '../../../redux/auth/operations';
+import GoogleOAuthButton from '../../LoginPage/GoogleOAuthButton/GoogleOAuthButton';
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -146,6 +147,7 @@ const RegistrationForm = () => {
           <button type="submit" className={css.btn}>
             Register
           </button>
+          <GoogleOAuthButton />
           <NavLink to="/login" className={css.linkLogin}>
             Login
           </NavLink>

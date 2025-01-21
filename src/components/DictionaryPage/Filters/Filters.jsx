@@ -24,7 +24,6 @@ const Filters = () => {
   const categories = useSelector(selectCategories);
   const currentPage = useSelector(selectPage);
   const currentRecommendPage = useSelector(selectRecommendPage);
-  const words = useSelector(selectUsersWords);
   const location = useLocation();
 
   const {
@@ -43,7 +42,7 @@ const Filters = () => {
     if (location.pathname === '/dictionary' && currentPage !== 1) {
       dispatch(changePage(1));
     } else if (
-      location.pathname !== '/dictionary' &&
+      location.pathname === '/recommend' &&
       currentRecommendPage !== 1
     ) {
       dispatch(changeRecommendPage(1));
@@ -51,15 +50,10 @@ const Filters = () => {
   };
 
   const updateWords = () => {
-    const currentCategory = selectedCategory;
-
-    if (words.length && currentCategory === '' && verbType === '' && !keyword) {
-      return;
-    }
-
     const fetchParams = {
-      category: currentCategory,
+      category: selectedCategory === 'All' ? '' : selectedCategory,
       isIrregular: verbType,
+      keyword,
       page: 1,
     };
 
@@ -77,6 +71,8 @@ const Filters = () => {
     if (!newKeyword) {
       resetPageIfNeeded();
       updateWords();
+    } else {
+      debouncedSearch(newKeyword);
     }
   };
 
@@ -88,46 +84,30 @@ const Filters = () => {
 
     resetPageIfNeeded();
     handleClosePopover();
-
-    setTimeout(updateWords, 0);
+    updateWords();
   };
 
   const debouncedSearch = debounce(searchKeyword => {
     resetPageIfNeeded();
+    const fetchParams = {
+      keyword: searchKeyword,
+      category: selectedCategory === 'All' ? '' : selectedCategory,
+      isIrregular: verbType,
+      page: 1,
+    };
+
     if (location.pathname === '/dictionary') {
-      dispatch(
-        fetchUsersWords({
-          keyword: searchKeyword,
-          category: selectedCategory === 'All' ? '' : selectedCategory,
-          isIrregular: verbType,
-          page: 1,
-        })
-      );
+      dispatch(fetchUsersWords(fetchParams));
     } else if (location.pathname === '/recommend') {
-      dispatch(
-        fetchWords({
-          keyword: searchKeyword,
-          category: selectedCategory === 'All' ? '' : selectedCategory,
-          isIrregular: verbType,
-          page: 1,
-        })
-      );
+      dispatch(fetchWords(fetchParams));
     }
   }, 300);
 
   useEffect(() => {
-    if (!keyword && !selectedCategory && !verbType) return;
-
-    if (keyword) {
-      debouncedSearch(keyword);
-    } else {
-      updateWords();
-    }
-
     return () => {
       debouncedSearch.cancel();
     };
-  }, [keyword, selectedCategory, verbType, dispatch]);
+  }, []);
 
   const handleVerbTypeChange = e => {
     const { value } = e.target;
@@ -152,11 +132,7 @@ const Filters = () => {
           placeholder="Find the word"
           className={css.input}
         />
-        <button
-          type="button"
-          className={css.button}
-          onClick={handleSearchChange}
-        >
+        <button type="button" className={css.button} onClick={updateWords}>
           <Icon iconId="icon-search" className={css.icon} />
         </button>
       </label>
@@ -190,18 +166,17 @@ const Filters = () => {
               >
                 All
               </li>
-              {Array.isArray(categories) &&
-                categories.map(category => (
-                  <li
-                    key={category}
-                    className={clsx(css.popoverItem, {
-                      [css.selected]: category === selectedCategory,
-                    })}
-                    onClick={() => handleCategoryChange(category)}
-                  >
-                    {capitalizeFirstLetter(category)}
-                  </li>
-                ))}
+              {categories.map(category => (
+                <li
+                  key={category}
+                  className={clsx(css.popoverItem, {
+                    [css.selected]: category === selectedCategory,
+                  })}
+                  onClick={() => handleCategoryChange(category)}
+                >
+                  {capitalizeFirstLetter(category)}
+                </li>
+              ))}
             </ul>
           </div>
         )}

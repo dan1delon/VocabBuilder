@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { selectToken } from './selectors';
 
 export const instance = axios.create({
-  baseURL: 'https://vocab-builder-backend.onrender.com',
+  baseURL: 'https://vocab-builder-backend-production.up.railway.app',
   withCredentials: true,
 });
 

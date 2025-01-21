@@ -15,16 +15,13 @@ import css from './WordsPagination.module.css';
 
 const WordsPagination = () => {
   const dispatch = useDispatch();
-  let currentPage = 1;
   const pageCount = useSelector(selectTotalPages) || 1;
   const location = useLocation();
   const words = useSelector(selectUsersWords);
-
-  if (location.pathname === '/dictionary') {
-    currentPage = useSelector(selectPage) || 1;
-  } else if (location.pathname === '/recommend') {
-    currentPage = useSelector(selectRecommendPage) || 1;
-  }
+  const currentPage =
+    location.pathname === '/dictionary'
+      ? useSelector(selectPage) || 1
+      : useSelector(selectRecommendPage) || 1;
 
   useEffect(() => {
     const filters = {
@@ -36,9 +33,7 @@ const WordsPagination = () => {
 
     if (location.pathname === '/dictionary') {
       dispatch(fetchUsersWords(filters));
-    }
-
-    if (location.pathname === '/recommend') {
+    } else if (location.pathname === '/recommend') {
       dispatch(fetchWords(filters));
     }
   }, [dispatch, currentPage, location.pathname]);

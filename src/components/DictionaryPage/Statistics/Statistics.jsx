@@ -9,12 +9,11 @@ import { fetchStatistics } from '../../../redux/words/operations';
 
 const Statistics = () => {
   const totalCount = useSelector(selectStatistics);
-  const usersWords = useSelector(selectUsersWords);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchStatistics());
-  }, [dispatch, totalCount, usersWords]);
+  }, [dispatch]);
 
   return (
     <div className={css.wrapper}>
