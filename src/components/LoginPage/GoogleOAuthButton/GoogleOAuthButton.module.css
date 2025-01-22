@@ -1,0 +1,33 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--primary-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--primary-white-color);
+  margin-top: 18px;
+  background: linear-gradient(135deg, #323f47, #486f97, #32678a, #5f5291);
+  background-size: 300% auto;
+  border-radius: 30px;
+  padding: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-duration) var(--transition-timing-function);
+  &:hover {
+    background-position: 100% 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 18px;
+    line-height: 156%;
+    margin-top: 14px;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}

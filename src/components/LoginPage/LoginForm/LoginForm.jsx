@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import css from './LoginForm.module.css';
 import { useDispatch } from 'react-redux';
 import { loginAPI } from '../../../redux/auth/operations';
+import GoogleOAuthButton from '../GoogleOAuthButton/GoogleOAuthButton';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,15 +18,10 @@ const LoginForm = () => {
 
   const FormSchema = Yup.object({
     email: Yup.string()
-      .matches(/^[\w-]+@[a-zA-Z_]+\.[a-zA-Z]{2,3}$/, 'Invalid email address')
+      .email('Invalid email address')
       .required('Email is required'),
 
-    password: Yup.string()
-      .matches(
-        /^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7,}$/,
-        'Password must be 7+ chars, 6 letters, and 1 number'
-      )
-      .required('Password is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   const {
@@ -130,6 +126,7 @@ const LoginForm = () => {
           <button type="submit" className={css.btn}>
             Login
           </button>
+          <GoogleOAuthButton />
           <NavLink to="/register" className={css.linkLogin}>
             Register
           </NavLink>

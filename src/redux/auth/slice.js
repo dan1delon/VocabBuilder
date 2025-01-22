@@ -1,5 +1,12 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { loginAPI, logoutAPI, refreshUserAPI, registerAPI } from './operations';
+import {
+  loginAPI,
+  logoutAPI,
+  refreshUserAPI,
+  registerAPI,
+  setToken,
+  googleOAuthAPI,
+} from './operations';
 
 const AUTH_INITIAL_STATE = {
   name: null,
@@ -44,11 +51,34 @@ const authSlice = createSlice({
         state.email = action.payload.email;
         state.token = action.payload.token;
       })
-      //   Refresh
-      .addCase(refreshUserAPI.fulfilled, (state, action) => {
+      //   GoogleOAuth
+      .addCase(googleOAuthAPI.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.user = action.payload;
+        state.name = action.payload.name;
+        state.email = action.payload.email;
+        state.token = action.payload.accessToken;
+      })
+      //   Refresh
+      .addCase(refreshUserAPI.pending, state => {
+        state.isRefreshing = true;
+        state.isLoggedIn = false;
+        state.token = null;
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(refreshUserAPI.fulfilled, (state, action) => {
+        state.isRefreshing = false;
+        state.isLoggedIn = true;
+        state.token = action.payload.accessToken;
+        setToken(action.payload.accessToken);
+      })
+      .addCase(refreshUserAPI.rejected, state => {
+        state.isRefreshing = false;
+        state.isLoggedIn = false;
+        state.token = null;
+        state.error = true;
+        state.loading = false;
       })
       //   Logout
       .addCase(logoutAPI.fulfilled, () => {
@@ -59,8 +89,8 @@ const authSlice = createSlice({
         isAnyOf(
           registerAPI.pending,
           loginAPI.pending,
-          refreshUserAPI.pending,
-          logoutAPI.pending
+          logoutAPI.pending,
+          googleOAuthAPI.pending
         ),
         handlePending
       )
@@ -68,8 +98,8 @@ const authSlice = createSlice({
         isAnyOf(
           registerAPI.rejected,
           loginAPI.rejected,
-          refreshUserAPI.rejected,
-          logoutAPI.rejected
+          logoutAPI.rejected,
+          googleOAuthAPI.rejected
         ),
         handleRejected
       );

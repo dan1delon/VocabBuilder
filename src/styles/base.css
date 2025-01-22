@@ -51,3 +51,25 @@ body {
   background-color: var(--primary-green-color) !important;
   color: white !important;
 }
+
+@media screen and (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--primary-green-color);
+    border-radius: 10px;
+    border: 1px solid var(--primary-white-color);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #ccc;
+  }
+}

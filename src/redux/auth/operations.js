@@ -3,15 +3,71 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export const instance = axios.create({
-  baseURL: 'https://vocab-builder-backend.p.goit.global/api',
+  baseURL: 'https://vocab-builder-backend-production.up.railway.app',
+  withCredentials: true,
 });
 
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+const onTokenRefreshed = newToken => {
+  refreshSubscribers.forEach(callback => callback(newToken));
+  refreshSubscribers = [];
+};
+
+const addRefreshSubscriber = callback => {
+  refreshSubscribers.push(callback);
+};
+
+instance.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshing
+    ) {
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const { data } = await instance.post('/users/refresh');
+        const newAccessToken = data.data.accessToken;
+
+        setToken(newAccessToken);
+
+        isRefreshing = false;
+        onTokenRefreshed(newAccessToken);
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return instance(originalRequest);
+      } catch (refreshError) {
+        isRefreshing = false;
+        clearToken();
+        return Promise.reject(refreshError);
+      }
+    } else if (error.response?.status === 401) {
+      clearToken();
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export const setToken = token => {
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  if (token) {
+    instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    clearToken();
+  }
 };
 
 export const clearToken = () => {
   instance.defaults.headers.common.Authorization = '';
+  localStorage.removeItem('token');
 };
 
 export const registerAPI = createAsyncThunk(
@@ -22,8 +78,7 @@ export const registerAPI = createAsyncThunk(
       setToken(data.token);
       return data;
     } catch (e) {
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
@@ -32,12 +87,11 @@ export const loginAPI = createAsyncThunk(
   'auth/login',
   async (formData, thunkApi) => {
     try {
-      const { data } = await instance.post('/users/signin', formData);
+      const { data } = await instance.post('/users/login', formData);
       setToken(data.token);
       return data;
     } catch (e) {
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
@@ -46,20 +100,24 @@ export const refreshUserAPI = createAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
     try {
-      const state = thunkApi.getState();
-      const token = state.auth.token;
+      const { data } = await instance.post('/users/refresh');
+      setToken(data.data.accessToken);
+      return data.data;
+    } catch (e) {
+      clearToken();
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
+    }
+  }
+);
 
-      if (!token) return thunkApi.rejectWithValue('Token is not valid');
-      setToken(token);
-
+export const getUserAPI = createAsyncThunk(
+  'auth/getUser',
+  async (_, thunkApi) => {
+    try {
       const { data } = await instance.get('/users/current');
       return data;
     } catch (e) {
-      if (e.response && e.response.status === 401) {
-        return thunkApi.rejectWithValue('Unauthorized');
-      }
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
@@ -72,8 +130,21 @@ export const logoutAPI = createAsyncThunk(
       clearToken();
       return;
     } catch (e) {
-      toast.error(e.message);
-      return thunkApi.rejectWithValue(e.message);
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
+    }
+  }
+);
+
+export const googleOAuthAPI = createAsyncThunk(
+  'auth/googleOAuth',
+  async (code, thunkApi) => {
+    try {
+      const { data } = await instance.post('/users/confirm-oauth', { code });
+      const accessToken = data.data.accessToken;
+      setToken(accessToken);
+      return data.data;
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );

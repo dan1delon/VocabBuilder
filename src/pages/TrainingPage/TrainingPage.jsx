@@ -9,7 +9,7 @@ import EmptyTrainingLayout from '../../components/TrainingPage/EmptyTrainingLayo
 import AddWordModal from '../../components/DictionaryPage/AddWordModal/AddWordModal';
 import { useModal } from '../../context';
 import { useMediaQuery } from '@mui/material';
-import { selectIsLoading } from '../../redux/categories/selectors';
+import { selectWordsLoading } from '../../redux/words/selectors';
 import Loader from '../../components/Loader/Loader';
 
 const TrainingPage = () => {
@@ -18,12 +18,15 @@ const TrainingPage = () => {
   const dispatch = useDispatch();
   const { openModal } = useModal();
   const tasks = useSelector(selectTasks);
-  const loading = useSelector(selectIsLoading);
+  const loading = useSelector(selectWordsLoading);
 
   const isMobile = useMediaQuery('(max-width:767px)');
 
   useEffect(() => {
     dispatch(fetchUsersTasks());
+  }, [dispatch]);
+
+  useEffect(() => {
     setProgress(userAnswers.length);
   }, [userAnswers, dispatch]);
 

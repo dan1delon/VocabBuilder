@@ -3,45 +3,21 @@ import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { changePage, changeRecommendPage } from '../../../redux/words/slice';
-import { fetchUsersWords, fetchWords } from '../../../redux/words/operations';
-import { useEffect } from 'react';
 import {
   selectPage,
   selectRecommendPage,
   selectTotalPages,
-  selectUsersWords,
 } from '../../../redux/words/selectors';
 import css from './WordsPagination.module.css';
 
 const WordsPagination = () => {
   const dispatch = useDispatch();
-  let currentPage = 1;
   const pageCount = useSelector(selectTotalPages) || 1;
   const location = useLocation();
-  const words = useSelector(selectUsersWords);
-
-  if (location.pathname === '/dictionary') {
-    currentPage = useSelector(selectPage) || 1;
-  } else if (location.pathname === '/recommend') {
-    currentPage = useSelector(selectRecommendPage) || 1;
-  }
-
-  useEffect(() => {
-    const filters = {
-      keyword: '',
-      category: '',
-      isIrregular: '',
-      page: currentPage,
-    };
-
-    if (location.pathname === '/dictionary') {
-      dispatch(fetchUsersWords(filters));
-    }
-
-    if (location.pathname === '/recommend') {
-      dispatch(fetchWords(filters));
-    }
-  }, [dispatch, currentPage, location.pathname]);
+  const currentPage =
+    location.pathname === '/dictionary'
+      ? useSelector(selectPage) || 1
+      : useSelector(selectRecommendPage) || 1;
 
   const handleChange = (event, value) => {
     if (location.pathname === '/dictionary') {
@@ -51,12 +27,7 @@ const WordsPagination = () => {
     }
   };
 
-  if (
-    words.length <= 7 &&
-    pageCount === 1 &&
-    location.pathname === '/dictionary'
-  )
-    return null;
+  if (pageCount <= 1) return null;
 
   return (
     <div className={css.wrapper}>

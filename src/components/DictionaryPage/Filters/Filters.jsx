@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
@@ -18,14 +18,18 @@ import {
 
 const Filters = () => {
   const [keyword, setKeyword] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [verbType, setVerbType] = useState('');
   const dispatch = useDispatch();
-  const categories = useSelector(selectCategories);
-  const currentPage = useSelector(selectPage);
-  const currentRecommendPage = useSelector(selectRecommendPage);
-  const words = useSelector(selectUsersWords);
   const location = useLocation();
+  const categories = useSelector(selectCategories);
+  const currentPage =
+    location.pathname === '/dictionary'
+      ? useSelector(selectPage) || 1
+      : useSelector(selectRecommendPage) || 1;
+  const words = useSelector(selectUsersWords);
+
+  const prevFilters = useRef({});
 
   const {
     isOpen,
@@ -36,31 +40,45 @@ const Filters = () => {
   } = usePopover();
 
   useEffect(() => {
+    if (categories.length > 0) return;
     dispatch(fetchCategories());
   }, [dispatch]);
 
   const resetPageIfNeeded = () => {
     if (location.pathname === '/dictionary' && currentPage !== 1) {
       dispatch(changePage(1));
-    } else if (
-      location.pathname !== '/dictionary' &&
-      currentRecommendPage !== 1
-    ) {
+    } else if (location.pathname !== '/dictionary' && currentPage !== 1) {
       dispatch(changeRecommendPage(1));
     }
   };
 
   const updateWords = () => {
+    const currentFilters = {
+      category: selectedCategory,
+      isIrregular: verbType,
+      keyword,
+      page: currentPage,
+    };
+
+    if (
+      JSON.stringify(prevFilters.current) === JSON.stringify(currentFilters)
+    ) {
+      return;
+    }
+
+    prevFilters.current = currentFilters;
+
     if (!selectedCategory && !verbType && !keyword) return;
 
     const fetchParams = {
-      category: selectedCategory === 'All' ? '' : selectedCategory,
+      category: selectedCategory,
       isIrregular: verbType,
-      page: 1,
+      page: currentPage,
     };
 
     if (location.pathname === '/dictionary') {
       dispatch(fetchUsersWords(fetchParams));
+      console.log('filters:', words);
     } else if (location.pathname === '/recommend') {
       dispatch(fetchWords(fetchParams));
     }
@@ -94,7 +112,7 @@ const Filters = () => {
       dispatch(
         fetchUsersWords({
           keyword: searchKeyword,
-          category: selectedCategory === 'All' ? '' : selectedCategory,
+          category: selectedCategory,
           isIrregular: verbType,
           page: 1,
         })
@@ -103,29 +121,13 @@ const Filters = () => {
       dispatch(
         fetchWords({
           keyword: searchKeyword,
-          category: selectedCategory === 'All' ? '' : selectedCategory,
+          category: selectedCategory,
           isIrregular: verbType,
           page: 1,
         })
       );
     }
   }, 300);
-
-  useEffect(() => {
-    if (!keyword && !selectedCategory && !verbType) {
-      return;
-    }
-
-    if (keyword) {
-      debouncedSearch(keyword);
-    } else {
-      updateWords();
-    }
-
-    return () => {
-      debouncedSearch.cancel();
-    };
-  }, [keyword, selectedCategory, verbType, dispatch, words.length]);
 
   const handleVerbTypeChange = e => {
     const { value } = e.target;
@@ -138,6 +140,66 @@ const Filters = () => {
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+
+  useEffect(() => {
+    const resetPageIfNeeded = () => {
+      if (currentPage !== 1) {
+        if (location.pathname === '/dictionary') {
+          dispatch(changePage(1));
+        } else if (location.pathname === '/recommend') {
+          dispatch(changeRecommendPage(1));
+        }
+      }
+    };
+
+    const updateFilters = () => {
+      const currentFilters = {
+        category: selectedCategory,
+        isIrregular: verbType,
+        keyword,
+        page: currentPage,
+      };
+
+      if (
+        JSON.stringify(prevFilters.current) === JSON.stringify(currentFilters)
+      ) {
+        return;
+      }
+
+      prevFilters.current = currentFilters;
+
+      const fetchParams = {
+        category: selectedCategory,
+        isIrregular: verbType,
+        keyword,
+        page: currentPage,
+      };
+
+      if (location.pathname === '/dictionary') {
+        dispatch(fetchUsersWords(fetchParams));
+      } else if (location.pathname === '/recommend') {
+        dispatch(fetchWords(fetchParams));
+      }
+    };
+
+    if (keyword) {
+      resetPageIfNeeded();
+      debouncedSearch(keyword);
+    } else if (selectedCategory || verbType || currentPage) {
+      updateFilters();
+    }
+
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [
+    keyword,
+    selectedCategory,
+    verbType,
+    currentPage,
+    dispatch,
+    location.pathname,
+  ]);
 
   return (
     <div className={css.wrapper}>
