@@ -19,6 +19,11 @@ const addRefreshSubscriber = callback => {
   refreshSubscribers.push(callback);
 };
 
+instance.interceptors.request.use(config => {
+  config.params = { ...config.params, t: Date.now() };
+  return config;
+});
+
 instance.interceptors.response.use(
   response => response,
   async error => {
