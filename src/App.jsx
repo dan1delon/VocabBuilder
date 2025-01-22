@@ -43,11 +43,14 @@ function App() {
 
       dispatch(refreshUserAPI())
         .unwrap()
-        .catch(() => {
+        .catch(error => {
+          console.error('Refresh token failed:', error);
           clearToken();
         });
+    } else {
+      clearToken();
     }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   useEffect(() => {
     let refreshInterval;
