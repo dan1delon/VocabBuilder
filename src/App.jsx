@@ -50,7 +50,7 @@ function App() {
     } else {
       clearToken();
     }
-  }, [dispatch, token]);
+  }, [dispatch]);
 
   useEffect(() => {
     let refreshInterval;
