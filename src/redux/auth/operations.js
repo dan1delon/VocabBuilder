@@ -22,7 +22,6 @@ const addRefreshSubscriber = callback => {
 instance.interceptors.response.use(
   response => response,
   async error => {
-    console.error('Axios interceptor error:', error.response || error.message);
     const originalRequest = error.config;
 
     if (
@@ -102,11 +101,9 @@ export const refreshUserAPI = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const { data } = await instance.post('/users/refresh');
-      console.log('Refresh response:', data);
       setToken(data.data.accessToken);
       return data.data;
     } catch (e) {
-      console.error('Refresh error:', e.response?.data?.message || e.message);
       clearToken();
       return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }

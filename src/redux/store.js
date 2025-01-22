@@ -13,11 +13,10 @@ import persistReducer from 'redux-persist/es/persistReducer';
 import { authReducer } from './auth/slice';
 import { categoriesReducer } from './categories/slice';
 import { wordsReducer } from './words/slice';
-import sessionStorage from 'redux-persist/lib/storage/session';
 
 const authPersistConfig = {
   key: 'auth',
-  storage: sessionStorage,
+  storage,
   whitelist: ['token', 'name'],
 };
 
