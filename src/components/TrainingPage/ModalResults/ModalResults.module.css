@@ -8,6 +8,7 @@
   width: calc(100vw - 32px);
   max-height: calc(100vh - 68px);
   min-height: 459px;
+  overflow-y: hidden;
   background-image: image-set(
     url('/public/img/book@1x.webp') 1x,
     url('/public/img/book@2x.webp') 2x,

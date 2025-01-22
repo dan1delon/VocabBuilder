@@ -3,7 +3,10 @@ import Dashboard from '../../components/DictionaryPage/Dashboard/Dashboard';
 import WordsPagination from '../../components/DictionaryPage/WordsPagination/WordsPagination';
 import WordsTable from '../../components/DictionaryPage/WordsTable/WordsTable';
 import Loader from '../../components/Loader/Loader';
-import { selectIsLoading } from '../../redux/words/selectors';
+import {
+  selectIsLoading,
+  selectWordsLoading,
+} from '../../redux/words/selectors';
 import css from './DictionaryPage.module.css';
 import { selectUsersWords } from '../../redux/words/selectors';
 import EmptyTrainingLayout from '../../components/TrainingPage/EmptyTrainingLayout/EmptyTrainingLayout';
@@ -13,7 +16,7 @@ import { useEffect } from 'react';
 import { fetchUsersWords } from '../../redux/words/operations';
 
 const DictionaryPage = () => {
-  const loading = useSelector(selectIsLoading);
+  const loading = useSelector(selectWordsLoading);
   const { openModal } = useModal();
   const words = useSelector(selectUsersWords);
   const dispatch = useDispatch();

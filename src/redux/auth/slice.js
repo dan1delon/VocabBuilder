@@ -62,6 +62,9 @@ const authSlice = createSlice({
       //   Refresh
       .addCase(refreshUserAPI.pending, state => {
         state.isRefreshing = true;
+        state.isLoggedIn = false;
+        state.token = null;
+        state.loading = true;
         state.error = false;
       })
       .addCase(refreshUserAPI.fulfilled, (state, action) => {
@@ -74,6 +77,8 @@ const authSlice = createSlice({
         state.isRefreshing = false;
         state.isLoggedIn = false;
         state.token = null;
+        state.error = true;
+        state.loading = false;
       })
       //   Logout
       .addCase(logoutAPI.fulfilled, () => {

@@ -106,23 +106,19 @@ const wordsSlice = createSlice({
       })
       .addMatcher(
         isAnyOf(
-          fetchWords.pending,
           createWord.pending,
           editWord.pending,
           deleteWord.pending,
-          fetchStatistics.pending,
-          fetchUsersWords.pending
+          fetchStatistics.pending
         ),
         handlePending
       )
       .addMatcher(
         isAnyOf(
-          fetchWords.rejected,
           createWord.rejected,
           editWord.rejected,
           deleteWord.rejected,
-          fetchStatistics.rejected,
-          fetchUsersWords.rejected
+          fetchStatistics.rejected
         ),
         handleRejected
       )
