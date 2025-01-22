@@ -12,6 +12,7 @@ import {
 } from './redux/auth/operations.js';
 import { selectIsRefreshing, selectToken } from './redux/auth/selectors.js';
 import GoogleOAuthRedirect from './components/LoginPage/GoogleOAuthRedirect/GoogleOAuthRedirect.jsx';
+import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy.jsx';
 
 const RegisterPage = lazy(() =>
   import('./pages/RegisterPage/RegisterPage.jsx')
@@ -123,6 +124,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />}></Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
