@@ -57,7 +57,7 @@
 
 .modalContainer {
   position: relative;
-  max-height: calc(100vh - 68px);
+  max-height: calc(100vh - 76px);
   width: calc(100vw - 32px);
   background-color: var(--primary-green-color);
   box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
