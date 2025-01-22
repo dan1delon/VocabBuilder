@@ -16,7 +16,7 @@ const Modal = ({ children }) => {
   };
 
   return (
-    <div className={css.modalWrapper}>
+    <div className={css.modalWrapper} aria-modal="true" role="dialog">
       <div className={css.modalContainer}>
         <button
           className={css.modalButtonClose}
