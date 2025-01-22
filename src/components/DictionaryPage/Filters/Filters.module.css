@@ -195,8 +195,8 @@
   height: 20px;
   stroke: none;
   position: absolute;
-  right: 24px;
-  top: 15px;
+  right: 20px;
+  top: 11px;
   transform-origin: center;
   transition: all var(--transition-duration) var(--transition-timing-function);
   color: var(--primary-black-color);

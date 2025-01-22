@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import { fetchUsersWords, fetchWords } from '../../../redux/words/operations';
 import { changePage, changeRecommendPage } from '../../../redux/words/slice';
 import css from './Filters.module.css';
@@ -230,7 +230,7 @@ const Filters = () => {
           {selectedCategory === 'All' || !selectedCategory
             ? 'Categories'
             : capitalizeFirstLetter(selectedCategory)}
-          <ExpandMoreIcon
+          <ExpandMoreRoundedIcon
             className={clsx(css.iconDown, { [css.iconRotate]: isOpen })}
           />
         </button>
