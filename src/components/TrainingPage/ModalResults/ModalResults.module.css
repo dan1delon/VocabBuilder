@@ -5,11 +5,11 @@
   gap: 32px;
   box-sizing: border-box;
   padding: 48px 16px;
-  width: calc(100vw - 32px);
-  max-height: calc(100vh - 68px);
+  /* width: calc(100vw - 32px);
+  max-height: calc(100vh - 68px); */
   min-height: 459px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* overflow-y: auto;
+  overflow-x: hidden; */
   background-image: image-set(
     url('/public/img/book@1x.webp') 1x,
     url('/public/img/book@2x.webp') 2x,

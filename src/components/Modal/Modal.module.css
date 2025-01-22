@@ -57,13 +57,14 @@
 
 .modalContainer {
   position: relative;
-  max-height: 75vh;
-  max-width: 92vw;
+  max-height: calc(100vh - 68px);
+  width: calc(100vw - 32px);
   background-color: var(--primary-green-color);
   box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   margin: 0 auto;
-  /* overflow-y: auto; */
+  overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   z-index: 200;
 }
