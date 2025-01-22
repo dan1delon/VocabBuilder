@@ -199,15 +199,7 @@
   top: 15px;
   transform-origin: center;
   transition: all var(--transition-duration) var(--transition-timing-function);
-}
-
-.iconDown svg {
-  shape-rendering: crispedges;
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: var(--primary-black-color);
-  display: block;
+  color: var(--primary-black-color);
 }
 
 .iconRotate {
