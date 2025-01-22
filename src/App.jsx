@@ -38,18 +38,19 @@ function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    if (token) {
-      setToken(token);
+    const handleRefresh = () => {
+      if (token) {
+        setToken(token);
+        dispatch(refreshUserAPI())
+          .unwrap()
+          .catch(() => {
+            clearToken();
+          });
+      }
+    };
 
-      dispatch(refreshUserAPI())
-        .unwrap()
-        .catch(error => {
-          console.error('Refresh token failed:', error);
-          clearToken();
-        });
-    } else {
-      clearToken();
-    }
+    window.addEventListener('load', handleRefresh);
+    return () => window.removeEventListener('load', handleRefresh);
   }, [dispatch]);
 
   useEffect(() => {
