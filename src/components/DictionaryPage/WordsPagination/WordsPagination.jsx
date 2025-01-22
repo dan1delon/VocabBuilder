@@ -9,6 +9,7 @@ import {
   selectTotalPages,
 } from '../../../redux/words/selectors';
 import css from './WordsPagination.module.css';
+import { useScrollContext } from '../../../context/ScrollContext';
 
 const WordsPagination = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,16 @@ const WordsPagination = () => {
     location.pathname === '/dictionary'
       ? useSelector(selectPage) || 1
       : useSelector(selectRecommendPage) || 1;
+  const { headerRef } = useScrollContext();
+
+  const scrollToHeader = () => {
+    if (headerRef.current) {
+      headerRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleChange = (event, value) => {
+    scrollToHeader();
     if (location.pathname === '/dictionary') {
       dispatch(changePage(value));
     } else if (location.pathname === '/recommend') {

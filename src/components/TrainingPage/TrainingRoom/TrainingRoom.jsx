@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../../../shared/Icon/Icon';
 import ModalResults from '../ModalResults/ModalResults';
 import toast from 'react-hot-toast';
+import { useScrollContext } from '../../../context/ScrollContext';
 
 const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,13 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const currentTask = tasks[currentTaskIndex] || {};
+  const { headerRef } = useScrollContext();
+
+  const scrollToHeader = () => {
+    if (headerRef.current) {
+      headerRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const capitalizeFirstLetter = text => {
     return text.charAt(0).toUpperCase() + text.slice(1);
@@ -61,6 +69,7 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
 
         setUserInput('');
         setProgress(0);
+        scrollToHeader();
         openModal(<ModalResults answers={response} />);
       } catch (err) {
         toast.error('Error while saving answers: ' + err);

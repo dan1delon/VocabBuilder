@@ -4,6 +4,7 @@ import AppBar from '../Header/AppBar/AppBar';
 import css from './Layout.module.css';
 import clsx from 'clsx';
 import { toastOptions } from '../../helpers/toasterOptions';
+import { ScrollProvider } from '../../context/ScrollContext';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -12,21 +13,25 @@ const Layout = ({ children }) => {
     location.pathname === '/register' || location.pathname === '/login';
 
   return (
-    <div
-      className={clsx(css.container, {
-        [css.backgroundImage]: isWhiteBackground,
-      })}
-    >
-      <AppBar />
+    <ScrollProvider>
       <div
-        className={isWhiteBackground ? css.whiteBackground : css.greyBackground}
+        className={clsx(css.container, {
+          [css.backgroundImage]: isWhiteBackground,
+        })}
       >
-        <main className={css.content}>
-          <Toaster position="top-right" toastOptions={toastOptions} />
-          {children}
-        </main>
+        <AppBar />
+        <div
+          className={
+            isWhiteBackground ? css.whiteBackground : css.greyBackground
+          }
+        >
+          <main className={css.content}>
+            <Toaster position="top-right" toastOptions={toastOptions} />
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </ScrollProvider>
   );
 };
 
