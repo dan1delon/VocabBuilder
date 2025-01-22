@@ -57,6 +57,7 @@ body {
     width: 6px;
     height: 6px;
     display: none;
+    transition: all var(--transition-duration) var(--transition-timing-function);
   }
 
   ::-webkit-scrollbar-thumb {
