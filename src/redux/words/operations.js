@@ -6,7 +6,7 @@ export const fetchWords = createAsyncThunk(
   'words/fetchWords',
   async (filters, thunkApi) => {
     try {
-      const { keyword, category, isIrregular, page, limit } = filters;
+      const { keyword, category, isIrregular, page, limit = 7 } = filters;
       const response = await instance.get('/words/all', {
         params: { keyword, category, isIrregular, page, limit },
       });
@@ -22,7 +22,7 @@ export const fetchUsersWords = createAsyncThunk(
   'words/fetchUsersWords',
   async (filters, thunkApi) => {
     try {
-      const { keyword, category, isIrregular, page, limit } = filters;
+      const { keyword, category, isIrregular, page, limit = 7 } = filters;
       const response = await instance.get('/words/own', {
         params: { keyword, category, isIrregular, page, limit },
       });
