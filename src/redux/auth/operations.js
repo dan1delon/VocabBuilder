@@ -105,7 +105,12 @@ export const refreshUserAPI = createAsyncThunk(
   'auth/refresh',
   async (_, thunkApi) => {
     try {
-      const { data } = await instance.post('/users/refresh');
+      const token = thunkApi.getState().auth.token;
+      console.log(token);
+
+      const { data } = await instance.post('/users/refresh', {
+        refreshToken: token,
+      });
       setToken(data.data.accessToken);
       return data.data;
     } catch (e) {
