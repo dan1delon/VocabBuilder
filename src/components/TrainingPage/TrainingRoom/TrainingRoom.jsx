@@ -125,54 +125,42 @@ const TrainingRoom = ({ tasks, userAnswers, setUserAnswers, setProgress }) => {
           {currentTask.task === 'en' ? (
             <p className={css.word}>{capitalizeFirstLetter(currentTask.ua)}</p>
           ) : (
-            <input
-              ref={inputRef}
-              type="text"
-              value={userInput}
-              onChange={e => setUserInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Введіть переклад"
-              className={css.input}
-            />
+            <p className={css.word}>{capitalizeFirstLetter(currentTask.en)}</p>
           )}
-          <div className={css.btnAndFlagWrapper}>
-            {currentTask.task === 'ua' &&
-              currentTaskIndex < tasks.length - 1 && (
-                <button onClick={handleNext} className={css.nextButton}>
-                  Next <Icon iconId="icon-arrow" className={css.iconArrow} />
-                </button>
-              )}
-            <div className={css.flagBlock}>
-              <Icon iconId="icon-ukraine" className={css.iconFlag} />
-              <p className={css.language}>Ukrainian</p>
-            </div>
-          </div>
         </div>
 
         <div className={css.wordBlockEn}>
-          {currentTask.task === 'ua' ? (
-            <p className={css.word}>{capitalizeFirstLetter(currentTask.en)}</p>
-          ) : (
-            <input
-              ref={inputRef}
-              type="text"
-              value={userInput}
-              onChange={e => setUserInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Enter translation"
-              className={css.input}
-            />
-          )}
+          <input
+            ref={inputRef}
+            type="text"
+            value={userInput}
+            onChange={e => setUserInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={
+              currentTask.task === 'en'
+                ? 'Enter translation'
+                : 'Введіть переклад'
+            }
+            className={css.input}
+          />
           <div className={css.btnAndFlagWrapper}>
-            {currentTask.task === 'en' &&
-              currentTaskIndex < tasks.length - 1 && (
-                <button onClick={handleNext} className={css.nextButton}>
-                  Next <Icon iconId="icon-arrow" className={css.iconArrow} />
-                </button>
-              )}
+            {currentTaskIndex < tasks.length - 1 && (
+              <button onClick={handleNext} className={css.nextButton}>
+                Next <Icon iconId="icon-arrow" className={css.iconArrow} />
+              </button>
+            )}
             <div className={css.flagBlock}>
-              <Icon iconId="icon-united-kingdom" className={css.iconFlag} />
-              <p className={css.language}>English</p>
+              <Icon
+                iconId={
+                  currentTask.task === 'en'
+                    ? 'icon-united-kingdom'
+                    : 'icon-ukraine'
+                }
+                className={css.iconFlag}
+              />
+              <p className={css.language}>
+                {currentTask.task === 'en' ? 'English' : 'Ukrainian'}
+              </p>
             </div>
           </div>
         </div>
