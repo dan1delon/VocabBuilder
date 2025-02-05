@@ -38,27 +38,38 @@ function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    if (token) {
-      setToken(token);
-      dispatch(refreshUserAPI())
-        .unwrap()
-        .catch(() => clearToken());
-    }
-  }, [dispatch, token]);
+    const handleRefresh = () => {
+      if (token) {
+        setToken(token);
+        dispatch(refreshUserAPI())
+          .unwrap()
+          .catch(() => {
+            clearToken();
+          });
+      }
+    };
+
+    window.addEventListener('load', handleRefresh);
+    return () => window.removeEventListener('load', handleRefresh);
+  }, [dispatch]);
 
   useEffect(() => {
-    const refreshInterval = setInterval(() => {
-      if (token) {
+    let refreshInterval;
+
+    if (token) {
+      refreshInterval = setInterval(() => {
         dispatch(refreshUserAPI())
           .unwrap()
           .catch(() => {
             clearToken();
             clearInterval(refreshInterval);
           });
-      }
-    }, 14 * 60 * 1000);
+      }, 14 * 60 * 1000);
+    }
 
-    return () => clearInterval(refreshInterval);
+    return () => {
+      clearInterval(refreshInterval);
+    };
   }, [dispatch, token]);
 
   if (isRefreshing) {
