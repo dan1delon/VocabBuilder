@@ -7,6 +7,7 @@ import { ModalProvider } from './context/modalContext.jsx';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store.js';
 import Loader from './components/Loader/Loader.jsx';
+import { PersistGate } from 'redux-persist/integration/react';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
