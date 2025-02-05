@@ -6,7 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from './context/modalContext.jsx';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store.js';
-import Loader from './components/Loader/Loader.jsx';
 import { PersistGate } from 'redux-persist/integration/react';
 
 createRoot(document.getElementById('root')).render(
@@ -14,7 +13,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Provider store={store}>
         <ModalProvider>
-          <PersistGate loading={<Loader />} persistor={persistor}>
+          <PersistGate persistor={persistor}>
             <App />
           </PersistGate>
         </ModalProvider>
