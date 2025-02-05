@@ -83,6 +83,7 @@ export const registerAPI = createAsyncThunk(
       setToken(data.token);
       return data;
     } catch (e) {
+      toast.error(e.response?.data?.message || e.message);
       return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
@@ -96,6 +97,7 @@ export const loginAPI = createAsyncThunk(
       setToken(data.token);
       return data;
     } catch (e) {
+      toast.error(e.response?.data?.message || e.message);
       return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
@@ -154,6 +156,7 @@ export const googleOAuthAPI = createAsyncThunk(
       setToken(accessToken);
       return data.data;
     } catch (e) {
+      toast.error(e.response?.data?.message || e.message);
       return thunkApi.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
