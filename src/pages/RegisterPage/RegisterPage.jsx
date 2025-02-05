@@ -3,6 +3,7 @@ import RegistrationForm from '../../components/RegisterPage/RegistrationForm/Reg
 import WelcomeBanner from '../../components/RegisterPage/WelcomeBanner/WelcomeBanner';
 import { selectLoading } from '../../redux/auth/selectors';
 import css from './RegisterPage.module.css';
+import Loader from '../../components/Loader/Loader';
 
 const RegisterPage = () => {
   const isLoading = useSelector(selectLoading);
