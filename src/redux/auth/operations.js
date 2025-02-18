@@ -3,7 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export const instance = axios.create({
-  baseURL: 'https://vocab-builder-backend-production.up.railway.app',
+  baseURL: 'https://vocabbuilder-354712174604.europe-central2.run.app',
   withCredentials: true,
 });
 
